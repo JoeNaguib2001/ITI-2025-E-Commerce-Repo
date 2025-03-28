@@ -1,0 +1,219 @@
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #EAEDED;
+        }
+
+        .title {
+            font-size: 30px;
+            padding-bottom: 30px;
+            padding-left: 30px;
+        }
+
+        .container {
+            display: flex;
+            margin: 80px 225px;
+            background-color: #EAEDED;
+            border-radius: 10px;
+        }
+
+        .container .left-side {
+            width: 70%;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid black;
+        }
+
+        .cart-items-container {
+            width: 100%;
+            margin-top: 20px;
+            background-color: #ffffff;
+        }
+
+        .cart-item {
+            display: flex;
+            width: 100%;
+            border-top: 1px solid gray;
+        }
+
+        .image-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30%;
+            height: 500px;
+            margin: 0;
+        }
+
+        .cart-item-info {
+            display: inline-block;
+            width: 70%;
+            position: relative;
+        }
+
+
+
+        img {
+            margin: 50px;
+            width: 250px;
+            border-radius: 5px;
+        }
+
+        p {
+            margin: 20px;
+        }
+
+        .product-name {
+            margin: 80px 0 10px 0;
+            display: inline-block;
+            width: 600px;
+            font-size: 20px;
+        }
+
+        .product-price {
+            margin: 80px 20px 10px 0;
+            font-size: 20px;
+
+        }
+
+        .item {
+            margin: 20px;
+            padding: 10px 20px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 15px;
+            color: #2162A1;
+            position: relative;
+            height: 30px;
+            border-left: 1px solid black;
+        }
+
+
+        .right-side {
+            width: 30%;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid black;
+        }
+
+        .product-quantity {
+            display: inline-block;
+            font-size: 15px;
+        }
+
+        .product-details {
+            font-size: 15px;
+            margin: 10px;
+        }
+
+        .real-quantity {
+            display: inline-block;
+            margin-top: -0px;
+            font-size: 15px;
+        }
+
+        .real-quantity.in-stock {
+            color: green;
+        }
+
+        .real-quantity-low-stock {
+            color: red;
+        }
+
+
+        .delivery-status {
+            display: inline-block;
+            margin-top: 10px;
+
+        }
+
+        .details {
+            display: inline-block;
+            margin-top: 10px;
+
+        }
+
+
+        div.product-quantity {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 175px;
+            border-radius: 30px;
+            border: 8px solid gold;
+            height: 50px;
+            margin-top: 10px;
+            background-color: #fff;
+            /* خلفية بيضاء */
+            gap: 15px;
+            /* مسافة بين الأزرار والرقم */
+            padding: 5px 15px;
+        }
+
+        .product-quantity span {
+            position: relative;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 0 12px;
+            /* مسافة حول الرقم */
+        }
+
+        .product-quantity span::before,
+        .product-quantity span::after {
+            content: "|";
+            /* إضافة الفاصل */
+            color: #ccc;
+            /* لون الفاصل */
+            font-size: 18px;
+            font-weight: bold;
+            position: absolute;
+        }
+
+        .product-quantity span::before {
+            left: -12px;
+            /* تحريك الفاصل قبل الرقم */
+        }
+
+        .product-quantity span::after {
+            right: -12px;
+            /* تحريك الفاصل بعد الرقم */
+        }
+
+        /* تحسين شكل الأزرار */
+        .product-quantity i {
+            cursor: pointer;
+            font-size: 20px;
+            color: #333;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .product-quantity i:hover {
+            color: gold;
+        }
+
+        i.fa-plus {
+            margin-left: 20px;
+        }
+
+        i.fa-minus {
+            margin-right: 20px;
+        }
+
+        .order-summary {
+            height: 300px;
+        }
+
+        .right-side button {
+            display: block;
+            width: 300px;
+            margin: 10px auto;
+            font-size: 20px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            background-color: green;
+        }

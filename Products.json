@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "name": "Samsung Galaxy S21 Ultra",
+    "category": "Electronics",
+    "price": "1500",
+    "description": "Samsung Galaxy S21 Ultra 5G",
+    "quantity": "10",
+    "image": "./Images/SamsungGalaxyS21Ultra.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Apple iPhone 12 Pro Max",
+    "category": "Electronics",
+    "price": "1600",
+    "description": "Apple iPhone 12 Pro Max 5G",
+    "quantity": "10",
+    "image": "./Images/AppleiPhone12ProMax.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Apple MacBook Pro 2020",
+    "category": "Electronics",
+    "price": "2000",
+    "description": "Apple MacBook Pro 2020 13-inch",
+    "quantity": "10",
+    "image": "./Images/AppleMacBookPro2020.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Dell XPS 13",
+    "category": "Electronics",
+    "price": "1800",
+    "description": "Dell XPS 13 2020",
+    "quantity": "10",
+    "image": "./Images/DellXPS13.jpg"
+  },
+  {
+    "id": 5,
+    "name": "HP Spectre x360",
+    "category": "Electronics",
+    "price": "1700",
+    "description": "HP Spectre x360 2020",
+    "quantity": "10",
+    "image": "./Images/HPSpectrex360.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Lenovo ThinkPad X1 Carbon",
+    "category": "Electronics",
+    "price": "1900",
+    "description": "Lenovo ThinkPad X1 Carbon 2020",
+    "quantity": "10",
+    "image": "./Images/LenovoThinkPadX1Carbon.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Sony WH-1000XM4",
+    "category": "Electronics",
+    "price": "350",
+    "description": "Sony WH-1000XM4 Wireless Headphones",
+    "quantity": "10",
+    "image": "./Images/SonyWH1000XM4.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Bose QuietComfort 35 II",
+    "category": "Electronics",
+    "price": "300",
+    "description": "Bose QuietComfort 35 II Wireless Headphones",
+    "quantity": "10",
+    "image": "./Images/BoseQuietComfort35II.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Apple AirPods Pro",
+    "category": "Electronics",
+    "price": "250",
+    "description": "Apple AirPods Pro Wireless Earbuds",
+    "quantity": "10",
+    "image": "./Images/AppleAirPodsPro.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Samsung Galaxy Buds Live",
+    "category": "Electronics",
+    "price": "200",
+    "description": "Samsung Galaxy Buds Live Wireless Earbuds",
+    "quantity": "10",
+    "image": "./Images/SamsungGalaxyBudsLive.jpg"
+  },
+  {
+    "id": 11,
+    "name": "JBL Flip 5",
+    "category": "Electronics",
+    "price": "150",
+    "description": "JBL Flip 5 Portable Bluetooth Speaker",
+    "quantity": "10",
+    "image": "./Images/JBLFlip5.jpg"
+  },
+  {
+    "id": 12,
+    "name": "Sony SRS-XB12",
+    "category": "Electronics",
+    "price": "100",
+    "description": "Sony SRS-XB12 Portable Bluetooth Speaker",
+    "quantity": "10",
+    "image": "./Images/SonySRSXB12.jpg"
+  },
+  {
+    "id": 13,
+    "name": "Amazon Echo Dot",
+    "category": "Electronics",
+    "price": "50",
+    "description": "Amazon Echo Dot Smart Speaker",
+    "quantity": "10",
+    "image": "./Images/AmazonEchoDot.jpg"
+  },
+  {
+    "id": 14,
+    "name": "Google Nest Mini",
+    "category": "Electronics",
+    "price": "50",
+    "description": "Google Nest Mini Smart Speaker",
+    "quantity": "10",
+    "image": "./Images/GoogleNestMini.jpg"
+  },
+  {
+    "id": 15,
+    "name": "Apple Watch Series 6",
+    "category": "Electronics",
+    "price": "400",
+    "description": "Apple Watch Series 6 GPS",
+    "quantity": "10",
+    "image": "./Images/AppleWatchSeries6.jpg"
+  }
+]

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shopping cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/shoppingcartstyle.css">
+    <style>
+
+
+    </style>
+</head>
+
+<body>
+    <div id="navbar"></div>
+    <div class="container">
+        <section class="left-side">
+            <h1 class="title">Shopping Cart <span class="number-of-items">0</span></h1>
+            <section class="cart-items-container">
+                <div class="cart-item">
+                    <div class="image-div"><img src="Images/20240815_105001.jpg" alt=""></div>
+                    <div class="cart-item-info">
+                        <div style="display: flex; justify-content: space-between;">
+                            <h2 class="product-name">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
+                                laudantium
+                                amet dolores voluptas eos aliquid ut delectus laboriosam quaerat at!</h2>
+                            <span class="product-price ">Price: $100</span>
+                        </div>
+                        <div>
+                            <span class="real-quantity ">In Stock</span>
+                            <br>
+                            <span class="delivery-status">Eligible for Free delivery</span>
+                            <br>
+                            <span class="details">Details</span>
+                            <br>
+                            <div class="product-quantity"><i class="fa-solid fa-trash"></i><span>1</span><i
+                                    class="fa-solid fa-plus"></i></div>
+                            <a class="item">Delete</a>
+                            <a class="item">Save for later</a>
+                            <a class="item">Share</a>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="cart-item">
+                    <div class="image-div"><img src="Images/20240815_105001.jpg" alt=""></div>
+                    <div class="cart-item-info">
+                        <div style="display: flex; justify-content: space-between;">
+                            <h2 class="product-name">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
+                                laudantium
+                                amet dolores voluptas eos aliquid ut delectus laboriosam quaerat at!</h2>
+                            <span class="product-price ">Price: $100</span>
+                        </div>
+                        <div>
+                            <span class="real-quantity ">In Stock</span>
+                            <br>
+                            <span class="delivery-status">Eligible for Free delivery</span>
+                            <br>
+                            <span class="details">Details</span>
+                            <br>
+                            <div class="product-quantity"><i class="fa-solid fa-trash"></i><span>1</span><i
+                                    class="fa-solid fa-plus"></i></div>
+                            <a class="item">Delete</a>
+                            <a class="item">Save for later</a>
+                            <a class="item">Share</a>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="cart-item">
+                    <div class="image-div"><img src="Images/20240815_105001.jpg" alt=""></div>
+                    <div class="cart-item-info">
+                        <div style="display: flex; justify-content: space-between;">
+                            <h2 class="product-name">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
+                                laudantium
+                                amet dolores voluptas eos aliquid ut delectus laboriosam quaerat at!</h2>
+                            <span class="product-price ">Price: $100</span>
+                        </div>
+                        <div>
+                            <span class="real-quantity ">In Stock</span>
+                            <br>
+                            <span class="delivery-status">Eligible for Free delivery</span>
+                            <br>
+                            <span class="details">Details</span>
+                            <br>
+                            <div class="product-quantity"><i class="fa-solid fa-trash"></i><span>1</span><i
+                                    class="fa-solid fa-plus"></i></div>
+                            <a class="item">Delete</a>
+                            <a class="item">Save for later</a>
+                            <a class="item">Share</a>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </section>
+        <section class="right-side">
+            <div class="order-summary">
+                <h1>Order Summary</h1>
+                <p id="subtotal"></p>
+                <p id="tax"></p>
+                <p id="total"></p>
+            </div>
+            <button class="checkout-btn">Checkout</button>
+
+        </section>
+    </div>
+    <script src="./navbar/navbar.js"></script>
+
+    <script>
+        function loadCartItems() {
+            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            const cartContainer = document.querySelector(".cart-items-container");
+            cartContainer.innerHTML = ""; // مسح المحتويات القديمة
+
+            if (cartItems.length === 0) {
+                cartContainer.innerHTML = "<h2>السلة فارغة 🛒</h2>";
+                return;
+            }
+
+            cartItems.forEach((item, index) => {
+                const cartItemDiv = document.createElement("div");
+                cartItemDiv.classList.add("cart-item");
+
+                cartItemDiv.innerHTML = `
+                            <div class="image-div"><img src="${item.image}" alt="${item.title}"></div>
+                            <div class="cart-item-info">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <h2 class="product-name">${item.title}</h2>
+                                    <span class="product-price">Price: $${item.price}</span>
+                                </div>
+                                <div>
+                                    <span class="real-quantity">In Stock</span>
+                                    <br>
+                                    <span class="delivery-status">Eligible for Free delivery</span>
+                                    <br>
+                                    <span class="details">Details</span>
+                                    <br>
+                                    <div class="product-quantity">
+                                        <i class="fa-solid fa-minus decrease-item" data-index="${index}"></i>
+                                        <span>${item.quantity}</span>
+                                        <i class="fa-solid fa-plus increase-quantity" data-index="${index}"></i>
+                                    </div>
+                                    <a class="item remove-item" data-index="${index}">Delete</a>
+                                    <a class="item save-later">Save for later</a>
+                                    <a class="item share">Share</a>
+                                </div>
+                            </div>
+                            
+                        `;
+
+                cartContainer.appendChild(cartItemDiv);
+            });
+
+            setupCartActions();
+        }
+
+        function setupCartActions() {
+            document.querySelectorAll(".decrease-item").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    let index = this.dataset.index;
+                    decreaseQuantity(index);
+                });
+            });
+
+            document.querySelectorAll(".increase-quantity").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    let index = this.dataset.index;
+                    increaseQuantity(index);
+                });
+            });
+
+            // document.getElementById("clear-cart").addEventListener("click", clearCart);
+        }
+
+        function decreaseQuantity(index) {
+            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+            if (cartItems[index].quantity > 1) {
+                cartItems[index].quantity -= 1; // تقليل الكمية بمقدار 1
+            } else {
+                cartItems.splice(index, 1); // حذف العنصر إذا وصلت الكمية إلى 0
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cartItems));
+            loadCartItems();
+        }
+
+        function increaseQuantity(index) {
+            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            cartItems[index].quantity += 1;
+            localStorage.setItem("cart", JSON.stringify(cartItems));
+            loadCartItems();
+        }
+
+        function clearCart() {
+            localStorage.removeItem("cart");
+            loadCartItems();
+        }
+
+        function updateOrderSummary() {
+            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            let subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            let tax = subtotal * 0.1; // نفترض 10% ضريبة
+            let total = subtotal + tax;
+
+            document.getElementById("subtotal").textContent = `Subtotal = $${subtotal.toFixed(2)}`;
+            document.getElementById("tax").textContent = `Tax = $${tax.toFixed(2)}`;
+            document.getElementById("total").textContent = `Total = $${total.toFixed(2)}`;
+        }
+
+        function loadShoppingCartNumber() {
+            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            let totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector(".number-of-items").textContent = totalItems;
+        }
+
+        // تحديث البيانات عند تحميل الصفحة
+        document.addEventListener("DOMContentLoaded", () => {
+            loadCartItems();
+            updateOrderSummary();
+            loadShoppingCartNumber();
+        });
+    </script>
+
+
+</body>
+
+</html>

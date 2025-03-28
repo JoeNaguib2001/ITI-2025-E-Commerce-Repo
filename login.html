@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/main-colors.css">
+    <link rel="stylesheet" href="./css/loginstyle.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="outer-container container-fluid">
+        <!-- Toast Container -->
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div id="bootstrapToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto" id="toastTitle">Notification</strong>
+                    <small>Just now</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="toastMessage">
+                    Message goes here.
+                </div>
+            </div>
+        </div>
+        <!-- End Toast Container -->
+        <form action="#" class="loginform" onsubmit="event.preventDefault();">
+            <div class="row">
+                <div class="inner-container col-10  col-md-8 col-lg-6 col-xl-4 mt-2">
+                    <!-- Toggler Effect Between Login And Signup -->
+                    <div
+                        style="display: flex; margin-bottom: 20px; position: relative; background: rgba(255, 255, 255, 0.1); border-radius: 5px;">
+                        <div id="slider"
+                            style="position: absolute; width: 50%; height: 100%; background: white;  border-radius: 5px; transition: transform 0.3s ease-in-out;">
+                        </div>
+                        <span id="loginTab"
+                            style="flex: 1; padding: 12px 0; cursor: pointer; text-align: center; position: relative; z-index: 2; color:black">Log
+                            in</span>
+                        <span id="signupTab"
+                            style="flex: 1; padding: 12px 0; cursor: pointer; text-align: center; position: relative; z-index: 2;">Sign
+                            up</span>
+                    </div>
+                    <!-- End Toggler -->
+
+                    <!-- User Icon -->
+                    <div class="d-flex justify-content-center">
+                        <img src="./Images/login.png">
+                    </div>
+                    <!-- Begin Inputs -->
+                    <div class="d-flex">
+                        <input type="text" id="fullname" name="fullname" placeholder="FullName" required disabled
+                            class="forSignUpOnly" style="display: none;" minlength="3" maxlength="20">
+                    </div>
+                    <div class="d-flex">
+                        <input type="email" id="email" name="email" placeholder="Email" required disabled
+                            class="forSignUpOnly" style="display: none;">
+                    </div>
+                    <div class="d-flex">
+                        <input type="text" id="username" name="username" placeholder="Username" required minlength="8"
+                            maxlength="20">
+                    </div>
+
+
+
+
+                    <div class="d-flex">
+                        <input type="password" id="password" name="password" placeholder="Password" required
+                            class="password" minlength="8" maxlength="20">
+                    </div>
+                    <div class="d-flex">
+                        <input type="password" id="confirmpassword" name="password" placeholder="Confirm Password"
+                            required class="forSignUpOnly password" style="display: none;" disabled minlength="8"
+                            maxlength="20">
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <input type="checkbox" class="showPassword" id="showPassword">
+                        <label for="showPassword" style="margin-top: 30px;">Show Password</label>
+                    </div>
+
+                    <!-- End Inputs -->
+
+                    <div class="space-around">
+                        <span><input type="radio" id="remember"> <label for="remember" class="remember">Remember
+                                me</label></span> <a href="#" class="forgot">Forgot your
+                            password?</a>
+                    </div>
+                    <div class="d-flex justify-content-center"><input type="submit" class="submit" value="Log in"></div>
+                </div>
+
+            </div>
+    </div>
+    </form>
+    </div>
+
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script>
+        if (localStorage.getItem("rememberMe") === "true") {
+            localStorage.setItem("welcomeMessage", "Welcome back, " + localStorage.getItem("username"));
+            window.location.href = "shop.html";
+        }
+
+
+        let checkbox = document.querySelector('.showPassword');
+        checkbox.addEventListener('change', function () {
+            document.querySelectorAll('.password').forEach(el => {
+                el.type = this.checked ? 'text' : 'password'; // تغيير النوع حسب حالة الـ checkbox
+            });
+        });
+
+
+        //Allow Deslecting A Radio Button
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('click', function () {
+                if (this.checked && this.dataset.wasChecked) {
+                    this.checked = false;
+                    this.dataset.wasChecked = "";
+                } else {
+                    this.dataset.wasChecked = "true";
+                }
+            });
+        });
+
+        //Disable Right-Click On Images
+        document.addEventListener("contextmenu", (event) => {
+            if (event.target.tagName === "IMG") {
+                event.preventDefault();
+                alert("Right-click is disabled on images!");
+            }
+        });
+
+        //Save User Name In Local Storage
+        let currentMode = "login";
+        document.querySelector("form").addEventListener("submit", async function (event) {
+            let username = document.getElementById("username");
+            let password = document.getElementById("password");
+            let isValidUser = await checkUser(username.value, password.value); // ✅ انتظر نتيجة checkUser  
+
+
+
+            event.preventDefault(); // ❌ يمنع الفورم من التوجيه التلقائي
+            if (currentMode === "login") {
+                if (isValidUser) {
+                    localStorage.setItem("isSignedIn", "true"); // تحويل الحالة إلى true
+                    localStorage.setItem("username", document.getElementById("username").value); // حفظ الاسم في الذاكرة المحلية
+                    if (document.querySelector("#remember").checked) {
+                        localStorage.setItem("rememberMe", "true");
+                    }
+                    else {
+                        localStorage.setItem("rememberMe", "false");
+                    }
+                    localStorage.setItem("welcomeMessage", "Welcome back, " + localStorage.getItem("username"));
+                    window.location.href = "shop.html"; // ✅ إعادة التوجيه يدويًا بعد الحفظ
+
+                }
+                else {
+                    ShowBootstrapToast("Invalid Username or Password", "danger");
+                    return;
+                }
+            }
+            else if (currentMode === "signup") {
+                localStorage.setItem("isSignedIn", "true"); // تحويل الحالة إلى true
+                if (document.querySelector("#remember").checked) {
+                    localStorage.setItem("rememberMe", "true");
+                }
+                else {
+                    localStorage.setItem("rememberMe", "false");
+                }
+
+                let fullName = document.getElementById("fullname").value;
+                let username = document.getElementById("username").value;
+                let password = document.getElementById("password").value;
+                let email = document.getElementById("email").value;
+                let usertype = "user";
+
+                let userData = { fullName, username, password, email, usertype };
+
+                try {
+                    let response = await fetch("http://localhost:3000/signup", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(userData)
+                    });
+
+                    let result = await response.json();
+
+                    if (response.ok) {
+                        ShowBootstrapToast(result.message, "success");
+                        localStorage.setItem("username", document.getElementById("username").value); // حفظ الاسم في الذاكرة المحلية
+                        setTimeout(() => {
+                            window.location.href = "shop.html";
+                        }, 2000);
+                    } else {
+                        ShowBootstrapToast(result.message, "danger");
+                    }
+                } catch (error) {
+                    ShowBootstrapToast("❌ حدث خطأ أثناء الاتصال بالسيرفر", "danger");
+                    return;
+                }
+
+                window.location.href = "shop.html"; // ✅ إعادة التوجيه يدويًا بعد الحفظ
+            }
+        });
+
+        async function checkUser(username, password) {
+            try {
+                // قراءة ملف Accounts.json
+                const response = await fetch('./Accounts.Json');
+
+                if (!response.ok) {
+                    console.error("Error loading JSON file");
+                    return false;
+                }
+
+                const accounts = await response.json();
+                console.log("Accounts Data:", accounts);
+
+                // البحث عن اليوزر في البيانات
+                const user = accounts.find(acc => acc.username === username);
+
+                if (!user) {
+                    console.warn("User not found!");
+                    return false;
+                }
+
+                console.log("Stored Password:", user.password);
+                console.log("Entered Password:", password);
+
+                // مقارنة الباسورد
+                if (user.password === password) {
+                    return true;
+                } else {
+                    console.warn("Incorrect password");
+                    return false;
+                }
+            } catch (error) {
+                console.error("Error fetching or parsing JSON:", error);
+                return false;
+            }
+        }
+
+
+
+        let submit = document.querySelector('input[type="submit"]');
+        //Toggler Sign In / Sign Up Logic
+        const loginTab = document.getElementById("loginTab");
+        const signupTab = document.getElementById("signupTab");
+        const slider = document.getElementById("slider");
+        const container = document.querySelector(".container");
+        loginTab.addEventListener("click", () => {
+            slider.style.transform = "translateX(0%)";
+            loginTab.style.color = "black";
+            signupTab.style.color = "white";
+            submit.value = "Log in";
+            currentMode = "login";
+            document.querySelectorAll(".forSignUpOnly").forEach(input => {
+                input.disabled = true;
+                input.style.display = "none";
+            });
+        });
+
+        signupTab.addEventListener("click", () => {
+            slider.style.transform = "translateX(100%)";
+            signupTab.style.color = "black";
+            loginTab.style.color = "white";
+            submit.value = "Sign up";
+            currentMode = "signup";
+            document.querySelectorAll("input:disabled").forEach(input => {
+                input.disabled = false;
+                input.style.display = "block";
+            });
+
+        });
+
+
+
+        //Bootstrap Toast Function
+        function ShowBootstrapToast(message, type) {
+            let toastEl = document.getElementById("bootstrapToast");
+            let toastBody = document.getElementById("toastMessage");
+            let toastHeader = document.getElementById("toastTitle");
+
+            // تغيير لون العنوان حسب نوع الرسالة
+            let bgColor = type === "success" ? "text-success" : "text-danger";
+            toastHeader.className = `me-auto ${bgColor}`;
+
+            // تعيين الرسالة
+            toastBody.innerText = message;
+
+            // عرض التوست
+            let toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+
+    </script>
+
+</body>
+
+</html>

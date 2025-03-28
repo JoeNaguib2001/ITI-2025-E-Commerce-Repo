@@ -1,0 +1,127 @@
+   * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+        }
+
+
+        body {
+            background-color: var(--main-dark)
+        }
+
+        .filter-category-area {
+            position: relative;
+            background-color: var(--main-dark);
+            color: black;
+            height: 100px;
+        }
+
+        .category-label {
+            display: inline-block;
+            font-size: 25px;
+            margin: 50px;
+        }
+
+        .sort-by-span {
+            font-size: 20px;
+            position: absolute;
+            top: 60px;
+            right: 250px;
+        }
+
+        .sort-by-select {
+            font-size: 25px;
+            position: absolute;
+            right: 150px;
+            top: 60px;
+            color: black;
+        }
+
+        option {
+            color: black;
+        }
+
+        .shopping-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            background-color: var(--main-dark)
+        }
+
+        .product {
+            position: relative;
+            text-align: center;
+            width: 22%;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+            background-color: #161B22
+        }
+
+        .product img {
+            width: 150px;
+            height: 200px;
+            border-radius: 10px;
+            transition: .3s;
+        }
+
+        .product img:hover {
+            transform: scale(1.1);
+        }
+
+        .product .product-name {
+            display: block;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        .product .product-price {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #F4E06D
+        }
+
+        .product .add-to-cart-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #E63946;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: .3s;
+        }
+
+        .product .add-to-cart-btn:hover {
+            background-color: #F4A261;
+        }
+
+
+
+
+        .stars-container {
+            display: inline-block;
+            margin-top: 20px;
+            position: absolute;
+            right: 30px;
+            top: 70%;
+        }
+
+        .star {
+            width: 15px;
+            height: 15px;
+            background-image: url('./Images/empty_star.png');
+            /* Provide the actual path to your empty star image */
+            background-size: cover;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .star.filled {
+            background-image: url('./Images/filled_star.png');
+            /* Provide the actual path to your filled star image */
+        }

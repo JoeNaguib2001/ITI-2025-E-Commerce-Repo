@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/main-colors.css">
+    <link rel="stylesheet" href="./css/navstyle.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <title>Responsive Navbar</title>
+</head>
+
+<body>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" id="elkokos">
+        <div id="bootstrapToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto" id="toastTitle">Notification</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body text-dark" id="toastMessage">
+                Message goes here.
+            </div>
+        </div>
+    </div>
+    <!-- End Toast Container -->
+
+
+    <nav>
+        <div style="display: flex; align-items: center;">
+            <a href="shop.html"><img src="Images/amazon.jpeg" class="logo" id="logo"></a>
+            <div class="location-info">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Deliver to - المنيا</span>
+            </div>
+
+        </div>
+        <div class="search-div">
+            <input id="search-box" type="search" placeholder="What are you looking for?">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div class="user-info">
+            <span class="hello-span">Hello,User</span>
+
+
+
+            <div class="dropdown  admin-dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button">
+                    Settings
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end ">
+                    <li><a class="dropdown-item" href="./admins/customers-orders.html">Manage Orders</a></li>
+                    <li><a class="dropdown-item" href="./manage-warehouse.html">Manage Warehouse</a></li>
+                    <li><a class="dropdown-item" href="./manage-admins">Manage Other Admins</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item text-danger login-btn" href="#" onclick="toggleSingedIn()">Sign In</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="dropdown  user-dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button">
+                    Settings
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end ">
+                    <li><a class="dropdown-item" href="./users/orders.html">Orders</a></li>
+                    <li><a class="dropdown-item" href="./users/wishlists.html">Wish List</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item text-danger login-btn" href="#" onclick="toggleSingedIn()">Sign In</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- <a id="login-btn" class="login-btn" onclick="toggleSingedIn()">Sign in</a> -->
+
+
+            <!-- <a>Pending orders</a> -->
+            <a onclick="goToCartIfSignedIn()" class="shopping-cart-link">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="products-count">0</span></a>
+
+        </div>
+    </nav>
+    <!-- Load Boostrap JS -->
+    <script src="./js/bootstrap.bundle.min.js">
+
+    </script>
+    <!-- Load Boostrap JS -->
+    <script src="navbar.js">
+
+    </script>
+</body>
+
+</html>

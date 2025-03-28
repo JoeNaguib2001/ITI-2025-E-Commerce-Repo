@@ -1,0 +1,89 @@
+[
+  {
+    "id": 1,
+    "orderDate": "03/20/2025",
+    "orderStatus": "Delivered",
+    "orderItems": [
+      {
+        "productId": 1,
+        "productName": "Samsung Galaxy S21 Ultra",
+        "productDescription": "Samsung Galaxy S21 Ultra 5G",
+        "quantity": 1,
+        "price": 1500
+      },
+      {
+        "productId": 2,
+        "quantity": 1,
+        "price": 1600
+      }
+    ],
+    "totalPrice": 3100,
+    "customerName": "Youssef Mohsen",
+    "Address": "Minya, Egypt",
+    "phoneNumber": "01001311691"
+  },
+  {
+    "id": 2,
+    "orderDate": "03/28/2025",
+    "orderStatus": "On The Way",
+    "orderItems": [
+      {
+        "productId": 3,
+        "productName": "Apple MacBook Pro 2020",
+        "productDescription": "Apple MacBook Pro 2020 13-inch",
+        "quantity": 1,
+        "price": 2000
+      },
+      {
+        "productId": 4,
+        "quantity": 1,
+        "price": 1800
+      }
+    ],
+    "totalPrice": 3800,
+    "customerName": "Youssef Mohsen",
+    "Address": "Minya, Egypt",
+    "phoneNumber": "01001311691"
+  },
+  {
+    "id": 3,
+    "orderDate": "2021-06-03",
+    "orderStatus": "Delivered",
+    "orderItems": [
+      {
+        "productId": 5,
+        "productName": "HP Spectre x360",
+        "productDescription": "HP Spectre x360 2020",
+        "quantity": 1,
+        "price": 1700
+      },
+      {
+        "productId": 6,
+        "quantity": 1,
+        "price": 1900
+      }
+    ],
+    "totalPrice": 3600,
+    "customerName": "Youssef Mohsen",
+    "Address": "Minya, Egypt",
+    "phoneNumber": "01001311691"
+  },
+  {
+    "id": 4,
+    "orderDate": "2021-06-04",
+    "orderStatus": "Delivered",
+    "orderItems": [
+      {
+        "productId": 7,
+        "productName": "Sony WH-1000XM4",
+        "productDescription": "Sony WH-1000XM4 Wireless Noise-Canceling Over-Ear Headphones",
+        "quantity": 1,
+        "price": 350
+      }
+    ],
+    "totalPrice": 350,
+    "customerName": "Youssef Mohsen",
+    "Address": "Minya, Egypt",
+    "phoneNumber": "01001311691"
+  }
+]
