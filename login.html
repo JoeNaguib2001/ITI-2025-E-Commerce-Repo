@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./css/loginstyle.css">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
 
-    <title>Document</title>
+    <title>ok123456</title>
     <style>
 
     </style>
@@ -31,12 +31,12 @@
             </div>
         </div>
         <!-- End Toast Container -->
-        <form action="#" class="loginform" onsubmit="event.preventDefault();">
+        <form class="loginform">
             <div class="row">
                 <div class="inner-container col-10  col-md-8 col-lg-6 col-xl-4 mt-2">
                     <!-- Toggler Effect Between Login And Signup -->
                     <div
-                        style="display: flex; margin-bottom: 20px; position: relative; background: rgba(255, 255, 255, 0.1); border-radius: 5px;">
+                        style="display: flex; margin-bottom: 20px; position: relative; background: rgba(255, 255, 255, 0.1); ">
                         <div id="slider"
                             style="position: absolute; width: 50%; height: 100%; background: white;  border-radius: 5px; transition: transform 0.3s ease-in-out;">
                         </div>
@@ -62,62 +62,95 @@
                         <input type="email" id="email" name="email" placeholder="Email" required disabled
                             class="forSignUpOnly" style="display: none;">
                     </div>
-                    <div class="d-flex">
-                        <input type="text" id="username" name="username" placeholder="Username" required maxlength="20">
+                    <div class="d-flex flex-column">
+                        <input type="text" id="username" name="username" placeholder="Username" required minlength="6" maxlength="20">
+                        <div id="username-validation">
+                        </div>
+                        <div class="position-relative d-flex align-items-center">
+                            <input type="password" id="password" name="password" placeholder="Password" required
+                                class="password" maxlength="20" onkeyup="checkPasswordStrength()">
+
+                            <div id="progress-container"
+                                class="position-absolute d-flex flex-column align-items-center d-none"
+                                style="right: 5px;">
+
+                                <!-- Strength Text -->
+                                <small id="strength-text" class="text-white"
+                                    style="margin-bottom: 2px; font-size: 12px; display: block;">Very
+                                    Weak</small>
+
+                                <!-- Progress Bar Sections -->
+                                <div class="d-flex" style="gap: 2px;">
+                                    <div class="progress-segment"
+                                        style="width: 15px; height: 8px; background-color: #ddd; border-radius: 2px;">
+                                    </div>
+                                    <div class="progress-segment"
+                                        style="width: 15px; height: 8px; background-color: #ddd; border-radius: 2px;">
+                                    </div>
+                                    <div class="progress-segment"
+                                        style="width: 15px; height: 8px; background-color: #ddd; border-radius: 2px;">
+                                    </div>
+                                    <div class="progress-segment"
+                                        style="width: 15px; height: 8px; background-color: #ddd; border-radius: 2px;">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <small id="strength-text" class="position-absolute text-white" style="right: -60px;">Very
+                            Weak</small> -->
+                        </div>
+
+                        <div class="d-flex confirmpassowrd-div position-relative">
+                            <input type="password" id="confirmpassword" name="password" placeholder="Confirm Password"
+                                required class="forSignUpOnly password" style="display: none;" disabled maxlength="20">
+                            <i class="fa-solid fa-circle-check text-success position-absolute"
+                                id="confirm-password-success-icon"
+                                style="top:40%; right:30px; font-size: 18px; display: none;"></i>
+                            <i class="fa-solid fa-circle-xmark text-danger position-absolute "
+                                id="confirm-password-fail-icon"
+                                style="top:40%; right:30px; font-size: 18px; display: none;"></i>
+
+
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 5px;">
+                            <input type="checkbox" class="showPassword" id="showPassword">
+                            <label for="showPassword" style="margin-top: 30px;">Show Password</label>
+                        </div>
+                        <!-- End Inputs -->
+
+                        <div class="space-around">
+                            <span><input type="radio" id="remember"> <label for="remember" class="remember">Remember
+                                    me</label></span> <a href="#" class="forgot">Forgot your
+                                password?</a>
+                        </div>
+                        <div class="d-flex justify-content-center"><input type="submit" class="submit" value="Log in">
+                        </div>
                     </div>
 
-
-
-
-                    <div class="d-flex">
-                        <input type="password" id="password" name="password" placeholder="Password" required
-                            class="password" maxlength="20">
-                    </div>
-                    <div class="d-flex">
-                        <input type="password" id="confirmpassword" name="password" placeholder="Confirm Password"
-                            required class="forSignUpOnly password" style="display: none;" disabled maxlength="20">
-                    </div>
-
-
-
-
-
-
-
-
-
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <input type="checkbox" class="showPassword" id="showPassword">
-                        <label for="showPassword" style="margin-top: 30px;">Show Password</label>
-                    </div>
-
-                    <!-- End Inputs -->
-
-                    <div class="space-around">
-                        <span><input type="radio" id="remember"> <label for="remember" class="remember">Remember
-                                me</label></span> <a href="#" class="forgot">Forgot your
-                            password?</a>
-                    </div>
-                    <div class="d-flex justify-content-center"><input type="submit" class="submit" value="Log in"></div>
                 </div>
-
             </div>
-    </div>
-    </form>
+        </form>
     </div>
 
     <script src="./js/bootstrap.bundle.min.js"></script>
     <script>
+        let confirmPasswordFailIcon = document.getElementById("confirm-password-fail-icon");
+        let confirmSuccessIcon = document.getElementById("confirm-password-success-icon");
+
+
+
+        //Check If User Is Already Signed In, Direct To Shop Page
         if (localStorage.getItem("rememberMe") === "true") {
             localStorage.setItem("welcomeMessage", "Welcome back, " + localStorage.getItem("username"));
             window.location.href = "shop.html";
         }
 
 
+        //Show Password Functionality
         let checkbox = document.querySelector('.showPassword');
         checkbox.addEventListener('change', function () {
             document.querySelectorAll('.password').forEach(el => {
-                el.type = this.checked ? 'text' : 'password'; // تغيير النوع حسب حالة الـ checkbox
+                el.type = this.checked ? 'text' : 'password';
             });
         });
 
@@ -142,51 +175,46 @@
             }
         });
 
-        //Save User Name In Local Storage
+
+
+        // document.querySelector("form").addEventListener("submit", function (event) {
+        //     event.preventDefault();
+        // });
+
+        //Handle Sign-In / Sign-Up Logic
         let currentMode = "login";
         document.querySelector("form").addEventListener("submit", async function (event) {
+            event.preventDefault(); // منع إعادة تحميل الصفحة
+
             let username = document.getElementById("username");
             let password = document.getElementById("password");
-            let isValidUser = await checkUser(username.value, password.value); // ✅ انتظر نتيجة checkUser  
 
-
-
-            event.preventDefault(); // ❌ يمنع الفورم من التوجيه التلقائي
             if (currentMode === "login") {
+                let isValidUser = await checkUser(username.value, password.value);
                 if (isValidUser) {
-                    localStorage.setItem("isSignedIn", "true"); // تحويل الحالة إلى true
-                    localStorage.setItem("username", document.getElementById("username").value); // حفظ الاسم في الذاكرة المحلية
+                    localStorage.setItem("isSignedIn", "true");
+                    localStorage.setItem("username", username.value);
                     if (document.querySelector("#remember").checked) {
                         localStorage.setItem("rememberMe", "true");
-                    }
-                    else {
+                    } else {
                         localStorage.setItem("rememberMe", "false");
                     }
-                    localStorage.setItem("welcomeMessage", "Welcome back, " + localStorage.getItem("username"));
-                    window.location.href = "shop.html"; // ✅ إعادة التوجيه يدويًا بعد الحفظ
-
-                }
-                else {
+                    localStorage.setItem("welcomeMessage", "Welcome back, " + username.value);
+                    setTimeout(() => {
+                        window.location.href = "shop.html";
+                    }, 2000);
+                } else {
                     ShowBootstrapToast("Invalid Username or Password", "danger");
-                    return;
                 }
             }
             else if (currentMode === "signup") {
-                localStorage.setItem("isSignedIn", "true"); // تحويل الحالة إلى true
-                if (document.querySelector("#remember").checked) {
-                    localStorage.setItem("rememberMe", "true");
-                }
-                else {
-                    localStorage.setItem("rememberMe", "false");
-                }
-
                 let fullName = document.getElementById("fullname").value;
-                let username = document.getElementById("username").value;
+                let userName = document.getElementById("username").value;
                 let password = document.getElementById("password").value;
                 let email = document.getElementById("email").value;
-                let usertype = "user";
+                let userType = "user";
 
-                let userData = { fullName, username, password, email, usertype };
+                let userData = { fullName, userName, password, email, userType };
 
                 try {
                     let response = await fetch("http://localhost:3000/signup", {
@@ -199,7 +227,8 @@
 
                     if (response.ok) {
                         ShowBootstrapToast(result.message, "success");
-                        localStorage.setItem("username", document.getElementById("username").value);
+                        localStorage.setItem("isSignedIn", "true");
+                        localStorage.setItem("username", userName);
                         setTimeout(() => {
                             window.location.href = "shop.html";
                         }, 2000);
@@ -208,15 +237,14 @@
                     }
                 } catch (error) {
                     ShowBootstrapToast("❌ حدث خطأ أثناء الاتصال بالسيرفر", "danger");
-                    return;
                 }
             }
         });
 
-        async function checkUser(username, password) {
+        //Validate User Input On Sign-In
+        async function checkUser(userName, password) {
             try {
-                // قراءة ملف Accounts.json
-                const response = await fetch('./Accounts.Json');
+                const response = await fetch('./Data/Accounts.Json');
 
                 if (!response.ok) {
                     console.error("Error loading JSON file");
@@ -226,8 +254,7 @@
                 const accounts = await response.json();
                 console.log("Accounts Data:", accounts);
 
-                // البحث عن اليوزر في البيانات
-                const user = accounts.find(acc => acc.username === username);
+                const user = accounts.find(acc => acc.userName === userName);
 
                 if (!user) {
                     console.warn("User not found!");
@@ -237,7 +264,6 @@
                 console.log("Stored Password:", user.password);
                 console.log("Entered Password:", password);
 
-                // مقارنة الباسورد
                 if (user.password === password) {
                     return true;
                 } else {
@@ -251,14 +277,14 @@
         }
 
 
-
+        //Toggler Animation Sign In / Sign Up Logic + Set Current Mode To Either Sign-In Or Sign-Up
         let submit = document.querySelector('input[type="submit"]');
-        //Toggler Sign In / Sign Up Logic
         const loginTab = document.getElementById("loginTab");
         const signupTab = document.getElementById("signupTab");
         const slider = document.getElementById("slider");
         const container = document.querySelector(".container");
         loginTab.addEventListener("click", () => {
+            clearFormInputs();
             slider.style.transform = "translateX(0%)";
             loginTab.style.color = "black";
             signupTab.style.color = "white";
@@ -271,6 +297,7 @@
         });
 
         signupTab.addEventListener("click", () => {
+            clearFormInputs();
             slider.style.transform = "translateX(100%)";
             signupTab.style.color = "black";
             loginTab.style.color = "white";
@@ -283,7 +310,123 @@
 
         });
 
+        function checkPasswordStrength() {
+            document.getElementById("confirmpassword").value = "";
+            confirmPasswordFailIcon.style.display = "none";
+            confirmSuccessIcon.style.display = "none";
 
+            if (currentMode === "login") return; // Skip if in login mode
+            let password = document.getElementById("password").value;
+            let progressContainer = document.getElementById("progress-container");
+            let strengthText = document.getElementById("strength-text");
+            let segments = document.querySelectorAll(".progress-segment");
+
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[@$!%*?&]/.test(password)) strength++;
+
+            let strengthLevels = ["Very Weak", "Weak", "Fair", "Good", "Strong"];
+            let colors = ["#FF0000", "#FF8C00", "#FFD700", "#32CD32", "#008000"];
+
+            // Show/hide progress container
+            progressContainer.classList.toggle("d-none", password.length === 0);
+
+            // Update text & color
+            strengthText.textContent = strengthLevels[strength];
+
+            // Reset segments
+            segments.forEach((seg, index) => {
+                seg.style.backgroundColor = "#ddd";
+                if (index < strength) {
+                    seg.style.backgroundColor = colors[strength];
+                }
+            });
+        }
+
+
+        let confirmPassowrdDiv = document.querySelector(".confirmpassowrd-div");
+        let pass = document.getElementById("password");
+        document.getElementById("confirmpassword").addEventListener("keyup", function () {
+            if (pass.value === "") {
+                this.value = "";
+                pass.focus();
+                return;
+            }
+            if (this.value == "") {
+                confirmPasswordFailIcon.style.display = "none";
+                confirmSuccessIcon.style.display = "none";
+                return;
+            }
+
+            let password = document.getElementById("password").value;
+            let confirmPassword = this.value;
+            if (confirmPassword !== password) {
+                confirmPasswordFailIcon.style.display = "block";
+                confirmSuccessIcon.style.display = "none";
+            } else {
+                confirmPasswordFailIcon.style.display = "none";
+                confirmSuccessIcon.style.display = "block";
+            }
+        });
+
+        document.getElementById("username").addEventListener("keyup", function () {
+            if (currentMode === "login") return; // Skip if in login mode
+            let usernameValidation = document.getElementById("username-validation");
+            let username = this.value;
+            if (username.length < 6) {
+                usernameValidation.innerText = "Username must be at least 6 characters long.";
+                usernameValidation.style.color = "red";
+
+            }
+            else if (username.length > 20) {
+                usernameValidation.innerText = "Username cannot be more than 20 charachters.";
+                usernameValidation.style.color = "red";
+            }
+            else if (!/^[a-zA-Z0-9]+$/.test(username)) {
+                usernameValidation.innerText = "Username can only contain letters and numbers.";
+                usernameValidation.style.color = "red";
+            } else if (username.length >= 3 && username.length <= 20 && /^[a-zA-Z0-9]+$/.test(username)) {
+                fetch('./Data/Accounts.json')
+                    .then(response => response.json())
+                    .then(accounts => {
+                        const userExists = accounts.some(account => account.userName === username);
+                        if (userExists) {
+                            usernameValidation.innerText = "Username already exists.";
+                            usernameValidation.style.color = "red";
+                        } else {
+                            usernameValidation.innerText = "Valid Username";
+                            usernameValidation.style.color = "green";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching or parsing JSON:", error);
+                        usernameValidation.innerText = "Error validating username.";
+                        usernameValidation.style.color = "red";
+                    });
+                usernameValidation.innerText = "Valid Username";
+                usernameValidation.style.color = "green";
+            }
+            else {
+                usernameValidation.innerText = "";
+            }
+        });
+
+        // Function to clear all inputs and uncheck checkboxes
+        function clearFormInputs() {
+            // Clear all input fields
+            document.querySelectorAll("input").forEach(input => {
+                if (input.type === "text" || input.type === "email" || input.type === "password") {
+                    input.value = "";
+                }
+            });
+
+            // Uncheck all checkboxes
+            document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }
 
         //Bootstrap Toast Function
         function ShowBootstrapToast(message, type) {

@@ -259,7 +259,8 @@
 
         function setupAddToCart(productDiv, product) {
             const addToCartBtn = productDiv.querySelector(".add-to-cart");
-            addToCartBtn.addEventListener("click", () => {
+            addToCartBtn.addEventListener("click", (event) => {
+                event.stopPropagation(); // Prevent the click event from propagating to the product
                 addToCart(product);
                 updateCartCount();
             });

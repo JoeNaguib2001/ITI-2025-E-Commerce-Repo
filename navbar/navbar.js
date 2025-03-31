@@ -117,7 +117,7 @@ async function getStoredName() {
             const response = await fetch("./Data/Accounts.json");
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const accounts = await response.json();
-            const user = accounts.find(account => account.username === currentUser);
+            const user = accounts.find(account => account.userName === currentUser);
             if (user && user.fullName) {
                 return user.fullName.split(" ")[0]; // Return the first name
             }
@@ -180,7 +180,7 @@ fetch("./Data/Accounts.json")
         const currentUser = localStorage.getItem("username");
         const user = accounts.find(account => account.username === currentUser);
         if (user) {
-            currentUserRole = user.usertype;
+            currentUserRole = user.userType;
             if (currentUserRole === "admin") {
                 document.querySelector(".admin-dropdown").style.display = "block";
                 document.querySelector(".user-dropdown").style.display = "none";

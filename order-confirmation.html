@@ -41,14 +41,34 @@
     <script src="./navbar/navbar.js"></script>
     <script src="./js/bootstrap.bundle.min.js"></script>
     <script>
-        // Get the order number from local storage and display it
-        let order = localStorage.getItem("orderDetails");
-        order = JSON.parse(order);
-        document.getElementById("order-id").innerHTML = `Order ID: ${order.orderId}`;
-        let totalPrice = order.order.reduce((sum, item) => sum + item.price, 0);
-        document.getElementById("total-paid").innerHTML = `You Paid a Total Of $${totalPrice}`;
-        // Clear the order details from local storage after displaying it
-        localStorage.removeItem("orderDetails");
+        // Get the order details from the URL parameters and display them
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get("orderId");
+        const totalPaid = urlParams.get("total");
+        const estimatedDelivery = urlParams.get("estimatedDelivery");
+
+        if (orderId) {
+            document.getElementById("order-id").innerHTML = `Order ID: ${orderId}`;
+        }
+
+        if (totalPaid) {
+            document.getElementById("total-paid").innerHTML = `You Paid a Total Of $${totalPaid}`;
+        }
+
+        if (estimatedDelivery) {
+            const deliveryElement = document.createElement("h4");
+            deliveryElement.innerHTML = `Estimated Delivery: ${estimatedDelivery}`;
+            document.querySelector(".row").appendChild(deliveryElement);
+        }
+
+        // Clear the cart from local storage
+        let carts = JSON.parse(localStorage.getItem("carts")) || [];
+        let userCartIndex = carts.findIndex(cart => cart.username === localStorage.getItem("username"));
+
+        if (userCartIndex !== -1) {
+            carts[userCartIndex].order = []; // Clear the order for the current user
+            localStorage.setItem("carts", JSON.stringify(carts));
+        }
 
     </script>
 </body>

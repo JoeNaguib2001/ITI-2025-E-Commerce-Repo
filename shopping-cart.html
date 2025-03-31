@@ -6,14 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>shopping cart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="./css/main-colors.css">
-    <!-- <link rel="stylesheet" href="./css/shopstyle.css"> -->
+    <!-- <link rel="stylesheet" href="./css/navbar.css"> -->
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <style>
-        *{
-            margin: 0 !important;
-        }
-
         a {
             text-decoration: none !important;
         }
@@ -175,32 +170,24 @@
         }
     </style>
 </head>
-<!-- <div class="image-div"><img src="${item.image}" alt="${item.title}"></div>
-<div class="cart-item-info">
-    <div style="display: flex; justify-content: space-between;">
-        <h2 class="product-name">${item.title}</h2>
-        <span class="product-price">Price: $${item.price}</span>
-    </div>
-    <div>
-        <span class="real-quantity">In Stock</span>
-        <br>
-        <span class="delivery-status">Eligible for Free delivery</span>
-        <br>
-        <span class="details">Details</span>
-        <br>
-        <div class="product-quantity">
-            <i class="fa-solid fa-minus decrease-quantity" data-index="${index}"></i>
-            <span>${item.quantity}</span>
-            <i class="fa-solid fa-plus increase-quantity" data-index="${index}"></i>
-        </div>
-        <a class="action remove-item" href="#" data-index="${index}">Delete</a>
-        <a class="action save-later" href="#">Save for later</a>
-        <a class="action share" href="#">Share</a>
-    </div>
-</div> -->
 
 <body>
     <div class="container-fluid">
+        <!-- Toast Container -->
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div id="bootstrapToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto" id="toastTitle">Notification</strong>
+                    <small>Just now</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="toastMessage">
+                    Message goes here.
+                </div>
+            </div>
+        </div>
+        <!-- End Toast Container -->
+
         <div class="row m-5 main-container">
             <div class="col-12 col-md-9" style=" padding:0; margin:0; border:2px solid black;">
                 <div class="cart-items" style="margin: 0; padding: 0;">
@@ -240,7 +227,10 @@
             cartContainer.innerHTML = ""; // مسح المحتويات القديمة
 
             if (cartItems.length === 0) {
-                cartContainer.innerHTML = "<h2>The Cart Is Empty 🛒</h2>";
+                cartContainer.style.height = "100%";
+                cartContainer.style.display = "flex";
+                cartContainer.style.alignItems = "center";
+                cartContainer.innerHTML = '<div style="width:100%;" class="inner-container"><h2>The Cart Is Empty 🛒</h2></div>';
                 cartContainer.style.textAlign = "center";
                 return;
             }
@@ -431,7 +421,7 @@
 
             let orderData = {
                 orderId: Date.now(),
-                username: username,
+                userName: username,
                 orderDate: new Date().toISOString().split('T')[0], // تاريخ اليوم
                 estimatedDelivery: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // +3 أيام
                 order: cartItems
@@ -455,22 +445,15 @@
                 ShowBootstrapToast("❌ حدث خطأ أثناء إرسال الطلب", "danger");
             }
 
-            // Clear the current user's cart after checkout
-            // let carts = JSON.parse(localStorage.getItem("carts")) || [];
-            // let userCartIndex = carts.findIndex(cart => cart.username === username);
-
-            // if (userCartIndex !== -1) {
-            //     carts[userCartIndex].order = []; // Clear the order for the current user
-            //     localStorage.setItem("carts", JSON.stringify(carts));
-            // }
-            // updateCartCount(); // Update the cart count
             // Pass order details to the next page
+            let total = orderData.order.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const params = new URLSearchParams({
+                total: total.toFixed(2),
+                orderId: orderData.orderId,
+                estimatedDelivery: orderData.estimatedDelivery
+            });
+            window.location.href = `order-confirmation.html?${params.toString()}`;
 
-            localStorage.setItem("orderDetails", JSON.stringify(orderData)); // Save order details in local storage
-            window.location.href = "order-confirmation.html";
-
-            // window.location.href = "order-confirmation.html"; // Redirect to order confirmation page
-            // // Pass order details to the next
         }
 
 
