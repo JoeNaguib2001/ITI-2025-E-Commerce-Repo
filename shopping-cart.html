@@ -6,117 +6,242 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>shopping cart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="./css/shoppingcartstyle.css">
+    <link rel="stylesheet" href="./css/main-colors.css">
+    <!-- <link rel="stylesheet" href="./css/shopstyle.css"> -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
     <style>
+        *{
+            margin: 0 !important;
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        .action {
+            color: #2162A1;
+            border-left: 1px solid black;
+            padding: 10px 20px;
+            transition: .3s;
+        }
+
+        @media (max-width: 768px) {
+            .action {
+                padding: 5px 4px;
+                font-size: 12px;
+            }
+        }
+
+        .action:nth-of-type(1) {
+            border-left: none;
+        }
 
 
+        .action:nth-of-type(1):hover {
+            background-color: red;
+            color: white;
+        }
+
+        .action:hover {
+            background-color: #2162A1;
+            color: white;
+            cursor: pointer;
+        }
+
+        .product-quantity {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 30px;
+            border: 5px solid gold;
+            margin-top: 10px auto;
+            gap: 15px;
+            padding: 5px;
+            transition: .3s;
+            min-width: 30%;
+            max-width: 50%;
+        }
+
+        @media (max-width: 768px) {
+            .product-quantity {
+                max-width: 100%;
+            }
+        }
+
+        .product-quantity span::before,
+        .product-quantity span::after {
+            content: "|";
+            /* إضافة الفاصل */
+            color: black;
+            /* لون الفاصل */
+            font-weight: bold;
+            position: absolute;
+        }
+
+        .product-quantity span::before {
+            left: -6px;
+            /* تحريك الفاصل قبل الرقم */
+        }
+
+        .product-quantity span::after {
+            right: -6px;
+            /* تحريك الفاصل بعد الرقم */
+        }
+
+
+
+
+        .product-quantity i {
+            cursor: pointer;
+        }
+
+        .product-quantity i:hover {
+            color: gold;
+        }
+
+        @media (max-width: 768px) {
+            .product-quantity {
+                min-width: 15%;
+                padding: 5px 5px;
+            }
+        }
+
+        .product-quantity span {
+            position: relative;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 0 12px;
+            /* مسافة حول الرقم */
+        }
+
+        .product-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .product-details {
+            padding-top: 5%;
+        }
+
+
+        @media (max-width: 768px) {
+            .product-details {
+                margin: 0;
+                padding: 5% 5% 20px 15% !important;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+
+
+        }
+
+        .product-image {
+            border: 1px solid black;
+        }
+
+        .row img {
+            height: 400px;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .row img {
+                width: 100%;
+                height: 200px;
+            }
+        }
+
+        p,
+        h5 {
+            font-weight: 500;
+        }
+
+        @media (max-width: 990px) {
+
+            p,
+            span,
+            i,
+            button {
+                font-size: 10px !important;
+            }
+
+            h5 {
+                font-size: 15px !important;
+            }
+        }
     </style>
 </head>
+<!-- <div class="image-div"><img src="${item.image}" alt="${item.title}"></div>
+<div class="cart-item-info">
+    <div style="display: flex; justify-content: space-between;">
+        <h2 class="product-name">${item.title}</h2>
+        <span class="product-price">Price: $${item.price}</span>
+    </div>
+    <div>
+        <span class="real-quantity">In Stock</span>
+        <br>
+        <span class="delivery-status">Eligible for Free delivery</span>
+        <br>
+        <span class="details">Details</span>
+        <br>
+        <div class="product-quantity">
+            <i class="fa-solid fa-minus decrease-quantity" data-index="${index}"></i>
+            <span>${item.quantity}</span>
+            <i class="fa-solid fa-plus increase-quantity" data-index="${index}"></i>
+        </div>
+        <a class="action remove-item" href="#" data-index="${index}">Delete</a>
+        <a class="action save-later" href="#">Save for later</a>
+        <a class="action share" href="#">Share</a>
+    </div>
+</div> -->
 
 <body>
-    <div id="navbar"></div>
-    <div class="container">
-        <section class="left-side">
-            <h1 class="title">Shopping Cart <span class="number-of-items">0</span></h1>
-            <section class="cart-items-container">
-                <div class="cart-item">
-                    <div class="image-div"><img src="Images/20240815_105001.jpg" alt=""></div>
-                    <div class="cart-item-info">
-                        <div style="display: flex; justify-content: space-between;">
-                            <h2 class="product-name">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
-                                laudantium
-                                amet dolores voluptas eos aliquid ut delectus laboriosam quaerat at!</h2>
-                            <span class="product-price ">Price: $100</span>
-                        </div>
-                        <div>
-                            <span class="real-quantity ">In Stock</span>
-                            <br>
-                            <span class="delivery-status">Eligible for Free delivery</span>
-                            <br>
-                            <span class="details">Details</span>
-                            <br>
-                            <div class="product-quantity"><i class="fa-solid fa-trash"></i><span>1</span><i
-                                    class="fa-solid fa-plus"></i></div>
-                            <a class="item">Delete</a>
-                            <a class="item">Save for later</a>
-                            <a class="item">Share</a>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="cart-item">
-                    <div class="image-div"><img src="Images/20240815_105001.jpg" alt=""></div>
-                    <div class="cart-item-info">
-                        <div style="display: flex; justify-content: space-between;">
-                            <h2 class="product-name">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
-                                laudantium
-                                amet dolores voluptas eos aliquid ut delectus laboriosam quaerat at!</h2>
-                            <span class="product-price ">Price: $100</span>
-                        </div>
-                        <div>
-                            <span class="real-quantity ">In Stock</span>
-                            <br>
-                            <span class="delivery-status">Eligible for Free delivery</span>
-                            <br>
-                            <span class="details">Details</span>
-                            <br>
-                            <div class="product-quantity"><i class="fa-solid fa-trash"></i><span>1</span><i
-                                    class="fa-solid fa-plus"></i></div>
-                            <a class="item">Delete</a>
-                            <a class="item">Save for later</a>
-                            <a class="item">Share</a>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="cart-item">
-                    <div class="image-div"><img src="Images/20240815_105001.jpg" alt=""></div>
-                    <div class="cart-item-info">
-                        <div style="display: flex; justify-content: space-between;">
-                            <h2 class="product-name">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
-                                laudantium
-                                amet dolores voluptas eos aliquid ut delectus laboriosam quaerat at!</h2>
-                            <span class="product-price ">Price: $100</span>
-                        </div>
-                        <div>
-                            <span class="real-quantity ">In Stock</span>
-                            <br>
-                            <span class="delivery-status">Eligible for Free delivery</span>
-                            <br>
-                            <span class="details">Details</span>
-                            <br>
-                            <div class="product-quantity"><i class="fa-solid fa-trash"></i><span>1</span><i
-                                    class="fa-solid fa-plus"></i></div>
-                            <a class="item">Delete</a>
-                            <a class="item">Save for later</a>
-                            <a class="item">Share</a>
-                        </div>
-                    </div>
-                </div>
+    <div class="container-fluid">
+        <div class="row m-5 main-container">
+            <div class="col-12 col-md-9" style=" padding:0; margin:0; border:2px solid black;">
+                <div class="cart-items" style="margin: 0; padding: 0;">
 
-            </section>
-        </section>
-        <section class="right-side">
-            <div class="order-summary">
-                <h1>Order Summary</h1>
-                <p id="subtotal"></p>
-                <p id="tax"></p>
-                <p id="total"></p>
+                </div>
             </div>
-            <button class="checkout-btn">Checkout</button>
-
-        </section>
+            <div class="col-12 col-md-3" style="padding: 20px; margin: 0; border:2px solid black;">
+                <div class=" cart-summary"
+                    style=" padding:20px 5px; display: flex; flex-direction: column; align-items: center;">
+                    <h5 style="border: 2px solid black; width: 100%; text-align: center; padding: 10px;">Cart Summary
+                    </h5>
+                    <p class="cart-summary-total m-3">Total Items: 1</p>
+                    <p id="subtotal" class="m-3">Subtotal = $10.00</p>
+                    <p id="tax" class="m-3">Tax = $1.00</p>
+                    <p id="total" class="m-3">Total = $11.00</p>
+                    <button class="btn btn-primary checkout-btn m-3" style="min-width: 60%;">Checkout</button>
+                </div>
+            </div>
+            <!-- Repeat for other products -->
+        </div>
     </div>
     <script src="./navbar/navbar.js"></script>
-
+    <script src="./js/bootstrap.bundle.min.js"></script>
     <script>
+        let cartItems;
+        function getCurrentLoggedInUserCartOrderedItems() {
+            let username = localStorage.getItem("username");
+            let carts = JSON.parse(localStorage.getItem("carts")) || [];
+            let userCart = carts.find(cart => cart.username === username);
+            let cartItems = userCart ? userCart.order : [];
+            return cartItems;
+        }
+
         function loadCartItems() {
-            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-            const cartContainer = document.querySelector(".cart-items-container");
+            cartItems = getCurrentLoggedInUserCartOrderedItems(); // استرجاع العناصر من السلة
+            const cartContainer = document.querySelector(".cart-items");
             cartContainer.innerHTML = ""; // مسح المحتويات القديمة
 
             if (cartItems.length === 0) {
-                cartContainer.innerHTML = "<h2>السلة فارغة 🛒</h2>";
+                cartContainer.innerHTML = "<h2>The Cart Is Empty 🛒</h2>";
+                cartContainer.style.textAlign = "center";
                 return;
             }
 
@@ -125,31 +250,30 @@
                 cartItemDiv.classList.add("cart-item");
 
                 cartItemDiv.innerHTML = `
-                            <div class="image-div"><img src="${item.image}" alt="${item.title}"></div>
-                            <div class="cart-item-info">
-                                <div style="display: flex; justify-content: space-between;">
-                                    <h2 class="product-name">${item.title}</h2>
-                                    <span class="product-price">Price: $${item.price}</span>
-                                </div>
-                                <div>
-                                    <span class="real-quantity">In Stock</span>
-                                    <br>
-                                    <span class="delivery-status">Eligible for Free delivery</span>
-                                    <br>
-                                    <span class="details">Details</span>
-                                    <br>
-                                    <div class="product-quantity">
-                                        <i class="fa-solid fa-minus decrease-item" data-index="${index}"></i>
-                                        <span>${item.quantity}</span>
-                                        <i class="fa-solid fa-plus increase-quantity" data-index="${index}"></i>
+                                <div class="cart-item row" data-index="0" style="padding: 20px 40px;">
+                                    <div class="product-image col-6 col-md-4">
+                                        <img src="${item.image}" alt="Product 1" >
                                     </div>
-                                    <a class="item remove-item" data-index="${index}">Delete</a>
-                                    <a class="item save-later">Save for later</a>
-                                    <a class="item share">Share</a>
+                                    <div class="product-details col-6 col-md-8">
+                                        <p style="text-align: center;">${item.title}</p>
+                                        <p style="text-align: center;"class="price">Price: $${item.price}</p>
+                                        <p style="text-align: center;"class="real-quantity">In Stock</p>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                        <div class="product-quantity">
+                                            <i class="fa-solid fa-minus decrease-quantity" data-index="${index}"></i>
+                                            <span>${item.quantity}</span>
+                                            <i class="fa-solid fa-plus increase-quantity" data-index="${index}"></i>
+                                    </div>
                                 </div>
+                            <div class="product-actions">
+                                <a class="action remove-item" href="#" data-index="${index}">Delete</a>
+                                <a class="action save-later" href="#">Save</a>
+                                <a class="action share" href="#">Share</a>
                             </div>
-                            
-                        `;
+                        </div>
+                    </div>
+                    <hr style="height: 5px; background-color: black; border: none;">
+                            `;
 
                 cartContainer.appendChild(cartItemDiv);
             });
@@ -158,7 +282,7 @@
         }
 
         function setupCartActions() {
-            document.querySelectorAll(".decrease-item").forEach(btn => {
+            document.querySelectorAll(".decrease-quantity").forEach(btn => {
                 btn.addEventListener("click", function () {
                     let index = this.dataset.index;
                     decreaseQuantity(index);
@@ -172,11 +296,38 @@
                 });
             });
 
-            // document.getElementById("clear-cart").addEventListener("click", clearCart);
+            document.querySelectorAll(".remove-item").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    let index = this.dataset.index;
+                    deleteItem(index);
+                });
+            });
         }
 
+        function increaseQuantity(index) {
+            let cartItems = getCurrentLoggedInUserCartOrderedItems(); // استرجاع العناصر من السلة
+
+            cartItems[index].quantity += 1; // زيادة الكمية بمقدار 1
+
+            let username = localStorage.getItem("username");
+            let carts = JSON.parse(localStorage.getItem("carts")) || [];
+            let userCart = carts.find(cart => cart.username === username);
+
+            if (userCart) {
+                userCart.order = cartItems; // تحديث الطلب الخاص بالمستخدم
+            } else {
+                carts.push({ username: username, order: cartItems }); // إضافة مستخدم جديد إذا لم يكن موجودًا
+            }
+
+            localStorage.setItem("carts", JSON.stringify(carts));
+            loadCartItems();
+            updateOrderSummary(); // تحديث ملخص الطلب بعد التعديل
+            updateCartCount();
+        }
+
+
         function decreaseQuantity(index) {
-            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartItems = getCurrentLoggedInUserCartOrderedItems(); // استرجاع العناصر من السلة
 
             if (cartItems[index].quantity > 1) {
                 cartItems[index].quantity -= 1; // تقليل الكمية بمقدار 1
@@ -184,15 +335,41 @@
                 cartItems.splice(index, 1); // حذف العنصر إذا وصلت الكمية إلى 0
             }
 
-            localStorage.setItem("cart", JSON.stringify(cartItems));
+            let username = localStorage.getItem("username");
+            let carts = JSON.parse(localStorage.getItem("carts")) || [];
+            let userCart = carts.find(cart => cart.username === username);
+
+            if (userCart) {
+                userCart.order = cartItems; // تحديث الطلب الخاص بالمستخدم
+            } else {
+                carts.push({ username: username, order: cartItems }); // إضافة مستخدم جديد إذا لم يكن موجودًا
+            }
+
+            localStorage.setItem("carts", JSON.stringify(carts));
             loadCartItems();
+            updateOrderSummary(); // تحديث ملخص الطلب بعد التعديل
+            updateCartCount();
         }
 
-        function increaseQuantity(index) {
-            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-            cartItems[index].quantity += 1;
-            localStorage.setItem("cart", JSON.stringify(cartItems));
+        function deleteItem(index) {
+            let cartItems = getCurrentLoggedInUserCartOrderedItems(); // استرجاع العناصر من السلة
+
+            cartItems.splice(index, 1); // حذف العنصر بناءً على الفهرس
+
+            let username = localStorage.getItem("username");
+            let carts = JSON.parse(localStorage.getItem("carts")) || [];
+            let userCart = carts.find(cart => cart.username === username);
+
+            if (userCart) {
+                userCart.order = cartItems; // تحديث الطلب الخاص بالمستخدم
+            } else {
+                carts.push({ username: username, order: cartItems }); // إضافة مستخدم جديد إذا لم يكن موجودًا
+            }
+
+            localStorage.setItem("carts", JSON.stringify(carts));
             loadCartItems();
+            updateOrderSummary(); // تحديث ملخص الطلب بعد التعديل
+            updateCartCount();
         }
 
         function clearCart() {
@@ -201,7 +378,8 @@
         }
 
         function updateOrderSummary() {
-            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            updateCartSummary(); // تحديث ملخص السلة عند تحميل الصفحة
+            let cartItems = getCurrentLoggedInUserCartOrderedItems(); // استرجاع العناصر من السلة
             let subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             let tax = subtotal * 0.1; // نفترض 10% ضريبة
             let total = subtotal + tax;
@@ -211,21 +389,94 @@
             document.getElementById("total").textContent = `Total = $${total.toFixed(2)}`;
         }
 
-        function loadShoppingCartNumber() {
-            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-            let totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-            document.querySelector(".number-of-items").textContent = totalItems;
+
+        function getCurrentLoggedInuserCartItemsCount() {
+            let cart = getCurrentLoggedInUserCartOrderedItems();
+            let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            return totalItems;
         }
 
+        function updateCartSummary() {
+            let cartSummaryTotal = document.querySelector(".cart-summary-total");
+            cartSummaryTotal.innerHTML = "Total Items Count: " + getCurrentLoggedInuserCartItemsCount(); // تحديث عدد العناصر في السلة
+        }
+
+        loadCartItems();
+        updateOrderSummary();
+
         // تحديث البيانات عند تحميل الصفحة
-        document.addEventListener("DOMContentLoaded", () => {
-            loadCartItems();
-            updateOrderSummary();
-            loadShoppingCartNumber();
+        // document.addEventListener("DOMContentLoaded", () => {
+        //     loadCartItems();
+        //     updateOrderSummary();
+        // });
+
+        document.querySelector(".checkout-btn").addEventListener("click", (event) => {
+            event.preventDefault(); // يمنع إعادة تحميل الصفحة
+            Checkout();
         });
+
+        async function Checkout() {
+            let cartItems = getCurrentLoggedInUserCartOrderedItems(); // استرجاع العناصر من السلة
+            if (cartItems.length === 0) {
+                alert("Your cart is empty. Please add items to your cart before checking out.");
+                return;
+            }
+
+            let username = localStorage.getItem("username");
+            if (!username) {
+                ShowBootstrapToast("❌ يجب تسجيل الدخول أولاً!", "danger");
+                return;
+            }
+
+
+            let orderData = {
+                orderId: Date.now(),
+                username: username,
+                orderDate: new Date().toISOString().split('T')[0], // تاريخ اليوم
+                estimatedDelivery: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // +3 أيام
+                order: cartItems
+            };
+
+            try {
+                let response = await fetch("http://localhost:3000/checkout", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(orderData)
+                });
+
+                let result = await response.json();
+
+                if (response.ok) {
+                    ShowBootstrapToast(result.message, "success");
+                } else {
+                    ShowBootstrapToast(result.message, "danger");
+                }
+            } catch (error) {
+                ShowBootstrapToast("❌ حدث خطأ أثناء إرسال الطلب", "danger");
+            }
+
+            // Clear the current user's cart after checkout
+            // let carts = JSON.parse(localStorage.getItem("carts")) || [];
+            // let userCartIndex = carts.findIndex(cart => cart.username === username);
+
+            // if (userCartIndex !== -1) {
+            //     carts[userCartIndex].order = []; // Clear the order for the current user
+            //     localStorage.setItem("carts", JSON.stringify(carts));
+            // }
+            // updateCartCount(); // Update the cart count
+            // Pass order details to the next page
+
+            localStorage.setItem("orderDetails", JSON.stringify(orderData)); // Save order details in local storage
+            window.location.href = "order-confirmation.html";
+
+            // window.location.href = "order-confirmation.html"; // Redirect to order confirmation page
+            // // Pass order details to the next
+        }
+
+
     </script>
-
-
 </body>
 
 </html>
+<!-- <i class="fa-solid fa-minus decrease-quantity" data-index="${index}"></i>
+<i class="fa-solid fa-plus increase-quantity" data-index="${index}"></i> -->

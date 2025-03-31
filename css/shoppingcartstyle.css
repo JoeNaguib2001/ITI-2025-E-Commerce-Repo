@@ -1,9 +1,10 @@
-        *{
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
+
 
         body {
             background-color: #EAEDED;
@@ -17,13 +18,13 @@
 
         .container {
             display: flex;
-            margin: 80px 225px;
+            margin: 80px 0;
             background-color: #EAEDED;
             border-radius: 10px;
         }
 
         .container .left-side {
-            width: 70%;
+            /* width: 70%; */
             padding: 20px;
             background-color: #ffffff;
             border: 1px solid black;
@@ -45,20 +46,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 30%;
-            height: 500px;
+            width: 10%;
+            height: 300px;
             margin: 0;
+            margin-left: 10%;
         }
 
         .cart-item-info {
-            display: inline-block;
-            width: 70%;
+            display: inline-flex;
+            width: 90%;
             position: relative;
         }
 
 
 
-        img {
+        .container img {
             margin: 50px;
             width: 250px;
             border-radius: 5px;
@@ -78,18 +80,39 @@
         .product-price {
             margin: 80px 20px 10px 0;
             font-size: 20px;
-
+            min-width: 150px;
         }
 
-        .item {
-            margin: 20px;
+        .action {
             padding: 10px 20px;
+            margin: 0;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             font-size: 15px;
             color: #2162A1;
             position: relative;
             height: 30px;
             border-left: 1px solid black;
+            transition: .3s;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 100px;
+        }
+
+        .action:nth-of-type(1) {
+            border-left: none;
+        }
+
+
+        .action:nth-of-type(1):hover {
+            background-color: red;
+            color: white;
+        }
+
+        .action:hover {
+            background-color: #2162A1;
+            color: white;
+            cursor: pointer;
         }
 
 
@@ -98,6 +121,10 @@
             padding: 20px;
             background-color: #ffffff;
             border: 1px solid black;
+        }
+
+        .right-side h1 {
+            min-width: 150px;
         }
 
         .product-quantity {
@@ -175,15 +202,12 @@
 
         .product-quantity span::before {
             left: -12px;
-            /* تحريك الفاصل قبل الرقم */
         }
 
         .product-quantity span::after {
             right: -12px;
-            /* تحريك الفاصل بعد الرقم */
         }
 
-        /* تحسين شكل الأزرار */
         .product-quantity i {
             cursor: pointer;
             font-size: 20px;
@@ -207,13 +231,27 @@
             height: 300px;
         }
 
-        .right-side button {
+        .right-side .checkout-btn {
             display: block;
-            width: 300px;
+            width: 90%;
             margin: 10px auto;
             font-size: 20px;
             padding: 10px 20px;
             border-radius: 10px;
             border: none;
             background-color: green;
+            color: white;
+            transition: .3s;
         }
+
+        .right-side .checkout-btn:hover {
+            background-color: darkgreen;
+            color: white;
+            cursor: pointer;
+        }
+
+        .cart-item a {
+            text-decoration: none;
+        }
+
+        @media(min-width: 1400px) {}

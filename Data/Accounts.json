@@ -1,22 +1,22 @@
 [
   {
-    "fullname": "Youssef Mohsen",
+    "fullName": "Youssef Mohsen",
     "email": "mohsenyoussef233@gmail.com",
     "username": "Joe2024",
     "password": "123456Yy####",
     "usertype": "user"
   },
   {
-    "fullname": "Youssef Mohsen",
+    "fullName": "Youssef Mohsen",
     "email": "mohsenyoussef233@gmail.com",
-    "username": "123456789",
-    "password": "123456789",
+    "username": "1234",
+    "password": "1234",
     "usertype": "admin"
   },
   {
     "fullName": "jojo",
-    "username": "asdasdasd",
-    "password": "asdasdasd",
+    "username": "123",
+    "password": "123",
 
     "email": "jojo@jij.com",
     "usertype": "user"

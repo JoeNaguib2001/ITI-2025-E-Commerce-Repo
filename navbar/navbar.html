@@ -8,12 +8,227 @@
     <link rel="stylesheet" href="./css/navstyle.css">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <title>Responsive Navbar</title>
+    <style>
+        input:focus {
+            box-shadow: none !important;
+        }
+
+        button:hover i {
+            color: #f0c14b !important;
+        }
+
+        /* تعديل سلوك القائمة المنسدلة */
+        .dropdown:hover .dropdown-menu,
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .dropdown:hover .dropdown-menu,
+        .dropdown-menu.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        .dropdown-item:hover {
+            background-color: #007bff !important;
+            color: white !important;
+            transition: .1s;
+        }
+
+        .hello-span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
+            max-width: 200px;
+            margin: 0 10px;
+        }
+
+
+        /* تحسين شكل الزر في الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px;
+            }
+
+            /* تكبير حجم زر القائمة */
+            .navbar-toggler {
+                border: none;
+                font-size: 1.5rem;
+                padding: 8px;
+            }
+
+            /* جعل عناصر القائمة تأخذ حجم كامل */
+            .navbar-nav {
+                text-align: center;
+            }
+
+            .nav-item {
+                margin: 5px 0;
+            }
+        }
+
+        @media (min-width: 990px) and (max-width: 1200px) {
+            .products-count {
+                top: 20px;
+                right: -50px;
+            }
+        }
+
+        @media (max-width: 990px) {
+            .products-count {
+                padding: 3px !important;
+                top: 20px;
+                right: -40px;
+            }
+
+            .search-btn {
+                display: block !important;
+                width: 60px !important;
+                margin-top: 5px !important;
+            }
+
+            /* تأكد من ظهور زر التوجّل دائمًا */
+            .navbar-toggler {
+                display: block !important;
+                position: absolute;
+                right: 10px;
+                /* تحريكه لليمين */
+                top: 10px;
+                z-index: 1050;
+                /* اجعله فوق العناصر الأخرى */
+            }
+
+            /* تعديل عرض القائمة عند الفتح */
+            .navbar-collapse {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                /* ترتيب العناصر بشكل عمودي عند الفتح */
+                align-items: flex-start;
+                background: rgba(0, 0, 0, 0.9);
+                /* خلفية داكنة عند الفتح */
+                padding: 10px;
+                position: absolute;
+                top: 50px;
+                /* تفادي تغطية الهيدر */
+                left: 0;
+                right: 0;
+                z-index: 1040;
+            }
+
+            /* ضبط البحث ليبقى في صف واحد */
+            .navbar .d-flex {
+                flex-wrap: nowrap !important;
+            }
+
+            /* تصغير عرض مربع البحث */
+            #search-box {
+                min-width: 300px !important;
+                font-size: 14px;
+            }
+
+            /* تقليل المسافات بين العناصر */
+            .navbar .me-3 {
+                margin-right: 5px !important;
+            }
+
+            .navbar .ms-4,
+            .navbar .me-4 {
+                margin: 0 5px !important;
+            }
+        }
+
+        @media (max-width:680px) {
+
+            /* تأكد من ظهور زر التوجّل دائمًا */
+            .navbar-toggler {
+                display: block !important;
+                position: absolute;
+                right: 10px;
+                /* تحريكه لليمين */
+                top: 10px;
+                z-index: 1050;
+                /* اجعله فوق العناصر الأخرى */
+            }
+
+            /* تعديل عرض القائمة عند الفتح */
+            .navbar-collapse {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                /* ترتيب العناصر بشكل عمودي عند الفتح */
+                align-items: flex-start;
+                background: rgba(0, 0, 0, 0.9);
+                /* خلفية داكنة عند الفتح */
+                padding: 10px;
+                position: absolute;
+                top: 50px;
+                /* تفادي تغطية الهيدر */
+                left: 0;
+                right: 0;
+                z-index: 1040;
+            }
+
+            /* ضبط البحث ليبقى في صف واحد */
+            .navbar .d-flex {
+                flex-wrap: nowrap !important;
+            }
+
+            /* تصغير عرض مربع البحث */
+            #search-box {
+                min-width: 300px !important;
+                font-size: 14px;
+            }
+
+            /* تقليل المسافات بين العناصر */
+            .navbar .me-3 {
+                margin-right: 5px !important;
+            }
+
+            .navbar .ms-4,
+            .navbar .me-4 {
+                margin: 0 5px !important;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .products-count {
+                top: 20px;
+                right: -50px;
+            }
+        }
+
+
+
+        .fa-solid.fa-cart-shopping {
+            color: white;
+            font-size: 30px;
+            margin: 20px;
+        }
+
+        .fa-solid.fa-cart-shopping:hover {
+            color: #f0c14b;
+            transition: .3s;
+        }
+
+        nav {
+            min-height: 50px !important;
+        }
+    </style>
 </head>
 
 <body>
-
     <!-- Toast Container -->
-    <div class="toast-container position-fixed top-0 end-0 p-3" id="elkokos">
+    <!-- <div class="toast-container position-fixed top-0 end-0 p-3">
         <div id="bootstrapToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <strong class="me-auto" id="toastTitle">Notification</strong>
@@ -24,69 +239,90 @@
                 Message goes here.
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- End Toast Container -->
+    <!-- تحسين النافبار ليكون ريسبونسيف باستخدام Bootstrap -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark container-fluid">
+        <div class="container-fluid">
+            <!-- الشعار -->
+            <a class="navbar-brand" href="shop.html">
+                <img src="Images/pngimg.com - amazon_PNG24.png" class="logo" id="logo" height="30">
+            </a>
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item d-flex align-items-center">
+                    <i class="fa-solid fa-location-dot ms-3 me-1 text-white"></i>
+                    <span class="text-white">Deliver to - المنيا</span>
+                </li>
+            </ul>
+            <!-- زر القائمة للشاشات الصغيرة -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- مربع البحث -->
+                <form class="d-flex flex-grow-1">
+                    <input class="me-4 ms-4 flex-grow-1" id="search-box" type="search"
+                        placeholder="What are you looking for?" aria-label="Search">
+                    <button class="btn btn-outline-light search-btn" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+                <!-- معلومات المستخدم -->
+                <div class="d-flex align-items-center">
+
+                    <span class="me-3 text-white hello-span">Hello, User</span>
 
 
-    <nav>
-        <div style="display: flex; align-items: center;">
-            <a href="shop.html"><img src="Images/amazon.jpeg" class="logo" id="logo"></a>
-            <div class="location-info">
-                <i class="fa-solid fa-location-dot"></i>
-                <span>Deliver to - المنيا</span>
+                    <!-- القائمة المنسدلة للإعدادات -->
+                    <div class="dropdown me-3 admin-dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Settings
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="./admins/wishlists.html">Manage Orders</a></li>
+                            <li><a class="dropdown-item" href="./admins/orders.html">Manage Warehouse</a></li>
+                            <li><a class="dropdown-item" href="./admins/admins-panel.html">Manage Admins</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger login-btn" href="#" onclick="toggleSingedIn()">Sign
+                                    In</a></li>
+                        </ul>
+                    </div>
+                    <!-- القائمة المنسدلة للإعدادات -->
+                    <div class="dropdown me-3 user-dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Settings
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="./users/orders.html">Orders</a></li>
+                            <li><a class="dropdown-item" href="./users/wishlists.html">Wish List</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger login-btn" href="#" onclick="toggleSingedIn()">Sign
+                                    In</a></li>
+                        </ul>
+                    </div>
+                    <!-- أيقونة عربة التسوق -->
+                    <a onclick="goToCartIfSignedIn()" class="shopping-cart-link text-white position-relative me-2"
+                        href="#">
+                        <i class="fa-solid fa-cart-shopping fs-4"></i>
+                        <span
+                            class="position-absolute  translate-middle badge rounded-pill bg-danger products-count me-5">
+                            0
+                        </span>
+                    </a>
+                </div>
             </div>
-
-        </div>
-        <div class="search-div">
-            <input id="search-box" type="search" placeholder="What are you looking for?">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-        <div class="user-info">
-            <span class="hello-span">Hello,User</span>
-
-
-
-            <div class="dropdown  admin-dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button">
-                    Settings
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end ">
-                    <li><a class="dropdown-item" href="./admins/customers-orders.html">Manage Orders</a></li>
-                    <li><a class="dropdown-item" href="./manage-warehouse.html">Manage Warehouse</a></li>
-                    <li><a class="dropdown-item" href="./manage-admins">Manage Other Admins</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item text-danger login-btn" href="#" onclick="toggleSingedIn()">Sign In</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="dropdown  user-dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button">
-                    Settings
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end ">
-                    <li><a class="dropdown-item" href="./users/orders.html">Orders</a></li>
-                    <li><a class="dropdown-item" href="./users/wishlists.html">Wish List</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item text-danger login-btn" href="#" onclick="toggleSingedIn()">Sign In</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- <a id="login-btn" class="login-btn" onclick="toggleSingedIn()">Sign in</a> -->
-
-
-            <!-- <a>Pending orders</a> -->
-            <a onclick="goToCartIfSignedIn()" class="shopping-cart-link">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="products-count">0</span></a>
-
         </div>
     </nav>
+
+    <!-- تضمين Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Load Boostrap JS -->
     <script src="./js/bootstrap.bundle.min.js">
 

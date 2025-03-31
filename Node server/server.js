@@ -5,7 +5,8 @@ const path = require("path");
 const app = express();
 
 // تحديد مسار ملف الحسابات
-const accountsFilePath = path.join(__dirname, "../Accounts.json");
+const accountsFilePath = path.join(__dirname, "../Data/Accounts.json");
+
 
 app.use(express.json()); // للسماح بقراءة بيانات JSON من الطلبات
 app.use(cors());
@@ -45,6 +46,41 @@ app.post("/signup", (req, res) => {
         });
     });
 });
+
+
+const ordersFilePath = path.join(__dirname, "../Data/Orders.json");
+
+app.post("/checkout", (req, res) => {
+    const orderId = Date.now(); // توليد ID فريد للطلب
+    const orderData = {
+        orderId,
+        username: req.body.username,
+        orderDate: req.body.orderDate,
+        estimatedDelivery: req.body.estimatedDelivery,
+        order: req.body.order
+    };
+
+    fs.readFile(ordersFilePath, "utf8", (err, data) => {
+        if (err) {
+            return res.status(500).json({ message: "❌ خطأ في قراءة البيانات" });
+        }
+
+        let orders = [];
+        if (data) {
+            orders = JSON.parse(data);
+        }
+
+        orders.push(orderData); // إضافة الطلب الجديد
+
+        fs.writeFile(ordersFilePath, JSON.stringify(orders, null, 2), (err) => {
+            if (err) {
+                return res.status(500).json({ message: "❌ خطأ في حفظ الطلب" });
+            }
+            res.status(201).json({ message: "✅ تم إتمام الطلب بنجاح!" });
+        });
+    });
+});
+
 
 // تشغيل السيرفر
 app.listen(3000, () => {

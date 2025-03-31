@@ -26,7 +26,7 @@ async function loadNavbar() {
 
         updateCartCount();
         updateSignButton();
-        updateSpans(getStoredName());
+        getStoredName().then(name => updateHelloCustomerName(name));
 
         setupSearchFunctionality();
 
@@ -42,10 +42,16 @@ function updateCartCount() {
     }
     let productsCount = document.querySelector(".products-count");
     if (productsCount) {
-        let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-        let totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-        productsCount.innerHTML = totalItems;
-        console.log("✅ تم تحديث عدد المنتجات في السلة:", totalItems);
+        let username = localStorage.getItem("username");
+        let carts = JSON.parse(localStorage.getItem("carts")) || [];
+        let userCart = carts.find(cart => cart.username === username);
+
+        if (userCart && userCart.order) {
+            let totalItems = Object.values(userCart.order).reduce((sum, item) => sum + item.quantity, 0);
+            productsCount.innerHTML = totalItems;
+        } else {
+            productsCount.innerHTML = 0;
+        }
     }
 }
 
@@ -65,14 +71,15 @@ function setupSearchFunctionality() {
 
         let query = searchBar.value.trim().toLowerCase();
 
-        debounceTimer = setTimeout(() => {
-            if (document.body.classList.contains("shop-page")) {
-                searchProducts(query);
-            } else {
-                localStorage.setItem("searchQuery", query);
-                window.location.href = "shop.html";
-            }
-        }, 2000); // ⏳ تأخير التنفيذ لمدة ثانيتين
+        searchProducts(query);
+
+        // debounceTimer = setTimeout(() => {
+        //     if (document.body.classList.contains("shop-page")) {
+        //     } else {
+        //         localStorage.setItem("searchQuery", query);
+        //         window.location.href = "shop.html";
+        //     }
+        // }, 2000); // ⏳ تأخير التنفيذ لمدة ثانيتين
     });
 
     // ✅ تشغيل البحث مباشرة لو جاي من صفحة تانية
@@ -103,12 +110,26 @@ function updateSignButton() {
 }
 
 // ✅ جلب الاسم من `localStorage`
-function getStoredName() {
-    return localStorage.getItem("username") || "Default User";
+async function getStoredName() {
+    const currentUser = localStorage.getItem("username");
+    if (currentUser) {
+        try {
+            const response = await fetch("./Data/Accounts.json");
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            const accounts = await response.json();
+            const user = accounts.find(account => account.username === currentUser);
+            if (user && user.fullName) {
+                return user.fullName.split(" ")[0]; // Return the first name
+            }
+        } catch (error) {
+            return "Default User"; // Return default name in case of error
+        }
+    }
+    return "Default User"; // Return default name if no user is found
 }
 
 // ✅ تحديث الاسم في النافبار
-function updateSpans(name) {
+function updateHelloCustomerName(name) {
     let span = document.querySelector("span.hello-span");
     if (span) span.innerHTML = `Hello, ${name}`;
 }
@@ -150,7 +171,7 @@ function toggleMenu() {
 
 
 // Choose the right dropdown menu based on the user role
-fetch("Accounts.json")
+fetch("./Data/Accounts.json")
     .then(response => {
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         return response.json();
@@ -159,7 +180,7 @@ fetch("Accounts.json")
         const currentUser = localStorage.getItem("username");
         const user = accounts.find(account => account.username === currentUser);
         if (user) {
-            currentUserRole = user.role;
+            currentUserRole = user.usertype;
             if (currentUserRole === "admin") {
                 document.querySelector(".admin-dropdown").style.display = "block";
                 document.querySelector(".user-dropdown").style.display = "none";
@@ -167,7 +188,8 @@ fetch("Accounts.json")
                 document.querySelector(".admin-dropdown").style.display = "none";
                 document.querySelector(".user-dropdown").style.display = "block";
             }
-        } else {
+        }
+        else {
             document.querySelector(".admin-dropdown").style.display = "none";
             document.querySelector(".user-dropdown").style.display = "block";
         }

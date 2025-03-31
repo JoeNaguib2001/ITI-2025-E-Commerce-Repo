@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shopping cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <style>
+        h2,
+        h4 {
+            text-align: center;
+            margin-top: 20px !important;
+        }
+
+        .row,
+        body {
+            background-color: #232F3E !important;
+        }
+
+        .row {
+            height: 60vh;
+            color: white;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center align-content-center">
+            <h2>Your Order Has Been Confirmed 👌✌</h2>
+            <h4 id="order-id"></h4>
+            <h4 id="total-paid"></h4>
+            <h4>Thank you for shopping with us!</h4>
+            <h4>We hope to see you again soon!</h4>
+        </div>
+    </div>
+
+    <script src="./navbar/navbar.js"></script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Get the order number from local storage and display it
+        let order = localStorage.getItem("orderDetails");
+        order = JSON.parse(order);
+        document.getElementById("order-id").innerHTML = `Order ID: ${order.orderId}`;
+        let totalPrice = order.order.reduce((sum, item) => sum + item.price, 0);
+        document.getElementById("total-paid").innerHTML = `You Paid a Total Of $${totalPrice}`;
+        // Clear the order details from local storage after displaying it
+        localStorage.removeItem("orderDetails");
+
+    </script>
+</body>
+
+
+</html>

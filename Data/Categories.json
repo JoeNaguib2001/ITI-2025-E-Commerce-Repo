@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "name": "Electronics",
+    "description": "Electronic Items"
+  },
+  {
+    "id": 2,
+    "name": "Men's Clothing",
+    "description": "Clothes Items"
+  },
+  {
+    "id": 3,
+    "name": "Women's Clothing",
+    "description": "Books Items"
+  },
+  {
+    "id": 4,
+    "name": "Jewelery",
+    "description": "Books Items"
+  },
+  {
+    "id": 5,
+    "name": "Books",
+    "description": "Books Items"
+  },
+  {
+    "id": 6,
+    "name": "Toys",
+    "description": "Toys Items"
+  },
+  {
+    "id": 7,
+    "name": "Sports",
+    "description": "Sports Items"
+  },
+  {
+    "id": 8,
+    "name": "Health",
+    "description": "Health Items"
+  },
+  {
+    "id": 9,
+    "name": "Beauty",
+    "description": "Beauty Items"
+  },
+  {
+    "id": 10,
+    "name": "Automotive",
+    "description": "Automotive Items"
+  },
+  {
+    "id": 11,
+    "name": "Garden",
+    "description": "Garden Items"
+  },
+  {
+    "id": 12,
+    "name": "Pet Supplies",
+    "description": "Pet Supplies Items"
+  },
+  {
+    "id": 13,
+    "name": "Office Supplies",
+    "description": "Office Supplies Items"
+  },
+  {
+    "id": 14,
+    "name": "Baby Products",
+    "description": "Baby Products Items"
+  },
+  {
+    "id": 15,
+    "name": "Musical Instruments",
+    "description": "Musical Instruments Items"
+  },
+  {
+    "id": 16,
+    "name": "Video Games",
+    "description": "Video Games Items"
+  },
+  {
+    "id": 17,
+    "name": "Movies & TV",
+    "description": "Movies & TV Items"
+  },
+  {
+    "id": 18,
+    "name": "Collectibles",
+    "description": "Collectibles Items"
+  },
+  {
+    "id": 16,
+    "name": "Video Games",
+    "description": "Video Games Items"
+  },
+  {
+    "id": 17,
+    "name": "Movies & TV",
+    "description": "Movies & TV Items"
+  },
+  {
+    "id": 18,
+    "name": "Collectibles",
+    "description": "Collectibles Items"
+  },
+  {
+    "id": 16,
+    "name": "Video Games",
+    "description": "Video Games Items"
+  },
+  {
+    "id": 17,
+    "name": "Movies & TV",
+    "description": "Movies & TV Items"
+  },
+  {
+    "id": 18,
+    "name": "Collectibles",
+    "description": "Collectibles Items"
+  }
+]

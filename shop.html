@@ -13,112 +13,60 @@
 
     <title>Shop</title>
     <style>
-
     </style>
 </head>
 
 <body>
-
-    <!-- Toast Container -->
-    <div class="toast-container position-fixed top-0 end-0 p-3">
-        <div id="bootstrapToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <strong class="me-auto" id="toastTitle">Notification</strong>
-                <small>Just now</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body text-dark" id="toastMessage">
-                Message goes here.
+    <div class="container-fluid" style="padding-right: 0px; padding-left: 0px;">
+        <div id="navbar"></div>
+        <!-- Toast Container -->
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div id="bootstrapToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto" id="toastTitle">Notification</strong>
+                    <small>Just now</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body text-dark" id="toastMessage">
+                    Message goes here.
+                </div>
             </div>
         </div>
+        <!-- End Toast Container -->
+
+        <div class="d-flex flex-wrap justify-content-center" id="categories-container">
+            Categories will be dynamically rendered here
+        </div>
+
+        <section class="shopping-row container-fluid">
+            <div class="row" id="product-container" style="padding:0px;">
+
+            </div>
+        </section>
+
+        <div class="pagination-container d-flex justify-content-center mt-4 pt-3 pb-3" style="background-color: black;">
+            <nav aria-label="Page navigation" style="background-color: black;">
+                <ul class="pagination" style="background-color: black;">
+                    <li class="page-item disabled" id="prev-page">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    Page numbers will be dynamically added here
+                    <li class="page-item" id="next-page">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
     </div>
-    <!-- End Toast Container -->
-    <div id="navbar"></div>
-    <section class="filter-category-area">
-        <span class="number-of-items"></span>
 
-        <select id="sort-filter" class="sort-by-select">
-            <option value="default">Sort By</option>
-            <option value="high-to-low">Price: High to Low</option>
-            <option value="low-to-high">Price: Low to High</option>
-            <option value="highest-rating">Highest Rating</option>
-        </select>
-    </section>
 
-    <section class="shopping-row">
-        <!-- <div class="product">
-            <img src="./Images/20240815_105001.jpg" alt="">
-            <br>
-            <span class="product-name">Product 1</span>
-            <br>
-            <span class="product-price">$100</span>
-            <div class="stars-container">
-                <div class="star" data-index="1"></div>
-                <div class="star" data-index="2"></div>
-                <div class="star" data-index="3"></div>
-                <div class="star" data-index="4"></div>
-                <div class="star" data-index="5"></div>
-            </div>
-
-            <br>
-            <button class="add-to-cart-btn">Add to Cart</button>
-        </div> -->
-        <!-- <div class="product">
-            <img src="./Images/20240815_105001.jpg" alt="">
-            <br>
-            <span class="product-name">Product 1</span>
-            <br>
-            <span class="product-price">$100</span>
-            <div class="stars-container">
-                <div class="star" data-index="1"></div>
-                <div class="star" data-index="2"></div>
-                <div class="star" data-index="3"></div>
-                <div class="star" data-index="4"></div>
-                <div class="star" data-index="5"></div>
-            </div>
-
-            <br>
-            <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-        <div class="product">
-            <img src="./Images/20240815_105001.jpg" alt="">
-            <br>
-            <span class="product-name">Product 1</span>
-            <br>
-            <span class="product-price">$100</span>
-            <div class="stars-container">
-                <div class="star" data-index="1"></div>
-                <div class="star" data-index="2"></div>
-                <div class="star" data-index="3"></div>
-                <div class="star" data-index="4"></div>
-                <div class="star" data-index="5"></div>
-            </div>
-            <br>
-            <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-
-        <div class="product">
-            <img src="./Images/20240815_105001.jpg" alt="">
-            <br>
-            <span class="product-name">Product 1</span>
-            <br>
-            <span class="product-price">$100</span>
-            <div class="stars-container">
-                <div class="star" data-index="1"></div>
-                <div class="star" data-index="2"></div>
-                <div class="star" data-index="3"></div>
-                <div class="star" data-index="4"></div>
-                <div class="star" data-index="5"></div>
-            </div>
-
-            <br>
-            <button class="add-to-cart-btn">Add to Cart</button>
-        </div> -->
-
-        <br>
 
     </section>
-
     <!-- Load NavBar -->
     <script src="./navbar/navbar.js"></script>
 
@@ -135,52 +83,168 @@
             }
         });
 
-        // ShowBootstrapToast("Welcome to our shop", "success");
-
-
+        let currentPage = 1;
+        const itemsPerPage = 12;
         let productsList = [];
+
+        function renderPagination(totalItems) {
+            const paginationContainer = document.querySelector(".pagination");
+            paginationContainer.innerHTML = ""; // مسح الأزرار القديمة
+
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            // زر السابق
+            const prevPageItem = document.createElement("li");
+            prevPageItem.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prevPageItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>`;
+            prevPageItem.addEventListener("click", () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderProductsPaginated();
+                    renderPagination(totalItems);
+                }
+            });
+            paginationContainer.appendChild(prevPageItem);
+
+            // أزرار الأرقام
+            for (let i = 1; i <= totalPages; i++) {
+                const pageItem = document.createElement("li");
+                pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                pageItem.addEventListener("click", () => {
+                    currentPage = i;
+                    renderProductsPaginated();
+                    renderPagination(totalItems);
+                });
+                paginationContainer.appendChild(pageItem);
+            }
+
+            // زر التالي
+            const nextPageItem = document.createElement("li");
+            nextPageItem.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextPageItem.innerHTML = `<a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>`;
+            nextPageItem.addEventListener("click", () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderProductsPaginated();
+                    renderPagination(totalItems);
+                }
+            });
+            paginationContainer.appendChild(nextPageItem);
+        }
+        function renderProductsPaginated() {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const dataSource = filteredProducts.length > 0 ? filteredProducts : productsList;
+            const paginatedProducts = dataSource.slice(start, end);
+
+            const productContainer = document.getElementById("product-container");
+            productContainer.innerHTML = ""; // Clear existing products
+            renderProducts(paginatedProducts);
+        }
         async function fetchProducts() {
             try {
-                let response = await fetch(`https://fakestoreapi.com/products`);
+                let response = await fetch('./Data/products.json');
                 productsList = await response.json();
-                renderProducts(productsList);
+                // render first page of products based on page size, current page = 1
+                renderProductsPaginated();
+
+                //create pagination after fetching the whole products from the Json file
+                renderPagination(productsList.length);
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
         }
-
         function renderProducts(products) {
-            const shoppingRow = document.querySelector(".shopping-row");
-            shoppingRow.innerHTML = "";
+            const row = document.querySelector(".row");
 
             products.forEach(product => {
                 const productDiv = document.createElement("div");
-                productDiv.classList.add("product");
+                productDiv.addEventListener("click", function () {
+                    productDiv.classList.toggle("flipped");
+                });
+
+
+                // col     = extra small = <= 576px
+                // col-sm  = small       =   576:768
+                // col-md  = medium      =   769:992
+                // col-lg  = large       =   993:1200
+                // col-xl  = extra large = > 1201
+                productDiv.classList.add("product-container", "col-12", "col-sm-12", "col-md-6", "col-lg-4", "col-xl-3", "p-4", "text-center", "shadow-sm");
 
                 productDiv.innerHTML = `
-                <img src="${product.image}" alt="${product.title}">
-                <br>
-                <span class="product-name">${product.title}</span>
-                <br>
-                <span class="product-price">$${product.price}</span>
-                <br>
-                <div class="stars-container">
-                    <div class="star" data-index="1"></div>
-                    <div class="star" data-index="2"></div>
-                    <div class="star" data-index="3"></div>
-                    <div class="star" data-index="4"></div>
-                    <div class="star" data-index="5"></div>
+                <div class="product">
+                    <div class="front-card">
+                        <a href="#" class="add-to-fav"><i class="fa-solid fa-plus"> </i> </a>
+                        <img src="${product.image}" alt="${product.title}">
+                        <br>
+                        <span class="product-name">${product.title}</span>
+                        <br>
+                        <span class="product-price">$${product.price}</span>
+                        <br>
+                        <span class="rating-text">(${product.rating.rate} ⭐ from ${product.rating.count} reviews)</span>
+                        <br>
+                        <button class="add-to-cart add-to-cart-btn"> Add to Cart</button>
+                    </div>
+                    <div>
+                    <div class="back-card">
+                        <span> ${product.description}</span>
+                    </div>
                 </div>
-                <span class="rating-text">(${product.rating.rate} ⭐ from ${product.rating.count} reviews)</span>
-                <br>
-                <button class="add-to-cart add-to-cart-btn">🛒 Add to Cart</button>
             `;
 
-                shoppingRow.appendChild(productDiv);
+                row.appendChild(productDiv);
                 setupRating(productDiv, product.rating.rate);
+                setupAddToFavorites(productDiv, product);
                 setupAddToCart(productDiv, product);
             });
         }
+
+        // fetchProducts will load Initial Page and Initial Pagination
+        fetchProducts();
+
+
+
+        async function fetchCategories() {
+            try {
+                let response = await fetch('./Data/categories.json');
+                let categories = await response.json();
+                renderCategories(categories);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        }
+
+        let filteredProducts = []; // لتخزين المنتجات الخاصة بكل فئة
+        function renderCategories(categories) {
+            const categoriesContainer = document.getElementById("categories-container");
+            categoriesContainer.innerHTML = "";
+
+            categories.forEach(category => {
+                const categoryDiv = document.createElement("a");
+                categoryDiv.style.textDecoration = "none";
+                categoryDiv.href = "#";
+                categoryDiv.classList.add("card", "m-2", "text-center", "shadow-sm");
+
+                categoryDiv.innerHTML = `
+            <h5 class="card-title">${category.name}</h5>
+        `;
+                // <p class="card-text">${category.description}</p>
+                categoryDiv.addEventListener("click", function () {
+                    currentPage = 1; // إعادة تعيين الصفحة عند اختيار فئة جديدة
+                    filteredProducts = productsList.filter(product => product.category === category.name);
+
+                    renderProductsPaginated(); // ✅ تحديث عرض المنتجات بعد التصفية
+                    renderPagination(filteredProducts.length); // ✅ تحديث الـ Pagination بناءً على عدد المنتجات المصنفة
+                });
+
+                categoriesContainer.appendChild(categoryDiv);
+            });
+        }
+        fetchCategories();
+
+
+
 
         function setupRating(productDiv, rating) {
             const stars = productDiv.querySelectorAll('.star');
@@ -206,16 +270,69 @@
                 alert("يجب تسجيل الدخول أولاً لإضافة المنتج إلى السلة.");
                 return;
             }
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-            let existingProduct = cart.find(item => item.id === product.id);
+            let username = localStorage.getItem("username"); // Assuming the username is stored in localStorage
+            if (!username) {
+                alert("User not found. Please log in again.");
+                return;
+            }
+
+            let carts = JSON.parse(localStorage.getItem("carts")) || [];
+            let userCart = carts.find(cart => cart.username === username);
+
+            if (!userCart) {
+                userCart = { username: username, order: [] };
+                carts.push(userCart);
+            }
+
+            let existingProduct = userCart.order.find(item => item.id === product.id);
             if (existingProduct) {
                 existingProduct.quantity += 1;
             } else {
-                cart.push({ ...product, quantity: 1 });
+                userCart.order.push({ ...product, quantity: 1 });
             }
 
-            localStorage.setItem("cart", JSON.stringify(cart));
+            localStorage.setItem("carts", JSON.stringify(carts));
+        }
+
+        function setupAddToFavorites(productDiv, product) {
+            const addToFavoritesBtn = productDiv.querySelector(".add-to-fav");
+            addToFavoritesBtn.addEventListener("click", (event) => {
+                event.stopPropagation(); // Prevent the click event from propagating to the product
+                addToFavorites(product);
+            });
+        }
+        function addToFavorites(product) {
+            if (localStorage.getItem("isSignedIn") !== "true") {
+                alert("يجب تسجيل الدخول أولاً لإضافة المنتج إلى المفضلة.");
+                return;
+            }
+
+            let username = localStorage.getItem("username"); // Assuming the username is stored in localStorage
+            if (!username) {
+                alert("User not found. Please log in again.");
+                return;
+            }
+
+            let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+            let userFavorites = favorites.find(fav => fav.username === username);
+
+            if (!userFavorites) {
+                userFavorites = { username: username, favorites: [] };
+                favorites.push(userFavorites);
+            }
+
+            let existingProduct = userFavorites.favorites.find(item => item.id === product.id);
+            if (!existingProduct) {
+                userFavorites.favorites.push(product);
+                ShowBootstrapToast("Product Added To Wish List !", "success");
+            }
+
+            else{
+                ShowBootstrapToast("Product Already In Wish List !", "danger");
+            }
+
+            localStorage.setItem("favorites", JSON.stringify(favorites));
         }
 
         function sortProducts(criteria) {
@@ -232,13 +349,6 @@
             renderProducts(sortedProducts);
         }
 
-        document.getElementById("sort-filter").addEventListener("change", function () {
-            sortProducts(this.value);
-        });
-
-
-        fetchProducts();
-
 
         document.addEventListener("DOMContentLoaded", function () {
             let searchInput = document.querySelector("#search-box");
@@ -252,21 +362,23 @@
         });
 
         function searchProducts(query) {
+            console.log(query);
             let products = document.querySelectorAll(".product");
+            let productContainer = document.getElementById("product-container");
+
             products.forEach(product => {
                 let name = product.querySelector(".product-name").innerText.toLowerCase();
-                if (name.includes(query)) {
-                    product.style.display = "block";
+
+                if (name.includes(query.toLowerCase())) {
+                    console.log(name);
+                    product.classList.remove("d-none"); // Show the product
                 } else {
-                    product.style.display = "none";
+                    product.classList.add("d-none"); // Hide the product
                 }
             });
         }
 
 
-
-
-        console.log(localStorage.getItem("searchQuery"));
         if (localStorage.getItem("searchQuery") != null) {
             setTimeout(() => {
                 let searchBar = document.getElementById("search-box");
@@ -282,9 +394,6 @@
             }, 300);
 
         }
-
-
-
 
         //Bootstrap Toast Function
         window.ShowBootstrapToast = function (message, type) {
@@ -302,7 +411,9 @@
             // عرض التوست
             let toast = new bootstrap.Toast(toastEl);
             toast.show();
-        }
+        };
+
+
 
     </script>
 
@@ -310,3 +421,90 @@
 </body>
 
 </html>
+<!-- <div class="product">
+                    <img src="./Images/20240815_105001.jpg" alt="">
+                    <br>
+                    <span class="product-name">Product 1</span>
+                    <br>
+                    <span class="product-price">$100</span>
+                    <div class="stars-container">
+                        <div class="star" data-index="1"></div>
+                        <div class="star" data-index="2"></div>
+                        <div class="star" data-index="3"></div>
+                        <div class="star" data-index="4"></div>
+                        <div class="star" data-index="5"></div>
+                    </div>
+        
+                    <br>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div> -->
+<!-- <div class="product">
+                    <img src="./Images/20240815_105001.jpg" alt="">
+                    <br>
+                    <span class="product-name">Product 1</span>
+                    <br>
+                    <span class="product-price">$100</span>
+                    <div class="stars-container">
+                        <div class="star" data-index="1"></div>
+                        <div class="star" data-index="2"></div>
+                        <div class="star" data-index="3"></div>
+                        <div class="star" data-index="4"></div>
+                        <div class="star" data-index="5"></div>
+                    </div>
+        
+                    <br>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+                <div class="product">
+                    <img src="./Images/20240815_105001.jpg" alt="">
+                    <br>
+                    <span class="product-name">Product 1</span>
+                    <br>
+                    <span class="product-price">$100</span>
+                    <div class="stars-container">
+                        <div class="star" data-index="1"></div>
+                        <div class="star" data-index="2"></div>
+                        <div class="star" data-index="3"></div>
+                        <div class="star" data-index="4"></div>
+                        <div class="star" data-index="5"></div>
+                    </div>
+                    <br>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+        
+                <div class="product">
+                    <img src="./Images/20240815_105001.jpg" alt="">
+                    <br>
+                    <span class="product-name">Product 1</span>
+                    <br>
+                    <span class="product-price">$100</span>
+                    <div class="stars-container">
+                        <div class="star" data-index="1"></div>
+                        <div class="star" data-index="2"></div>
+                        <div class="star" data-index="3"></div>
+                        <div class="star" data-index="4"></div>
+                        <div class="star" data-index="5"></div>
+                    </div>
+        
+                    <br>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div> -->
+
+<!-- <br> -->
+
+<!-- <div class="stars-container">
+                                <div class="star" data-index="1"></div>
+                                <div class="star" data-index="2"></div>
+                                <div class="star" data-index="3"></div>
+                                <div class="star" data-index="4"></div>
+                                <div class="star" data-index="5"></div> -->
+
+<!-- // async function fetchProducts() {
+        // try {
+        // let response = await fetch('https://fakestoreapi.com/products');
+        // productsList = await response.json();
+        // renderProducts(productsList);
+        // } catch (error) {
+        // console.error("Error fetching products:", error);
+        // }
+        // } -->

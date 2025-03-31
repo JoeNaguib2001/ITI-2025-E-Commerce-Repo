@@ -1,4 +1,4 @@
-nav * {
+/* nav * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,16 +9,14 @@ nav * {
 nav {
     display: flex;
     align-items: center;
-    padding: 10px 20px;
+    padding: 0px 20px;
     background-color: #1f2937;
-    /* color: white; */
     flex-wrap: nowrap;
-    height: 100px;
+    height: 80px;
 }
 
 .logo {
-    height: 60px;
-    width: 120px;
+    height: 30px;
     background-image: url(download.jpeg);
     background-size: cover;
     margin-right: 10px;
@@ -26,6 +24,7 @@ nav {
 
 .location-info {
     display: flex;
+    width: 200px;
     align-items: center;
     gap: 5px;
     color: white;
@@ -40,22 +39,28 @@ nav {
 .search-div {
     display: flex;
     flex-grow: 1;
-    min-width: 1100px;
-    max-width: 600px;
+    flex-shrink: 1;
+    min-width: 600px;
+    max-width: 1100px;
     position: relative;
     margin: 0 20px;
 }
 
 .search-div input {
-    font-size: 25px;
+    font-size: 18px;
     width: 100%;
     padding: 10px 40px 10px 10px;
     border-radius: 5px;
     border: none;
     color: black;
-}
+} */
 
-.search-div .fa-magnifying-glass {
+/* input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+} */
+
+/* .search-div .fa-magnifying-glass {
     position: absolute;
     right: 10px;
     top: 50%;
@@ -105,22 +110,6 @@ nav {
     color: coral;
 }
 
-/* .login-btn {
-    color: white;
-    text-decoration: none;
-    transition: 0.3s;
-    border: 1px solid white;
-    padding: 5px 10px;
-    border-radius: 15px;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-.login-btn:hover {
-    background-color: white;
-    color: #1f2937;
-} */
-
 .menu-container {
     position: relative;
     display: inline-block;
@@ -156,22 +145,88 @@ nav {
 }
 
 
-/* إظهار القائمة عند تمرير الماوس */
 .dropdown:hover .dropdown-menu {
     display: block;
     margin-top: 0;
     pointer-events: auto;
 }
 
-/* منع ظهور القائمة قبل التمرير */
 .dropdown-menu {
     display: none;
     pointer-events: none;
 }
 
-.dropdown-menu a:hover{
+.dropdown-menu a:hover {
     text-decoration: underline;
     color: orange;
 }
+ */
 
-        
+/* Responsive styles */
+@media (max-width: 768px) {
+    nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        height: auto;
+        padding: 10px;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    .location-info {
+        font-size: 20px;
+        width: auto;
+        gap: 10px;
+    }
+
+    .search-div {
+        min-width: 100%;
+        max-width: 100%;
+        margin: 10px 0;
+    }
+
+    .user-info {
+        position: static;
+        justify-content: center;
+        margin-top: 10px;
+        gap: 10px;
+    }
+
+    .shopping-cart-link {
+        margin-right: 0;
+        font-size: 18px;
+    }
+
+    .products-count {
+        font-size: 16px;
+        padding: 8px;
+        width: 16px;
+        height: 16px;
+    }
+
+    .menu-list {
+        left: 0;
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .location-info {
+        font-size: 18px;
+    }
+
+    .search-div input {
+        font-size: 16px;
+        padding: 8px 35px 8px 8px;
+    }
+
+    .menu-button {
+        font-size: 16px;
+    }
+
+    .menu-list a {
+        font-size: 18px;
+    }
+}
