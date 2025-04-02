@@ -1,166 +1,268 @@
-/* nav * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-    color: white;
+:root {
+    --main-color: #5A4634;
+    --main-color-hover: #392c1e;
+    --secondary-color: #f0c14b;
+    --background-color: #fff;
+    --text-color: #000;
 }
 
 nav {
-    display: flex;
-    align-items: center;
-    padding: 0px 20px;
-    background-color: #1f2937;
-    flex-wrap: nowrap;
-    height: 80px;
-}
-
-.logo {
-    height: 30px;
-    background-image: url(download.jpeg);
-    background-size: cover;
-    margin-right: 10px;
-}
-
-.location-info {
-    display: flex;
-    width: 200px;
-    align-items: center;
-    gap: 5px;
-    color: white;
-    font-size: 25px;
+    min-height: 50px !important;
+    border-bottom: 3px solid var(--main-color);
 }
 
 .fa-location-dot {
-    font-size: 20px;
-    color: white;
+    color: var(--main-color) !important;
 }
 
-.search-div {
-    display: flex;
-    flex-grow: 1;
-    flex-shrink: 1;
-    min-width: 600px;
-    max-width: 1100px;
-    position: relative;
-    margin: 0 20px;
+.delivery-location {
+    font-family: "Roboto", sans-serif !important;
+    color: var(--main-color) !important;
+    font-weight: 600;
 }
 
-.search-div input {
-    font-size: 18px;
-    width: 100%;
-    padding: 10px 40px 10px 10px;
-    border-radius: 5px;
-    border: none;
-    color: black;
-} */
 
-/* input:focus {
+input {
+    font-family: "Roboto", sans-serif !important;
+    padding: 0 10px !important;
+    border: 3px solid var(--main-color) !important;
+    color: var(--main-color);
+}
+
+.fa-magnifying-glass {
+    color: var(--main-color) !important;
+    font-size: 20px !important;
+    border: 1px solid var(--main-color) !important;
+    padding: 5px;
+}
+
+input:focus {
     outline: none !important;
     box-shadow: none !important;
-} */
-
-/* .search-div .fa-magnifying-glass {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: gray;
 }
 
-.user-info {
-    position: absolute;
-    right: 20px;
-    font-size: 25px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.shopping-cart-link {
-    position: relative;
-    font-size: 20px;
-    text-decoration: none;
-    margin-right: 25px;
-    transition: 0.3s;
-}
-
-.products-count {
-    position: absolute;
-    top: -15px;
-    right: -25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    border-radius: 50%;
-    color: white;
-    background-color: coral;
-    padding: 11px;
-    width: 18px;
-    height: 18px;
-    transition: 0.3s;
-}
-
-.shopping-cart-link i {
-    transition: 0.3s;
-}
-
-.shopping-cart-link:hover i {
-    color: coral;
-}
-
-.menu-container {
-    position: relative;
-    display: inline-block;
-}
-
-.menu-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-}
-
-.menu-list {
-    display: none;
-    position: absolute;
-    left: -75px;
-    background-color: white;
-    min-width: 250px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 5;
-}
-
-.menu-list a {
-    color: black;
-    padding: 10px 16px;
-    text-decoration: none;
-    display: block;
-    font-size: 20px;
-}
-
-.menu-list a:hover {
-    background-color: #7f88a3;
-}
-
-
-.dropdown:hover .dropdown-menu {
-    display: block;
-    margin-top: 0;
-    pointer-events: auto;
-}
+/* تعديل سلوك القائمة المنسدلة */
 
 .dropdown-menu {
     display: none;
-    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.dropdown-menu a:hover {
-    text-decoration: underline;
-    color: orange;
+.dropdown-toggle {
+    background-color: var(--main-color) !important;
+    color: var(--background-color) !important;
 }
- */
+
+.dropdown-menu {
+    background-color: var(--main-color) !important;
+    color: var(--background-color) !important;
+}
+
+.dropdown-item {
+    background-color: var(--main-color) !important;
+    color: var(--background-color) !important;
+}
+
+
+.dropdown:hover .dropdown-menu,
+.dropdown-menu.show {
+    display: block;
+    transform: translateY(0);
+}
+
+.dropdown-item:hover {
+    background-color: var(--main-color-hover) !important;
+    color: white !important;
+    transition: .1s;
+}
+
+.login-btn:hover {
+    background-color: var(--main-color-hover) !important;
+    color: red !important;
+    transition: .1s;
+}
+
+.hello-span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    max-width: 200px;
+    margin: 0 10px;
+    color: var(--main-color) !important;
+    font-weight: 600;
+    font-family: "Roboto", sans-serif !important;
+}
+
+
+/* تحسين شكل الزر في الشاشات الصغيرة */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px;
+    }
+
+    /* تكبير حجم زر القائمة */
+    .navbar-toggler {
+        border: none;
+        font-size: 1.5rem;
+        padding: 8px;
+    }
+
+    /* جعل عناصر القائمة تأخذ حجم كامل */
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .nav-item {
+        margin: 5px 0;
+    }
+}
+
+@media (min-width: 990px) and (max-width: 1200px) {
+    .products-count {
+        top: 20px;
+        right: -50px;
+    }
+}
+
+@media (max-width: 990px) {
+    .products-count {
+        padding: 3px !important;
+        top: 20px;
+        right: -40px;
+    }
+
+    .search-btn {
+        display: block !important;
+        width: 60px !important;
+        margin-top: 5px !important;
+    }
+
+    /* تأكد من ظهور زر التوجّل دائمًا */
+    .navbar-toggler {
+        display: block !important;
+        position: absolute;
+        right: 10px;
+        /* تحريكه لليمين */
+        top: 10px;
+        z-index: 1050;
+        /* اجعله فوق العناصر الأخرى */
+    }
+
+    /* تعديل عرض القائمة عند الفتح */
+    .navbar-collapse {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        /* ترتيب العناصر بشكل عمودي عند الفتح */
+        align-items: flex-start;
+        background: #fff;
+        /* خلفية داكنة عند الفتح */
+        padding: 10px;
+        /* position: absolute; */
+        top: 50px;
+        /* تفادي تغطية الهيدر */
+        left: 0;
+        right: 0;
+        z-index: 1040;
+        border-bottom: 3px solid var(--main-color);
+    }
+
+    /* ضبط البحث ليبقى في صف واحد */
+    .navbar .d-flex {
+        flex-wrap: nowrap !important;
+    }
+
+    /* تصغير عرض مربع البحث */
+    #search-box {
+        min-width: 300px !important;
+        font-size: 14px;
+    }
+
+    /* تقليل المسافات بين العناصر */
+    .navbar .me-3 {
+        margin-right: 5px !important;
+    }
+
+    .navbar .ms-4,
+    .navbar .me-4 {
+        margin: 0 5px !important;
+    }
+}
+
+@media (max-width:680px) {
+
+    /* تأكد من ظهور زر التوجّل دائمًا */
+    .navbar-toggler {
+        display: block !important;
+        position: absolute;
+        right: 10px;
+        /* تحريكه لليمين */
+        top: 10px;
+        z-index: 1050;
+        /* اجعله فوق العناصر الأخرى */
+    }
+
+    /* تعديل عرض القائمة عند الفتح */
+    .navbar-collapse {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        /* ترتيب العناصر بشكل عمودي عند الفتح */
+        align-items: flex-start;
+        /* خلفية داكنة عند الفتح */
+        padding: 10px;
+        top: 50px;
+        /* تفادي تغطية الهيدر */
+        left: 0;
+        right: 0;
+        z-index: 1040;
+    }
+
+    /* ضبط البحث ليبقى في صف واحد */
+    .navbar .d-flex {
+        flex-wrap: nowrap !important;
+    }
+
+    /* تصغير عرض مربع البحث */
+    #search-box {
+        min-width: 300px !important;
+        font-size: 14px;
+    }
+
+    /* تقليل المسافات بين العناصر */
+    .navbar .me-3 {
+        margin-right: 5px !important;
+    }
+
+    .navbar .ms-4,
+    .navbar .me-4 {
+        margin: 0 5px !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .products-count {
+        padding: 3px !important;
+        top: 20px;
+        right: -45px;
+    }
+}
+
+
+
+.fa-solid.fa-cart-shopping {
+    color: var(--main-color);
+    font-size: 30px;
+    margin: 20px;
+}
+
+.fa-solid.fa-cart-shopping:hover {
+    color: var(--main-color-hover);
+    transition: .3s;
+}
+
 
 /* Responsive styles */
 @media (max-width: 768px) {

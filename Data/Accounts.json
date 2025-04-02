@@ -15,37 +15,9 @@
   },
   {
     "fullName": "jojo",
-    "userName": "123",
-    "password": "123",
+    "userName": "123456",
+    "password": "123456",
     "email": "jojo@jij.com",
-    "userType": "user"
-  },
-  {
-    "fullName": "Youssef Mohsen",
-    "userName": "Joe1234",
-    "password": "123456789",
-    "email": "mohsenyoussef233@gmail.com",
-    "userType": "user"
-  },
-  {
-    "fullName": "Hi My Name Is Joe",
-    "userName": "Joey2233",
-    "password": "123456789",
-    "email": "mohsenyoussef234@gmail.com",
-    "userType": "user"
-  },
-  {
-    "fullName": "asdas",
-    "userName": "asds1a2d",
-    "password": "45as6d4as",
-    "email": "asdas@asdas.asdas",
-    "userType": "user"
-  },
-  {
-    "fullName": "asdsadas5463",
-    "userName": "as4d5as546",
-    "password": "a5s46d56as",
-    "email": "sa456das456@sa45das.cas45sa",
     "userType": "user"
   }
 ]

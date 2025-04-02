@@ -30,9 +30,13 @@ async function loadNavbar() {
 
         setupSearchFunctionality();
 
+
+
     } catch (error) {
         console.error("❌ حدث خطأ أثناء تحميل النافبار:", error);
     }
+
+
 }
 
 // ✅ تحديث عدد المنتجات في السلة
@@ -178,19 +182,21 @@ fetch("./Data/Accounts.json")
     })
     .then(accounts => {
         const currentUser = localStorage.getItem("username");
-        const user = accounts.find(account => account.username === currentUser);
+        const user = accounts.find(account => account.userName === currentUser);
         if (user) {
             currentUserRole = user.userType;
             if (currentUserRole === "admin") {
                 document.querySelector(".admin-dropdown").style.display = "block";
-                document.querySelector(".user-dropdown").style.display = "none";
+                document.querySelector(".user-dropdown").remove();
+
             } else {
-                document.querySelector(".admin-dropdown").style.display = "none";
+                document.querySelector(".admin-dropdown").remove();
                 document.querySelector(".user-dropdown").style.display = "block";
             }
         }
         else {
-            document.querySelector(".admin-dropdown").style.display = "none";
+            console.log("User not found in Accounts.json");
+            document.querySelector(".admin-dropdown").remove();
             document.querySelector(".user-dropdown").style.display = "block";
         }
     })
@@ -205,7 +211,10 @@ function showOrder() {
         window.location.href = "orders.html";
     }
     else {
-        alert("You need to sign in first!");
+        ShowBootstrapToast("You have To Sign In First To Show Your Orders", "error");
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 3000);
         window.location.href = "login.html";
     }
 

@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./css/main-colors.css">
     <link rel="stylesheet" href="./css/shopstyle.css">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 
     <title>Shop</title>
     <style>
@@ -33,7 +34,6 @@
             </div>
         </div>
         <!-- End Toast Container -->
-
         <div class="d-flex flex-wrap justify-content-center" id="categories-container">
             Categories will be dynamically rendered here
         </div>
@@ -72,6 +72,7 @@
 
     <!-- Load Boostrap JS -->
     <script src="./js/bootstrap.bundle.min.js"></script>
+
 
 
     <script>
@@ -263,6 +264,7 @@
                 event.stopPropagation(); // Prevent the click event from propagating to the product
                 addToCart(product);
                 updateCartCount();
+                ShowBootstrapToast("Product Added To Shopping Cart Successfully !", "success");
             });
         }
 
@@ -329,7 +331,7 @@
                 ShowBootstrapToast("Product Added To Wish List !", "success");
             }
 
-            else{
+            else {
                 ShowBootstrapToast("Product Already In Wish List !", "danger");
             }
 
@@ -353,7 +355,6 @@
 
         document.addEventListener("DOMContentLoaded", function () {
             let searchInput = document.querySelector("#search-box");
-            console.log(searchInput);
             if (searchInput) {
                 searchInput.addEventListener("input", function () {
                     let query = searchInput.value.trim().toLowerCase();

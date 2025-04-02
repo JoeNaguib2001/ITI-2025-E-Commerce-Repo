@@ -4,18 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="./css/main-colors.css">
-    <link rel="stylesheet" href="./css/loginstyle.css">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
 
-    <title>ok123456</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet" href="./css/main-colors.css">
+
+    <link rel="stylesheet" href="./css/loginstyle.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+
+    <title>Login</title>
     <style>
 
     </style>
 </head>
 
 <body>
+    <!-- <div class="top-bar d-flex justify-content-center">
+        <img
+            src="./Images/png-transparent-amazon-logo-amazon-com-amazon-video-logo-company-brand-amazon-logo-miscellaneous-wish-text-thumbnail.png">
+    </div> -->
+    <!-- <div class="background">
+
+    </div> -->
     <div class="outer-container container-fluid">
         <!-- Toast Container -->
         <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -33,73 +48,72 @@
         <!-- End Toast Container -->
         <form class="loginform">
             <div class="row">
-                <div class="inner-container col-10  col-md-8 col-lg-6 col-xl-4 mt-2">
+                <!-- <img src="./Images/1200+-Photoroom.png" class="lady-image"> -->
+                <!-- <div class="ladning-offer"> -->
+                <!-- <h2 class="text-white font">Special offers, 50% Discounts for new customers</h2> -->
+                <!-- <h3>Don't Wait. Login And Order Now !</h3> -->
+                <!-- <button>Shop Now !</button> -->
+                <div class="inner-container col-10  col-md-8 col-lg-6 col-xl-4 ">
                     <!-- Toggler Effect Between Login And Signup -->
-                    <div
-                        style="display: flex; margin-bottom: 20px; position: relative; background: rgba(255, 255, 255, 0.1); ">
+                    <div style="display: flex; margin-bottom: 20px; position: relative;" class="mode-toggler">
                         <div id="slider"
-                            style="position: absolute; width: 50%; height: 100%; background: white;  border-radius: 5px; transition: transform 0.3s ease-in-out;">
+                            style="position: absolute; width: 50%; height: 100%;  border-radius: 5px; transition: transform 0.3s ease-in-out;">
                         </div>
                         <span id="loginTab"
-                            style="flex: 1; padding: 12px 0; cursor: pointer; text-align: center; position: relative; z-index: 2; color:black">Log
+                            style="flex: 1; padding: 12px 0; cursor: pointer; text-align: center; position: relative; z-index: 2;">Log
                             in</span>
                         <span id="signupTab"
                             style="flex: 1; padding: 12px 0; cursor: pointer; text-align: center; position: relative; z-index: 2;">Sign
                             up</span>
                     </div>
                     <!-- End Toggler -->
-
                     <!-- User Icon -->
                     <div class="d-flex justify-content-center">
-                        <img src="./Images/login.png">
+                        <img id="img-profile" src="./Images/login.png">
                     </div>
                     <!-- Begin Inputs -->
+                    <!-- FullName -->
                     <div class="d-flex">
                         <input type="text" id="fullname" name="fullname" placeholder="FullName" required disabled
                             class="forSignUpOnly" style="display: none;" maxlength="20">
                     </div>
+                    <!-- Email -->
                     <div class="d-flex">
                         <input type="email" id="email" name="email" placeholder="Email" required disabled
                             class="forSignUpOnly" style="display: none;">
                     </div>
+                    <!-- UserName & Password & ConfirmPassword & Forgot & Remember & Submit  -->
                     <div class="d-flex flex-column">
-                        <input type="text" id="username" name="username" placeholder="Username" required minlength="6" maxlength="20">
-                        <div id="username-validation">
+                        <input type="text" id="username" name="username" placeholder="Username" required minlength="6"
+                            maxlength="20">
+                        <div id="username-validation" style="height: 0px !important;">
                         </div>
                         <div class="position-relative d-flex align-items-center">
                             <input type="password" id="password" name="password" placeholder="Password" required
                                 class="password" maxlength="20" onkeyup="checkPasswordStrength()">
-
+                            <i class="fa-solid fa-eye-slash show-hide-pass"></i>
                             <div id="progress-container"
                                 class="position-absolute d-flex flex-column align-items-center d-none"
                                 style="right: 5px;">
-
                                 <!-- Strength Text -->
                                 <small id="strength-text" class="text-white"
                                     style="margin-bottom: 2px; font-size: 12px; display: block;">Very
                                     Weak</small>
-
                                 <!-- Progress Bar Sections -->
                                 <div class="d-flex" style="gap: 2px;">
-                                    <div class="progress-segment"
-                                        style="width: 15px; height: 8px; background-color: #ddd; border-radius: 2px;">
+                                    <div class="progress-segment" style="width: 15px; height: 8px; border-radius: 2px;">
                                     </div>
-                                    <div class="progress-segment"
-                                        style="width: 15px; height: 8px; background-color: #ddd; border-radius: 2px;">
+                                    <div class="progress-segment" style="width: 15px; height: 8px; border-radius: 2px;">
                                     </div>
-                                    <div class="progress-segment"
-                                        style="width: 15px; height: 8px; background-color: #ddd; border-radius: 2px;">
+                                    <div class="progress-segment" style="width: 15px; height: 8px; border-radius: 2px;">
                                     </div>
-                                    <div class="progress-segment"
-                                        style="width: 15px; height: 8px; background-color: #ddd; border-radius: 2px;">
+                                    <div class="progress-segment" style="width: 15px; height: 8px; border-radius: 2px;">
                                     </div>
                                 </div>
                             </div>
-
                             <!-- <small id="strength-text" class="position-absolute text-white" style="right: -60px;">Very
                             Weak</small> -->
                         </div>
-
                         <div class="d-flex confirmpassowrd-div position-relative">
                             <input type="password" id="confirmpassword" name="password" placeholder="Confirm Password"
                                 required class="forSignUpOnly password" style="display: none;" disabled maxlength="20">
@@ -109,24 +123,22 @@
                             <i class="fa-solid fa-circle-xmark text-danger position-absolute "
                                 id="confirm-password-fail-icon"
                                 style="top:40%; right:30px; font-size: 18px; display: none;"></i>
-
-
                         </div>
-                        <div style="display: flex; align-items: center; gap: 5px;">
-                            <input type="checkbox" class="showPassword" id="showPassword">
-                            <label for="showPassword" style="margin-top: 30px;">Show Password</label>
-                        </div>
-                        <!-- End Inputs -->
-
-                        <div class="space-around">
-                            <span><input type="radio" id="remember"> <label for="remember" class="remember">Remember
-                                    me</label></span> <a href="#" class="forgot">Forgot your
+                        <div style="display: flex; align-items: center; gap: 5px; width: 70%; margin:15px auto">
+                            <a href="#" class="forgot">Forgot your
                                 password?</a>
                         </div>
-                        <div class="d-flex justify-content-center"><input type="submit" class="submit" value="Log in">
+                        <div style="display: flex; align-items: center; gap: 5px; width: 70%; margin:15px auto">
+                            <input type="radio" id="remember"> <label for="remember" class="remember">Remember
+                                me</label>
+                        </div>
+                        <!-- End Inputs -->
+                        <div>
+                            <div class=" d-flex justify-content-center"><input type="submit" class="submit"
+                                    value="Log in">
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </form>
@@ -137,6 +149,41 @@
         let confirmPasswordFailIcon = document.getElementById("confirm-password-fail-icon");
         let confirmSuccessIcon = document.getElementById("confirm-password-success-icon");
 
+        //Toggler Animation Sign In / Sign Up Logic + Set Current Mode To Either Sign-In Or Sign-Up
+        let submit = document.querySelector('input[type="submit"]');
+        const loginTab = document.getElementById("loginTab");
+        const signupTab = document.getElementById("signupTab");
+        const slider = document.getElementById("slider");
+        const container = document.querySelector(".container");
+
+        loginTab.addEventListener("click", () => {
+            clearFormInputs();
+            slider.style.transform = "translateX(0%)";
+            loginTab.style.color = "white";
+            signupTab.style.color = "gray";
+            submit.value = "Log in";
+            currentMode = "login";
+            document.querySelectorAll(".forSignUpOnly").forEach(input => {
+                input.disabled = true;
+                input.style.display = "none";
+            });
+        });
+
+        signupTab.addEventListener("click", () => {
+            clearFormInputs();
+            slider.style.transform = "translateX(100%)";
+            signupTab.style.color = "white";
+            loginTab.style.color = "gray";
+            submit.value = "Sign up";
+            currentMode = "signup";
+            document.querySelectorAll("input:disabled").forEach(input => {
+                input.disabled = false;
+                input.style.display = "block";
+            });
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+
+
 
 
         //Check If User Is Already Signed In, Direct To Shop Page
@@ -146,13 +193,29 @@
         }
 
 
-        //Show Password Functionality
-        let checkbox = document.querySelector('.showPassword');
-        checkbox.addEventListener('change', function () {
-            document.querySelectorAll('.password').forEach(el => {
-                el.type = this.checked ? 'text' : 'password';
-            });
+        //Show / Hide Password Functionality
+        let showHidePass = document.querySelector('.show-hide-pass');
+        let showPass = false;
+        showHidePass.addEventListener('click', function () {
+            if (showPass) {
+                showHidePass.classList.add('fa-eye-slash');
+                showHidePass.classList.remove('fa-eye');
+                showPass = false;
+                document.querySelectorAll('.password').forEach(el => {
+
+                    el.setAttribute('type', 'text');
+                });
+            }
+            else {
+                showHidePass.classList.add('fa-eye');
+                showHidePass.classList.remove('fa-eye-slash');
+                showPass = true;
+                document.querySelectorAll('.password').forEach(el => {
+                    el.setAttribute('type', 'password');
+                });
+            }
         });
+
 
 
         //Allow Deslecting A Radio Button
@@ -168,23 +231,18 @@
         });
 
         //Disable Right-Click On Images
-        document.addEventListener("contextmenu", (event) => {
-            if (event.target.tagName === "IMG") {
-                event.preventDefault();
-                alert("Right-click is disabled on images!");
-            }
-        });
-
-
-
-        // document.querySelector("form").addEventListener("submit", function (event) {
-        //     event.preventDefault();
+        // document.addEventListener("contextmenu", (event) => {
+        //     if (event.target.tagName === "IMG") {
+        //         event.preventDefault();
+        //         alert("Right-click is disabled on images!");
+        //     }
         // });
+
 
         //Handle Sign-In / Sign-Up Logic
         let currentMode = "login";
         document.querySelector("form").addEventListener("submit", async function (event) {
-            event.preventDefault(); // منع إعادة تحميل الصفحة
+            event.preventDefault();
 
             let username = document.getElementById("username");
             let password = document.getElementById("password");
@@ -277,38 +335,7 @@
         }
 
 
-        //Toggler Animation Sign In / Sign Up Logic + Set Current Mode To Either Sign-In Or Sign-Up
-        let submit = document.querySelector('input[type="submit"]');
-        const loginTab = document.getElementById("loginTab");
-        const signupTab = document.getElementById("signupTab");
-        const slider = document.getElementById("slider");
-        const container = document.querySelector(".container");
-        loginTab.addEventListener("click", () => {
-            clearFormInputs();
-            slider.style.transform = "translateX(0%)";
-            loginTab.style.color = "black";
-            signupTab.style.color = "white";
-            submit.value = "Log in";
-            currentMode = "login";
-            document.querySelectorAll(".forSignUpOnly").forEach(input => {
-                input.disabled = true;
-                input.style.display = "none";
-            });
-        });
 
-        signupTab.addEventListener("click", () => {
-            clearFormInputs();
-            slider.style.transform = "translateX(100%)";
-            signupTab.style.color = "black";
-            loginTab.style.color = "white";
-            submit.value = "Sign up";
-            currentMode = "signup";
-            document.querySelectorAll("input:disabled").forEach(input => {
-                input.disabled = false;
-                input.style.display = "block";
-            });
-
-        });
 
         function checkPasswordStrength() {
             document.getElementById("confirmpassword").value = "";
@@ -371,6 +398,12 @@
             }
         });
 
+        document.getElementById("username").addEventListener("keypress", function (event) {
+            if (event.key === " ") {
+                event.preventDefault();
+                ShowBootstrapToast("Spaces are not allowed in the username.", "danger");
+            }
+        });
         document.getElementById("username").addEventListener("keyup", function () {
             if (currentMode === "login") return; // Skip if in login mode
             let usernameValidation = document.getElementById("username-validation");
