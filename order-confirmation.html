@@ -61,14 +61,6 @@
             document.querySelector(".row").appendChild(deliveryElement);
         }
 
-        // Clear the cart from local storage
-        let carts = JSON.parse(localStorage.getItem("carts")) || [];
-        let userCartIndex = carts.findIndex(cart => cart.username === localStorage.getItem("username"));
-
-        if (userCartIndex !== -1) {
-            carts[userCartIndex].order = []; // Clear the order for the current user
-            localStorage.setItem("carts", JSON.stringify(carts));
-        }
 
     </script>
 </body>

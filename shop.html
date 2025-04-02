@@ -44,7 +44,7 @@
             </div>
         </section>
 
-        <div class="pagination-container d-flex justify-content-center mt-4 pt-3 pb-3" style="background-color: black;">
+        <div class="pagination-container d-flex justify-content-center mt-5 pt-3 pb-3" style="background-color: black;">
             <nav aria-label="Page navigation" style="background-color: black;">
                 <ul class="pagination" style="background-color: black;">
                     <li class="page-item disabled" id="prev-page">
@@ -87,6 +87,8 @@
         let currentPage = 1;
         const itemsPerPage = 12;
         let productsList = [];
+        fetchProducts();
+
 
         function renderPagination(totalItems) {
             const paginationContainer = document.querySelector(".pagination");
@@ -136,6 +138,7 @@
         function renderProductsPaginated() {
             const start = (currentPage - 1) * itemsPerPage;
             const end = start + itemsPerPage;
+            // Filter products based on the selected category
             const dataSource = filteredProducts.length > 0 ? filteredProducts : productsList;
             const paginatedProducts = dataSource.slice(start, end);
 
@@ -202,7 +205,6 @@
         }
 
         // fetchProducts will load Initial Page and Initial Pagination
-        fetchProducts();
 
 
 
@@ -372,10 +374,9 @@
                 let name = product.querySelector(".product-name").innerText.toLowerCase();
 
                 if (name.includes(query.toLowerCase())) {
-                    console.log(name);
-                    product.classList.remove("d-none"); // Show the product
+                    product.parentElement.classList.remove("d-none"); // Show the product
                 } else {
-                    product.classList.add("d-none"); // Hide the product
+                    product.parentElement.classList.add("d-none"); // Hide the product
                 }
             });
         }

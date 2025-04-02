@@ -10,7 +10,8 @@ body {
     scroll-behavior: smooth;
 }
 
-.shopping-row {}
+.shopping-row {
+}
 
 .row {
     margin: 0 10% !important;
@@ -290,6 +291,13 @@ a.page-link {
 
 .fa-location-.dot {
     color: green !important;
+}
+
+.pagination-container {
+    /* position: fixed; */
+    top: 90%;
+    left: 0;
+    width: 100%;
 }
 
 

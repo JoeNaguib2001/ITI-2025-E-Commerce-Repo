@@ -14,6 +14,7 @@ app.use(cors());
 
 // التحقق من اسم المستخدم وحفظ الحساب الجديد
 app.post("/signup", (req, res) => {
+    alert("السيرفر شغال يا هندسة");
     const { fullName, userName, password, email, userType } = req.body;
 
     // قراءة بيانات الحسابات الحالية
@@ -52,33 +53,41 @@ app.post("/signup", (req, res) => {
 const ordersFilePath = path.join(__dirname, "../Data/Orders.json");
 
 app.post("/checkout", (req, res) => {
-    const orderData = {
-        orderId: req.body.orderId,
-        userName: req.body.userName,
-        orderDate: req.body.orderDate,
-        estimatedDelivery: req.body.estimatedDelivery,
-        order: req.body.order
-    };
-
-    fs.readFile(ordersFilePath, "utf8", (err, data) => {
-        if (err) {
-            return res.status(500).json({ message: "❌ خطأ في قراءة البيانات" });
-        }
-
-        let orders = [];
-        if (data) {
-            orders = JSON.parse(data);
-        }
-
-        orders.push(orderData); // إضافة الطلب الجديد
-
-        fs.writeFile(ordersFilePath, JSON.stringify(orders, null, 2), (err) => {
+    try {
+        debugger;
+        const orderData = {
+            orderId: req.body.orderId,
+            userName: req.body.userName,
+            orderDate: req.body.orderDate,
+            estimatedDelivery: req.body.estimatedDelivery,
+            order: req.body.order
+        };
+        fs.readFile(ordersFilePath, "utf8", (err, data) => {
             if (err) {
-                return res.status(500).json({ message: "❌ خطأ في حفظ الطلب" });
+                return res.status(500).json({ message: "❌ خطأ في قراءة البيانات" });
             }
-            res.status(201).json({ message: "✅ تم إتمام الطلب بنجاح!" });
+
+            let orders = [];
+            if (data) {
+                orders = JSON.parse(data);
+            }
+
+            orders.push(orderData); // إضافة الطلب الجديد
+
+            fs.writeFile(ordersFilePath, JSON.stringify(orders, null, 2), (err) => {
+                if (err) {
+                    return res.status(500).json({ message: "❌ خطأ في حفظ الطلب" });
+                }
+                res.status(201).json({ message: "✅ تم إتمام الطلب بنجاح!" });
+            });
         });
-    });
+    }
+
+    catch {
+        throw new Error("❌ خطأ في معالجة الطلب");
+    }
+
+
 });
 
 
