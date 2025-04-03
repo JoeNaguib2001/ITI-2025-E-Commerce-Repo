@@ -14,7 +14,6 @@ app.use(cors());
 
 // التحقق من اسم المستخدم وحفظ الحساب الجديد
 app.post("/signup", (req, res) => {
-    alert("السيرفر شغال يا هندسة");
     const { fullName, userName, password, email, userType } = req.body;
 
     // قراءة بيانات الحسابات الحالية
@@ -89,6 +88,8 @@ app.post("/checkout", (req, res) => {
 
 
 });
+
+
 
 
 

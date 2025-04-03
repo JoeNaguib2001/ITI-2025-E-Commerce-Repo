@@ -22,7 +22,7 @@
             background: #f8f9fa;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: -4px -4px 8px rgba(0, 0, 0, 0.2), 4px 4px 8px rgba(0, 0, 0, 0.2);
             height: 100%;
         }
 
@@ -74,13 +74,55 @@
             margin: 10px 0;
         }
 
-        .product-info p {
-            font-size: 16px;
-            color: w;
-        }
 
         .carousel-item {
             transition: transform 0.5s ease;
+        }
+
+
+        .left-side {
+            width: 75%;
+        }
+
+        .right-side {
+            width: 25%;
+        }
+
+        @media (max-width:1100px) {
+            .products-carousel {}
+
+            .left-side {
+                order: 2;
+                width: 100%;
+
+            }
+
+            .right-side {
+                order: 1;
+                width: 100%;
+                padding: 20px !important;
+            }
+        }
+
+        .shop-now-btn {
+            width: 300px !important;
+            text-align: center;
+            margin-top: 30px;
+            background-color: #ff5733;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .shop-now-btn:hover {
+            background-color: darkgreen;
+            scale: 1.3;
+            transition: .3s;
         }
     </style>
 </head>
@@ -108,10 +150,10 @@
                 style="list-style-type: none; padding-left: 10px; margin: 0; display: flex;"></ul>
         </div>
 
-        <div class="container-fluid d-flex justify-content-center align-items-center"
+        <div class="d-flex justify-content-center align-items-center"
             style="background-image: url(./Images/design_a_background_image_for_an_ecommerce_website_but_dont_design_buttons_just_the_image_and_some__qv06hicou6ak412v6nj0_2.png);
-            background-size: cover; background-repeat: no-repeat; height: 80vh; display: flex; align-items: center; justify-content: center;">
-            <div class="d-flex flex-column gap-2" style="width: 60%;">
+            background-size: cover; background-repeat: no-repeat; height: 86vh; display: flex; align-items: center; justify-content: center;">
+            <div class="d-flex flex-column gap-2 align-items-center" style="width: 60%;">
                 <h2 style="font-weight: 300; margin-bottom: 30px;" class="text-white">
                     50% Discounts For Limited Time
                 </h2>
@@ -123,10 +165,10 @@
                     Free Delivery For Orders Over <span style="font-weight:400;" class="text-white">500.00 EGP</span>
                 </h3>
 
-                <button
-                    style="width: 300px; background-color: #ff5733; color: white; border: none; border-radius: 25px; padding: 15px 20px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                <span class="shop-now-btn"
+                    onclick="let summerCollection = document.querySelector('.summer-collection'); summerCollection.scrollIntoView({ behavior: 'smooth', block: 'center' })">
                     Shop Now
-                </button>
+                </span>
             </div>
         </div>
 
@@ -137,9 +179,9 @@
         </div>
         <!-- First Carousel with Promo Text -->
         <div class="container-fluid my-5">
-            <div class="d-flex align-items-center">
+            <div class="d-flex flex-wrap align-items-center summer-collection">
                 <!-- الكاروسيل الأول -->
-                <div class="col-md-9">
+                <div class="col-12 col-md-9">
                     <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active"
@@ -179,80 +221,92 @@
                 </div>
 
                 <!-- النص الدعائي بجانب الكاروسيل -->
-                <div class="col-md-3 d-flex align-items-center justify-content-center text-center">
-                    <div class="promo-text py-5 px-5">
-                        <h3 style="font-weight: 100;">Summer Collection</h3>
+                <div class="col-12 col-md-3 d-flex align-items-center justify-content-center text-center">
+                    <div class="promo-text py-5 px-5 d-flex justify-content-center">
+                        <h3 style="font-weight: 100;">New Sunglasses Collection</h3>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- 🟢 الكاروسيل الثاني (بشكل منفصل عن الأول) -->
-        <div class="d-flex products-carousel bg-black text-white">
-            <div class="left-side" style="width: 30%;">
-                <div id="productSlider" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="product-card">
-                                <img src="./Images/carousel_2/product_1.png" alt="Product 1">
-                                <div class="product-info">
-                                    <h5>Product 1</h5>
-                                    <p>$199.99</p>
+        <div class="container-fluid">
+            <div class="d-flex flex-wrap products-carousel bg-black text-white">
+                <div class="left-side">
+                    <div id="productSlider" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-lg-6 col-12 d-flex justify-content-center">
+                                        <div class="product-card">
+                                            <img src="./Images/carousel_2/product_1.png" alt="Product 1">
+                                            <div class="product-info">
+                                                <h5>Product 1</h5>
+                                                <p>$199.99</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12 d-flex justify-content-center">
+                                        <div class="product-card">
+                                            <img src="./Images/carousel_2/product_2.jpg" alt="Product 2">
+                                            <div class="product-info">
+                                                <h5>Product 2</h5>
+                                                <p>$249.99</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-lg-6 col-12 d-flex justify-content-center">
+                                        <div class="product-card">
+                                            <img src="./Images/carousel_2/product_3.jpg" alt="Product 3">
+                                            <div class="product-info">
+                                                <h5>Product 3</h5>
+                                                <p>$349.99</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12 d-flex justify-content-center">
+                                        <div class="product-card">
+                                            <img src="./Images/carousel_2/product_4.png" alt="Product 1">
+                                            <div class="product-info">
+                                                <h5>Product 1</h5>
+                                                <p>$199.99</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="carousel-item">
-                            <div class="product-card">
-                                <img src="./Images/carousel_2/product_2.jpg" alt="Product 1">
-                                <div class="product-info">
-                                    <h5>Product 2</h5>
-                                    <p>$249.99</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="product-card">
-                                <img src="./Images/carousel_2/product_3.jpg" alt="Product 2">
-                                <div class="product-info">
-                                    <h5>Product 3</h5>
-                                    <p>$349.99</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="product-card">
-                                <img src="./Images/carousel_2/product_4.png" alt="Product 2">
-                                <div class="product-info">
-                                    <h5>Product 3</h5>
-                                    <p>$349.99</p>
-                                </div>
-                            </div>
-                        </div>
-
+                        <button class="carousel-control-prev" type="button" data-bs-target="#productSlider"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#productSlider"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#productSlider"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#productSlider"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
                 </div>
-            </div>
+                <div class="right-side d-flex justify-content-center align-items-center">
+                    <h1 style="font-weight: 100;">New Collection</h1>
+                </div>
 
-            <div class="right-side d-flex justify-content-center align-self-center" style="width: 80%;">
-                <h1 style="font-weight: 100;">New Collection</h1>
             </div>
         </div>
-        <!-- 🟢 المنتجات -->
-        <div class="container-fluid random-products-container">
-            <section class="shopping-row">
-                <div class="row" id="product-container" style="padding:0px;"></div>
-            </section>
-        </div>
+    </div>
+
+    </div>
+    <!-- 🟢 المنتجات -->
+    <div class="container-fluid random-products-container">
+        <section class="shopping-row">
+            <div class="row" id="product-container" style="padding:0px;"></div>
+        </section>
+    </div>
 
     </div>
     </div>
@@ -451,6 +505,7 @@
         function renderCategories(categories) {
             const categoriesContainer = document.getElementById("categories-container");
             const categoriesContainer2 = document.getElementById("categories-container-nav-id");
+            const shoppingRow = document.querySelector(".shopping-row");
             categoriesContainer.innerHTML = "";
 
             categories.forEach(category => {
@@ -466,6 +521,7 @@
             <h5 class="card-title">${category.name}</h5>
         `;
                 li.addEventListener("click", function () {
+
                     currentPage = 1;
                     if (category.name == "All Categories") {
                         mode = "random";
@@ -477,6 +533,7 @@
 
                     renderProductsPaginated();
                     renderPagination(filteredProducts.length);
+                    shoppingRow.scrollIntoView({ behavior: "smooth" });
                 });
 
 
@@ -492,6 +549,7 @@
 
                     renderProductsPaginated();
                     renderPagination(filteredProducts.length);
+                    shoppingRow.scrollIntoView({ behavior: "smooth" });
                 });
 
                 categoriesContainer.appendChild(categoryDiv);

@@ -223,11 +223,19 @@ body {
     .rating-text {
         margin-top: -20px;
     }
+
+
 }
 
 @media (min-width:768px) {
     .product {
         width: 80% !important;
+    }
+}
+
+@media (max-width:450px) {
+    .shop-now-btn {
+        width: 100% !important;
     }
 }
 
@@ -269,6 +277,7 @@ a.page-link {
 
 /* إعداد الوجه الخلفي */
 .back-card {
+    background-color: black;
     transform: rotateY(180deg);
     color: white;
     display: flex;
@@ -299,10 +308,4 @@ a.page-link {
 
 .fa-location-.dot {
     color: green !important;
-}
-
-.pagination-container {
-    /* top: 90%;
-    left: 0;
-    width: 100%; */
 }
