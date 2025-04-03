@@ -14,6 +14,7 @@
 
     <title>Shop</title>
     <style>
+      
     </style>
 </head>
 
@@ -34,7 +35,13 @@
             </div>
         </div>
         <!-- End Toast Container -->
-        <div class="d-flex flex-wrap justify-content-center" id="categories-container">
+        <div class="d-flex" id="categories-container-nav">
+            <ul id="categories-container-nav-id"
+                style="list-style-type: none; padding-left: 10px; margin: 0; display: flex;">
+
+            </ul>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center" id="categories-container" style="display: none !important;">
             Categories will be dynamically rendered here
         </div>
 
@@ -87,6 +94,7 @@
         let currentPage = 1;
         const itemsPerPage = 12;
         let productsList = [];
+        let mode = "random";
         fetchProducts();
 
 
@@ -139,7 +147,14 @@
             const start = (currentPage - 1) * itemsPerPage;
             const end = start + itemsPerPage;
             // Filter products based on the selected category
-            const dataSource = filteredProducts.length > 0 ? filteredProducts : productsList;
+            let dataSource;
+            if (mode != "random") {
+                dataSource = filteredProducts;
+            }
+            else {
+                dataSource = productsList;
+            }
+
             const paginatedProducts = dataSource.slice(start, end);
 
             const productContainer = document.getElementById("product-container");
@@ -221,10 +236,14 @@
         let filteredProducts = []; // لتخزين المنتجات الخاصة بكل فئة
         function renderCategories(categories) {
             const categoriesContainer = document.getElementById("categories-container");
+            const categoriesContainer2 = document.getElementById("categories-container-nav-id");
             categoriesContainer.innerHTML = "";
 
             categories.forEach(category => {
                 const categoryDiv = document.createElement("a");
+                const li = document.createElement("li");
+                li.innerText = category.name;
+                categoriesContainer2.appendChild(li);
                 categoryDiv.style.textDecoration = "none";
                 categoryDiv.href = "#";
                 categoryDiv.classList.add("card", "m-2", "text-center", "shadow-sm");
@@ -232,13 +251,33 @@
                 categoryDiv.innerHTML = `
             <h5 class="card-title">${category.name}</h5>
         `;
-                // <p class="card-text">${category.description}</p>
-                categoryDiv.addEventListener("click", function () {
-                    currentPage = 1; // إعادة تعيين الصفحة عند اختيار فئة جديدة
-                    filteredProducts = productsList.filter(product => product.category === category.name);
+                li.addEventListener("click", function () {
+                    currentPage = 1;
+                    if (category.name == "All Categories") {
+                        mode = "random";
+                    }
+                    else {
+                        filteredProducts = productsList.filter(product => product.category === category.name);
+                        mode = "category";
+                    }
 
-                    renderProductsPaginated(); // ✅ تحديث عرض المنتجات بعد التصفية
-                    renderPagination(filteredProducts.length); // ✅ تحديث الـ Pagination بناءً على عدد المنتجات المصنفة
+                    renderProductsPaginated();
+                    renderPagination(filteredProducts.length);
+                });
+
+
+                categoryDiv.addEventListener("click", function () {
+                    currentPage = 1;
+                    if (category.name == "All Categories") {
+                        mode = "random";
+                    }
+                    else {
+                        filteredProducts = productsList.filter(product => product.category === category.name);
+                        mode = "category";
+                    }
+
+                    renderProductsPaginated();
+                    renderPagination(filteredProducts.length);
                 });
 
                 categoriesContainer.appendChild(categoryDiv);

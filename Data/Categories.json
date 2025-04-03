@@ -1,5 +1,10 @@
 [
   {
+    "id": 0,
+    "name": "All Categories"
+  },
+
+  {
     "id": 1,
     "name": "Electronics",
     "description": "Electronic Items"
@@ -86,36 +91,31 @@
   },
   {
     "id": 18,
-    "name": "Collectibles",
-    "description": "Collectibles Items"
-  },
-  {
-    "id": 16,
     "name": "Video Games",
     "description": "Video Games Items"
   },
   {
-    "id": 17,
+    "id": 19,
     "name": "Movies & TV",
     "description": "Movies & TV Items"
   },
   {
-    "id": 18,
+    "id": 20,
     "name": "Collectibles",
     "description": "Collectibles Items"
   },
   {
-    "id": 16,
+    "id": 21,
     "name": "Video Games",
     "description": "Video Games Items"
   },
   {
-    "id": 17,
+    "id": 22,
     "name": "Movies & TV",
     "description": "Movies & TV Items"
   },
   {
-    "id": 18,
+    "id": 23,
     "name": "Collectibles",
     "description": "Collectibles Items"
   }
