@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
@@ -7,50 +7,74 @@
     <title>Bootstrap Dropdown RTL & LTR</title>
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <style>
-        .demo-container {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 50px;
-        }
     </style>
 </head>
 
 <body>
-
-    <div class="container">
-        <h2 class="text-center">🔽 تجربة القوائم المنسدلة في RTL و LTR 🔽</h2>
-
-        <div class="demo-container">
-            <!-- القائمة في وضع RTL -->
-            <div class="dropdown" data-bs-display="static">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    قائمة RTL (من اليمين)
-                </button>
-                <ul class="dropdown-menu dropdown-menu-start">
-                    <li><a class="dropdown-item" href="#">عنصر 1</a></li>
-                    <li><a class="dropdown-item" href="#">عنصر 2</a></li>
-                    <li><a class="dropdown-item" href="#">عنصر 3</a></li>
-                </ul>
+    <!-- الكاروسيل مع عرض عنصرين في كل مرة -->
+    <div class="container my-5">
+        <div id="productSlider" class="carousel slide" data-bs-ride="carousel">
+            <!-- مؤشرات الشرائح -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="product-card">
+                                <img src="./Images/carousel_1/blonde1.png" alt="Product 1">
+                                <div class="product-info">
+                                    <h5>Product 1</h5>
+                                    <p>$199.99</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="product-card">
+                                <img src="./Images/carousel_1/blonde1.png" alt="Product 1">
+                                <div class="product-info">
+                                    <h5>Product 2</h5>
+                                    <p>$249.99</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="product-card">
+                                <img src="./Images/carousel_1/blonde1.png" alt="Product 1">
+                                <div class="product-info">
+                                    <h5>Product 3</h5>
+                                    <p>$349.99</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="product-card">
+                                <img src="./Images/carousel_1/blonde1.png" alt="Product 1">
+                                <div class="product-info">
+                                    <h5>Product 4</h5>
+                                    <p>$399.99</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- القائمة في وضع LTR -->
-            <div class="dropdown" data-bs-display="static" dir="ltr">
-                <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    قائمة LTR (من اليسار)
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#">Item 1</a></li>
-                    <li><a class="dropdown-item" href="#">Item 2</a></li>
-                    <li><a class="dropdown-item" href="#">Item 3</a></li>
-                </ul>
-            </div>
+            <!-- الأزرار -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#productSlider" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#productSlider" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-
     </div>
 
     <script src="./js/bootstrap.bundle.min.js"></script>
-    <!-- ???????????????? -->
-    <!-- pull request  -->
 </body>
 
 </html>
