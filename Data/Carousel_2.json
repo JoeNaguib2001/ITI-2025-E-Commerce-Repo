@@ -1,0 +1,26 @@
+[
+  {
+    "productName": "Proc#1",
+    "price": 300,
+    "quantity": 60,
+    "image": "../Images/carousel_2/product_1.png"
+  },
+  {
+    "productName": "Proc#1",
+    "price": 300,
+    "quantity": 60,
+    "image": "../Images/carousel_2/product_2.jpg"
+  },
+  {
+    "productName": "Proc#1",
+    "price": 300,
+    "quantity": 60,
+    "image": "../Images/carousel_2/product_3.jpg"
+  },
+  {
+    "productName": "Proc#1",
+    "price": 300,
+    "quantity": 60,
+    "image": "../Images/carousel_2/product_4.png"
+  }
+]
