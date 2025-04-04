@@ -394,14 +394,8 @@
         loadCartItems();
         updateOrderSummary();
 
-        // تحديث البيانات عند تحميل الصفحة
-        // document.addEventListener("DOMContentLoaded", () => {
-        //     loadCartItems();
-        //     updateOrderSummary();
-        // });
 
         document.querySelector(".checkout-btn").addEventListener("click", (event) => {
-            event.preventDefault(); // يمنع إعادة تحميل الصفحة
             Checkout();
         });
 
@@ -424,7 +418,10 @@
                 userName: username,
                 orderDate: new Date().toISOString().split('T')[0], // تاريخ اليوم
                 estimatedDelivery: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // +3 أيام
-                order: cartItems
+                order: cartItems,
+                orderStatus: "Waiting",
+                totalPrice: cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2),
+                paymentMethod: "Credit Card",
             };
 
             try {
@@ -433,18 +430,40 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(orderData)
                 });
-
                 let result = await response.json();
+
 
                 if (response.ok) {
                     ShowBootstrapToast(result.message, "success");
                 } else {
                     ShowBootstrapToast(result.message, "danger");
                 }
+
+
+
+                setTimeout(() => {
+                }, 4000);
+
             } catch (error) {
                 ShowBootstrapToast("❌ حدث خطأ أثناء إرسال الطلب", "danger");
+                return;
             }
 
+            // Clear the cart from local storage
+            let carts = JSON.parse(localStorage.getItem("carts")) || [];
+            let userCartIndex = carts.findIndex(cart => cart.username === localStorage.getItem("username"));
+
+            if (userCartIndex !== -1) {
+                carts[userCartIndex].order = []; // Clear the order for the current user
+                localStorage.setItem("carts", JSON.stringify(carts));
+            }
+
+            debugger;
+            loadCartItems();
+
+
+            // Wait for 3 seconds before redirecting
+            await new Promise(resolve => setTimeout(resolve, 3000));
             // Pass order details to the next page
             let total = orderData.order.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const params = new URLSearchParams({
@@ -453,7 +472,6 @@
                 estimatedDelivery: orderData.estimatedDelivery
             });
             window.location.href = `order-confirmation.html?${params.toString()}`;
-
         }
 
 

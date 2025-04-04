@@ -223,22 +223,5 @@ function showOrder() {
 
 
 
-//Bootstrap Toast Function
-function ShowBootstrapToast(message, type) {
-    let toastEl = document.getElementById("bootstrapToast");
-    let toastBody = document.getElementById("toastMessage");
-    let toastHeader = document.getElementById("toastTitle");
-
-    // تغيير لون العنوان حسب نوع الرسالة
-    let bgColor = type === "success" ? "text-success" : "text-danger";
-    toastHeader.className = `me-auto ${bgColor}`;
-
-    // تعيين الرسالة
-    toastBody.innerText = message;
-
-    // عرض التوست
-    let toast = new bootstrap.Toast(toastEl);
-    toast.show();
-}
 
 

@@ -14,11 +14,122 @@
 
     <title>Shop</title>
     <style>
+        .promo-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: -4px -4px 8px rgba(0, 0, 0, 0.2), 4px 4px 8px rgba(0, 0, 0, 0.2);
+            height: 100%;
+        }
+
+        .promo-text h3 {
+            font-size: 1.8rem;
+            color: #333;
+        }
+
+        .carousel-inner img {
+            height: 600px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: orange;
+            color: black;
+            border-radius: 50%;
+            padding: 10px;
+        }
+
+
+        .product-card {
+            text-align: center;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+        #productSlider {
+            margin: auto;
+        }
+
+
+        .product-card img {
+            height: 650px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.1);
+            /* تكبير الصورة قليلاً عند التمرير عليها */
+        }
+
+        .product-info h5 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+
+        .carousel-item {
+            transition: transform 0.5s ease;
+        }
+
+
+        .left-side {
+            width: 75%;
+        }
+
+        .right-side {
+            width: 25%;
+        }
+
+        @media (max-width:1100px) {
+            .products-carousel {}
+
+            .left-side {
+                order: 2;
+                width: 100%;
+
+            }
+
+            .right-side {
+                order: 1;
+                width: 100%;
+                padding: 20px !important;
+            }
+        }
+
+        .shop-now-btn {
+            width: 300px !important;
+            text-align: center;
+            margin-top: 30px;
+            background-color: #ff5733;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .shop-now-btn:hover {
+            background-color: darkgreen;
+            scale: 1.3;
+            transition: .3s;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container-fluid" style="padding-right: 0px; padding-left: 0px;">
+    <!-- Nav -->
+    <div class="container-fluid px-0">
         <div id="navbar"></div>
         <!-- Toast Container -->
         <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -28,45 +139,69 @@
                     <small>Just now</small>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
-                <div class="toast-body text-dark" id="toastMessage">
-                    Message goes here.
-                </div>
+                <div class="toast-body text-dark" id="toastMessage">Message goes here.</div>
             </div>
         </div>
         <!-- End Toast Container -->
-        <div class="d-flex flex-wrap justify-content-center" id="categories-container">
+
+        <!-- Categories Nav -->
+        <div class="d-flex categories-container-nav" id="categories-container-nav">
+            <ul id="categories-container-nav-id"
+                style="list-style-type: none; padding-left: 10px; margin: 0; display: flex;"></ul>
+        </div>
+
+       
+
+        <!-- Categories Cards -->
+        <div class="d-flex flex-wrap justify-content-center categories-container" id="categories-container"
+            style="display: none !important;">
             Categories will be dynamically rendered here
         </div>
+        <!-- First Carousel with Promo Text -->
+       
 
-        <section class="shopping-row container-fluid">
-            <div class="row" id="product-container" style="padding:0px;">
-
-            </div>
+    </div>
+    <!-- 🟢 المنتجات -->
+    <div class="container-fluid random-products-container">
+        <section class="shopping-row">
+            <div class="row" id="product-container" style="padding:0px;"></div>
         </section>
+    </div>
 
-        <div class="pagination-container d-flex justify-content-center mt-4 pt-3 pb-3" style="background-color: black;">
-            <nav aria-label="Page navigation" style="background-color: black;">
-                <ul class="pagination" style="background-color: black;">
-                    <li class="page-item disabled" id="prev-page">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    Page numbers will be dynamically added here
-                    <li class="page-item" id="next-page">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+    </div>
+    </div>
 
+
+    <!-- Products Section -->
+    <div class="container-fluid random-products-container">
+        <section class="shopping-row">
+            <div class="row" id="product-container" style="padding:0px;"></div>
+        </section>
     </div>
 
 
 
-    </section>
+
+    <!-- Pagination -->
+    <div class="pagination-container d-flex justify-content-center mt-5 pt-3 pb-3" style="background-color: black;">
+        <nav aria-label="Page navigation" style="background-color: black;">
+            <ul class="pagination" style="background-color: black;">
+                <li class="page-item disabled" id="prev-page">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                Page numbers will be dynamically added here
+                <li class="page-item" id="next-page">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    </div>
     <!-- Load NavBar -->
     <script src="./navbar/navbar.js"></script>
 
@@ -87,6 +222,9 @@
         let currentPage = 1;
         const itemsPerPage = 12;
         let productsList = [];
+        let mode = "random";
+        fetchProducts();
+
 
         function renderPagination(totalItems) {
             const paginationContainer = document.querySelector(".pagination");
@@ -136,7 +274,15 @@
         function renderProductsPaginated() {
             const start = (currentPage - 1) * itemsPerPage;
             const end = start + itemsPerPage;
-            const dataSource = filteredProducts.length > 0 ? filteredProducts : productsList;
+            // Filter products based on the selected category
+            let dataSource;
+            if (mode != "random") {
+                dataSource = filteredProducts;
+            }
+            else {
+                dataSource = productsList;
+            }
+
             const paginatedProducts = dataSource.slice(start, end);
 
             const productContainer = document.getElementById("product-container");
@@ -202,7 +348,6 @@
         }
 
         // fetchProducts will load Initial Page and Initial Pagination
-        fetchProducts();
 
 
 
@@ -219,10 +364,15 @@
         let filteredProducts = []; // لتخزين المنتجات الخاصة بكل فئة
         function renderCategories(categories) {
             const categoriesContainer = document.getElementById("categories-container");
+            const categoriesContainer2 = document.getElementById("categories-container-nav-id");
+            const shoppingRow = document.querySelector(".shopping-row");
             categoriesContainer.innerHTML = "";
 
             categories.forEach(category => {
                 const categoryDiv = document.createElement("a");
+                const li = document.createElement("li");
+                li.innerText = category.name;
+                categoriesContainer2.appendChild(li);
                 categoryDiv.style.textDecoration = "none";
                 categoryDiv.href = "#";
                 categoryDiv.classList.add("card", "m-2", "text-center", "shadow-sm");
@@ -230,13 +380,36 @@
                 categoryDiv.innerHTML = `
             <h5 class="card-title">${category.name}</h5>
         `;
-                // <p class="card-text">${category.description}</p>
-                categoryDiv.addEventListener("click", function () {
-                    currentPage = 1; // إعادة تعيين الصفحة عند اختيار فئة جديدة
-                    filteredProducts = productsList.filter(product => product.category === category.name);
+                li.addEventListener("click", function () {
 
-                    renderProductsPaginated(); // ✅ تحديث عرض المنتجات بعد التصفية
-                    renderPagination(filteredProducts.length); // ✅ تحديث الـ Pagination بناءً على عدد المنتجات المصنفة
+                    currentPage = 1;
+                    if (category.name == "All Categories") {
+                        mode = "random";
+                    }
+                    else {
+                        filteredProducts = productsList.filter(product => product.category === category.name);
+                        mode = "category";
+                    }
+
+                    renderProductsPaginated();
+                    renderPagination(filteredProducts.length);
+                    shoppingRow.scrollIntoView({ behavior: "smooth" });
+                });
+
+
+                categoryDiv.addEventListener("click", function () {
+                    currentPage = 1;
+                    if (category.name == "All Categories") {
+                        mode = "random";
+                    }
+                    else {
+                        filteredProducts = productsList.filter(product => product.category === category.name);
+                        mode = "category";
+                    }
+
+                    renderProductsPaginated();
+                    renderPagination(filteredProducts.length);
+                    shoppingRow.scrollIntoView({ behavior: "smooth" });
                 });
 
                 categoriesContainer.appendChild(categoryDiv);
@@ -372,10 +545,9 @@
                 let name = product.querySelector(".product-name").innerText.toLowerCase();
 
                 if (name.includes(query.toLowerCase())) {
-                    console.log(name);
-                    product.classList.remove("d-none"); // Show the product
+                    product.parentElement.classList.remove("d-none"); // Show the product
                 } else {
-                    product.classList.add("d-none"); // Hide the product
+                    product.parentElement.classList.add("d-none"); // Hide the product
                 }
             });
         }
@@ -398,7 +570,7 @@
         }
 
         //Bootstrap Toast Function
-        window.ShowBootstrapToast = function (message, type) {
+        ShowBootstrapToast = function (message, type) {
             let toastEl = document.getElementById("bootstrapToast");
             let toastBody = document.getElementById("toastMessage");
             let toastHeader = document.getElementById("toastTitle");
@@ -423,90 +595,4 @@
 </body>
 
 </html>
-<!-- <div class="product">
-                    <img src="./Images/20240815_105001.jpg" alt="">
-                    <br>
-                    <span class="product-name">Product 1</span>
-                    <br>
-                    <span class="product-price">$100</span>
-                    <div class="stars-container">
-                        <div class="star" data-index="1"></div>
-                        <div class="star" data-index="2"></div>
-                        <div class="star" data-index="3"></div>
-                        <div class="star" data-index="4"></div>
-                        <div class="star" data-index="5"></div>
-                    </div>
-        
-                    <br>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div> -->
-<!-- <div class="product">
-                    <img src="./Images/20240815_105001.jpg" alt="">
-                    <br>
-                    <span class="product-name">Product 1</span>
-                    <br>
-                    <span class="product-price">$100</span>
-                    <div class="stars-container">
-                        <div class="star" data-index="1"></div>
-                        <div class="star" data-index="2"></div>
-                        <div class="star" data-index="3"></div>
-                        <div class="star" data-index="4"></div>
-                        <div class="star" data-index="5"></div>
-                    </div>
-        
-                    <br>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-                <div class="product">
-                    <img src="./Images/20240815_105001.jpg" alt="">
-                    <br>
-                    <span class="product-name">Product 1</span>
-                    <br>
-                    <span class="product-price">$100</span>
-                    <div class="stars-container">
-                        <div class="star" data-index="1"></div>
-                        <div class="star" data-index="2"></div>
-                        <div class="star" data-index="3"></div>
-                        <div class="star" data-index="4"></div>
-                        <div class="star" data-index="5"></div>
-                    </div>
-                    <br>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-        
-                <div class="product">
-                    <img src="./Images/20240815_105001.jpg" alt="">
-                    <br>
-                    <span class="product-name">Product 1</span>
-                    <br>
-                    <span class="product-price">$100</span>
-                    <div class="stars-container">
-                        <div class="star" data-index="1"></div>
-                        <div class="star" data-index="2"></div>
-                        <div class="star" data-index="3"></div>
-                        <div class="star" data-index="4"></div>
-                        <div class="star" data-index="5"></div>
-                    </div>
-        
-                    <br>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div> -->
 
-<!-- <br> -->
-
-<!-- <div class="stars-container">
-                                <div class="star" data-index="1"></div>
-                                <div class="star" data-index="2"></div>
-                                <div class="star" data-index="3"></div>
-                                <div class="star" data-index="4"></div>
-                                <div class="star" data-index="5"></div> -->
-
-<!-- // async function fetchProducts() {
-        // try {
-        // let response = await fetch('https://fakestoreapi.com/products');
-        // productsList = await response.json();
-        // renderProducts(productsList);
-        // } catch (error) {
-        // console.error("Error fetching products:", error);
-        // }
-        // } -->
