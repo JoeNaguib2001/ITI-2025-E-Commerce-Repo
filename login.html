@@ -4,33 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/main-colors.css">
+    <link rel="stylesheet" href="./css/loginstyle.css">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <link rel="stylesheet" href="./css/main-colors.css">
-
-    <link rel="stylesheet" href="./css/loginstyle.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-
-
-    <title>Login</title>
+    <title>ok123456</title>
     <style>
 
     </style>
 </head>
 
 <body>
-    <!-- <div class="top-bar d-flex justify-content-center">
-        <img
-            src="./Images/png-transparent-amazon-logo-amazon-com-amazon-video-logo-company-brand-amazon-logo-miscellaneous-wish-text-thumbnail.png">
-    </div> -->
-    <!-- <div class="background">
-
-    </div> -->
     <div class="outer-container container-fluid">
         <!-- Toast Container -->
                  <!-- Toast Container -->
@@ -51,72 +36,73 @@
         <!-- End Toast Container -->
         <form class="loginform">
             <div class="row">
-                <!-- <img src="./Images/1200+-Photoroom.png" class="lady-image"> -->
-                <!-- <div class="ladning-offer"> -->
-                <!-- <h2 class="text-white font">Special offers, 50% Discounts for new customers</h2> -->
-                <!-- <h3>Don't Wait. Login And Order Now !</h3> -->
-                <!-- <button>Shop Now !</button> -->
-                <div class="inner-container col-10  col-md-8 col-lg-6 col-xl-4 ">
+                <div class="inner-container col-10  col-md-8 col-lg-6 col-xl-4 mt-2">
                     <!-- Toggler Effect Between Login And Signup -->
-                    <div style="display: flex; margin-bottom: 20px; position: relative;" class="mode-toggler">
+                    <div
+                        style="display: flex; margin-bottom: 20px; position: relative; background: rgba(255, 255, 255, 0.1); ">
                         <div id="slider"
-                            style="position: absolute; width: 50%; height: 100%;  border-radius: 5px; transition: transform 0.3s ease-in-out;">
+                            style="position: absolute; width: 50%; height: 100%; background: white;  border-radius: 5px; transition: transform 0.3s ease-in-out;">
                         </div>
                         <span id="loginTab"
-                            style="flex: 1; padding: 12px 0; cursor: pointer; text-align: center; position: relative; z-index: 2;">Log
+                            style="flex: 1; padding: 12px 0; cursor: pointer; text-align: center; position: relative; z-index: 2; color:black">Log
                             in</span>
                         <span id="signupTab"
                             style="flex: 1; padding: 12px 0; cursor: pointer; text-align: center; position: relative; z-index: 2;">Sign
                             up</span>
                     </div>
                     <!-- End Toggler -->
+
                     <!-- User Icon -->
                     <div class="d-flex justify-content-center">
-                        <img id="img-profile" src="./Images/login.png">
+                        <img src="./Images/login.png">
                     </div>
                     <!-- Begin Inputs -->
-                    <!-- FullName -->
                     <div class="d-flex">
                         <input type="text" id="fullname" name="fullname" placeholder="FullName" required disabled
                             class="forSignUpOnly" style="display: none;" maxlength="20">
                     </div>
-                    <!-- Email -->
                     <div class="d-flex">
                         <input type="email" id="email" name="email" placeholder="Email" required disabled
                             class="forSignUpOnly" style="display: none;">
                     </div>
-                    <!-- UserName & Password & ConfirmPassword & Forgot & Remember & Submit  -->
                     <div class="d-flex flex-column">
-                        <input type="text" id="username" name="username" placeholder="Username" required minlength="6"
-                            maxlength="20">
-                        <div id="username-validation" style="height: 0px !important;">
+                        <input type="text" id="username" name="username" placeholder="Username" required minlength="6" maxlength="20">
+                        <div id="username-validation">
                         </div>
                         <div class="position-relative d-flex align-items-center">
                             <input type="password" id="password" name="password" placeholder="Password" required
                                 class="password" maxlength="20" onkeyup="checkPasswordStrength()">
-                            <i class="fa-solid fa-eye-slash show-hide-pass"></i>
+
                             <div id="progress-container"
                                 class="position-absolute d-flex flex-column align-items-center d-none"
                                 style="right: 5px;">
+
                                 <!-- Strength Text -->
                                 <small id="strength-text" class="text-white"
                                     style="margin-bottom: 2px; font-size: 12px; display: block;">Very
                                     Weak</small>
+
                                 <!-- Progress Bar Sections -->
                                 <div class="d-flex" style="gap: 2px;">
-                                    <div class="progress-segment" style="width: 15px; height: 8px; border-radius: 2px;">
+                                    <div class="progress-segment"
+                                        style="width: 15px; height: 8px; background-color: #ddd; border-radius: 2px;">
                                     </div>
-                                    <div class="progress-segment" style="width: 15px; height: 8px; border-radius: 2px;">
+                                    <div class="progress-segment"
+                                        style="width: 15px; height: 8px; background-color: #ddd; border-radius: 2px;">
                                     </div>
-                                    <div class="progress-segment" style="width: 15px; height: 8px; border-radius: 2px;">
+                                    <div class="progress-segment"
+                                        style="width: 15px; height: 8px; background-color: #ddd; border-radius: 2px;">
                                     </div>
-                                    <div class="progress-segment" style="width: 15px; height: 8px; border-radius: 2px;">
+                                    <div class="progress-segment"
+                                        style="width: 15px; height: 8px; background-color: #ddd; border-radius: 2px;">
                                     </div>
                                 </div>
                             </div>
+
                             <!-- <small id="strength-text" class="position-absolute text-white" style="right: -60px;">Very
                             Weak</small> -->
                         </div>
+
                         <div class="d-flex confirmpassowrd-div position-relative">
                             <input type="password" id="confirmpassword" name="password" placeholder="Confirm Password"
                                 required class="forSignUpOnly password" style="display: none;" disabled maxlength="20">
@@ -126,22 +112,24 @@
                             <i class="fa-solid fa-circle-xmark text-danger position-absolute "
                                 id="confirm-password-fail-icon"
                                 style="top:40%; right:30px; font-size: 18px; display: none;"></i>
+
+
                         </div>
-                        <div style="display: flex; align-items: center; gap: 5px; width: 70%; margin:15px auto">
-                            <a href="#" class="forgot">Forgot your
-                                password?</a>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 5px; width: 70%; margin:15px auto">
-                            <input type="radio" id="remember"> <label for="remember" class="remember">Remember
-                                me</label>
+                        <div style="display: flex; align-items: center; gap: 5px;">
+                            <input type="checkbox" class="showPassword" id="showPassword">
+                            <label for="showPassword" style="margin-top: 30px;">Show Password</label>
                         </div>
                         <!-- End Inputs -->
-                        <div>
-                            <div class=" d-flex justify-content-center"><input type="submit" class="submit"
-                                    value="Log in">
-                            </div>
+
+                        <div class="space-around">
+                            <span><input type="radio" id="remember"> <label for="remember" class="remember">Remember
+                                    me</label></span> <a href="#" class="forgot">Forgot your
+                                password?</a>
+                        </div>
+                        <div class="d-flex justify-content-center"><input type="submit" class="submit" value="Log in">
                         </div>
                     </div>
+
                 </div>
             </div>
         </form>
@@ -152,41 +140,6 @@
         let confirmPasswordFailIcon = document.getElementById("confirm-password-fail-icon");
         let confirmSuccessIcon = document.getElementById("confirm-password-success-icon");
 
-        //Toggler Animation Sign In / Sign Up Logic + Set Current Mode To Either Sign-In Or Sign-Up
-        let submit = document.querySelector('input[type="submit"]');
-        const loginTab = document.getElementById("loginTab");
-        const signupTab = document.getElementById("signupTab");
-        const slider = document.getElementById("slider");
-        const container = document.querySelector(".container");
-
-        loginTab.addEventListener("click", () => {
-            clearFormInputs();
-            slider.style.transform = "translateX(0%)";
-            loginTab.style.color = "white";
-            signupTab.style.color = "gray";
-            submit.value = "Log in";
-            currentMode = "login";
-            document.querySelectorAll(".forSignUpOnly").forEach(input => {
-                input.disabled = true;
-                input.style.display = "none";
-            });
-        });
-
-        signupTab.addEventListener("click", () => {
-            clearFormInputs();
-            slider.style.transform = "translateX(100%)";
-            signupTab.style.color = "white";
-            loginTab.style.color = "gray";
-            submit.value = "Sign up";
-            currentMode = "signup";
-            document.querySelectorAll("input:disabled").forEach(input => {
-                input.disabled = false;
-                input.style.display = "block";
-            });
-            window.scrollTo(0, document.body.scrollHeight);
-        });
-
-
 
 
         //Check If User Is Already Signed In, Direct To Shop Page
@@ -196,29 +149,13 @@
         }
 
 
-        //Show / Hide Password Functionality
-        let showHidePass = document.querySelector('.show-hide-pass');
-        let showPass = false;
-        showHidePass.addEventListener('click', function () {
-            if (showPass) {
-                showHidePass.classList.add('fa-eye-slash');
-                showHidePass.classList.remove('fa-eye');
-                showPass = false;
-                document.querySelectorAll('.password').forEach(el => {
-
-                    el.setAttribute('type', 'text');
-                });
-            }
-            else {
-                showHidePass.classList.add('fa-eye');
-                showHidePass.classList.remove('fa-eye-slash');
-                showPass = true;
-                document.querySelectorAll('.password').forEach(el => {
-                    el.setAttribute('type', 'password');
-                });
-            }
+        //Show Password Functionality
+        let checkbox = document.querySelector('.showPassword');
+        checkbox.addEventListener('change', function () {
+            document.querySelectorAll('.password').forEach(el => {
+                el.type = this.checked ? 'text' : 'password';
+            });
         });
-
 
 
         //Allow Deslecting A Radio Button
@@ -234,111 +171,198 @@
         });
 
         //Disable Right-Click On Images
-        // document.addEventListener("contextmenu", (event) => {
-        //     if (event.target.tagName === "IMG") {
-        //         event.preventDefault();
-        //         alert("Right-click is disabled on images!");
-        //     }
-        // });
-
-
-        //Handle Sign-In / Sign-Up Logic
-        let currentMode = "login";
-        document.querySelector("form").addEventListener("submit", async function (event) {
-            event.preventDefault();
-
-            let username = document.getElementById("username");
-            let password = document.getElementById("password");
-
-            if (currentMode === "login") {
-                let isValidUser = await checkUser(username.value, password.value);
-                if (isValidUser) {
-                    localStorage.setItem("isSignedIn", "true");
-                    localStorage.setItem("username", username.value);
-                    if (document.querySelector("#remember").checked) {
-                        localStorage.setItem("rememberMe", "true");
-                    } else {
-                        localStorage.setItem("rememberMe", "false");
-                    }
-                    localStorage.setItem("welcomeMessage", "Welcome back, " + username.value);
-                    setTimeout(() => {
-                        window.location.href = "shop.html";
-                    }, 2000);
-                } else {
-                    ShowBootstrapToast("Invalid Username or Password", "danger");
-                }
-            }
-            else if (currentMode === "signup") {
-                let fullName = document.getElementById("fullname").value;
-                let userName = document.getElementById("username").value;
-                let password = document.getElementById("password").value;
-                let email = document.getElementById("email").value;
-                let userType = "user";
-
-                let userData = { fullName, userName, password, email, userType };
-
-                try {
-                    let response = await fetch("http://localhost:3000/signup", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(userData)
-                    });
-
-                    let result = await response.json();
-
-                    if (response.ok) {
-                        ShowBootstrapToast(result.message, "success");
-                        localStorage.setItem("isSignedIn", "true");
-                        localStorage.setItem("username", userName);
-                        setTimeout(() => {
-                            window.location.href = "shop.html";
-                        }, 2000);
-                    } else {
-                        ShowBootstrapToast(result.message, "danger");
-                    }
-                } catch (error) {
-                    ShowBootstrapToast("❌ حدث خطأ أثناء الاتصال بالسيرفر", "danger");
-                }
+        document.addEventListener("contextmenu", (event) => {
+            if (event.target.tagName === "IMG") {
+                event.preventDefault();
+                alert("Right-click is disabled on images!");
             }
         });
 
-        //Validate User Input On Sign-In
-        async function checkUser(userName, password) {
-            try {
-                const response = await fetch('./Data/Accounts.Json');
+       
 
-                if (!response.ok) {
-                    console.error("Error loading JSON file");
-                    return false;
-                }
 
-                const accounts = await response.json();
-                console.log("Accounts Data:", accounts);
 
-                const user = accounts.find(acc => acc.userName === userName);
+        // document.querySelector("form").addEventListener("submit", function (event) {
+        //     event.preventDefault();
+        // });
 
-                if (!user) {
-                    console.warn("User not found!");
-                    return false;
-                }
+        //Handle Sign-In / Sign-Up Logic
+        // let currentMode = "login";
+        // document.querySelector("form").addEventListener("submit", async function (event) {
+        //     event.preventDefault(); // منع إعادة تحميل الصفحة
 
-                console.log("Stored Password:", user.password);
-                console.log("Entered Password:", password);
+        //     let username = document.getElementById("username");
+        //     let password = document.getElementById("password");
 
-                if (user.password === password) {
-                    return true;
-                } else {
-                    console.warn("Incorrect password");
-                    return false;
-                }
-            } catch (error) {
-                console.error("Error fetching or parsing JSON:", error);
-                return false;
-            }
+        //     if (currentMode === "login") {
+        //         let isValidUser = await checkUser(username.value, password.value);
+        //         if (isValidUser) {
+        //             localStorage.setItem("isSignedIn", "true");
+        //             localStorage.setItem("username", username.value);
+        //             if (document.querySelector("#remember").checked) {
+        //                 localStorage.setItem("rememberMe", "true");
+        //             } else {
+        //                 localStorage.setItem("rememberMe", "false");
+        //             }
+        //             localStorage.setItem("welcomeMessage", "Welcome back, " + username.value);
+        //             setTimeout(() => {
+        //                 window.location.href = "shop.html";
+        //             }, 2000);
+        //         } else {
+        //             ShowBootstrapToast("Invalid Username or Password", "danger");
+        //         }
+        //     }
+        //     else if (currentMode === "signup") {
+        //         let fullName = document.getElementById("fullname").value;
+        //         let userName = document.getElementById("username").value;
+        //         let password = document.getElementById("password").value;
+        //         let email = document.getElementById("email").value;
+        //         let userType = "user";
+
+        //         let userData = { fullName, userName, password, email, userType };
+
+        //         try {
+        //             let response = await fetch("http://localhost:3000/signup", {
+        //                 method: "POST",
+        //                 headers: { "Content-Type": "application/json" },
+        //                 body: JSON.stringify(userData)
+        //             });
+
+        //             let result = await response.json();
+
+        //             if (response.ok) {
+        //                 ShowBootstrapToast(result.message, "success");
+        //                 localStorage.setItem("isSignedIn", "true");
+        //                 localStorage.setItem("username", userName);
+        //                 setTimeout(() => {
+        //                     window.location.href = "shop.html";
+        //                 }, 2000);
+        //             } else {
+        //                 ShowBootstrapToast(result.message, "danger");
+        //             }
+        //         } catch (error) {
+        //             ShowBootstrapToast("❌ حدث خطأ أثناء الاتصال بالسيرفر", "danger");
+        //         }
+        //     }
+        // });
+
+        // //Validate User Input On Sign-In
+        // async function checkUser(userName, password) {
+        //     try {
+        //         const response = await fetch('./Data/Accounts.Json');
+
+        //         if (!response.ok) {
+        //             console.error("Error loading JSON file");
+        //             return false;
+        //         }
+
+        //         const accounts = await response.json();
+        //         console.log("Accounts Data:", accounts);
+
+        //         const user = accounts.find(acc => acc.userName === userName);
+
+        //         if (!user) {
+        //             console.warn("User not found!");
+        //             return false;
+        //         }
+
+        //         console.log("Stored Password:", user.password);
+        //         console.log("Entered Password:", password);
+
+        //         if (user.password === password) {
+        //             return true;
+        //         } else {
+        //             console.warn("Incorrect password");
+        //             return false;
+        //         }
+        //     } catch (error) {
+        //         console.error("Error fetching or parsing JSON:", error);
+        //         return false;
+        //     }
+        // }
+    </script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyBCDfTghFj89jNnYM3oz0LSGZU_FEi5s3c",
+          authDomain: "iti-2025-e-commerce.firebaseapp.com",
+          projectId: "iti-2025-e-commerce",
+          storageBucket: "https://iti-2025-e-commerce-default-rtdb.firebaseio.com",
+          messagingSenderId: "90149751365",
+          appId: "1:90149751365:web:839d4d987cbcafd36b712c"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        console.log("Firebase App:", app);
+
+        import { getDatabase, set, get, update, remove, ref, child } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+        const db = getDatabase();
+
+        var fullName = document.getElementById("fullname");
+        var email = document.getElementById("email");
+        var password = document.getElementById("password");
+        var username = document.getElementById("username");
+        var btn = document.querySelector(".submit");
+
+        function signUpUsers(){
+            set(ref(db,"users/" +username.value), {
+                fullName: fullName.value,
+                userName: username.value,
+                email: email.value,
+                password: password.value,
+                userType: "user"
+            })
+            .then(()=>{
+                alert("you signed up successfully!")
+            })
+            .catch((error)=>{
+                alert(error.message+" please try again")
+            })
         }
 
+        btn.addEventListener('click',signUpUsers)
 
+      </script>
+    <script>
+        //Toggler Animation Sign In / Sign Up Logic + Set Current Mode To Either Sign-In Or Sign-Up
+        let submit = document.querySelector('input[type="submit"]');
+        const loginTab = document.getElementById("loginTab");
+        const signupTab = document.getElementById("signupTab");
+        const slider = document.getElementById("slider");
+        const container = document.querySelector(".container");
+        loginTab.addEventListener("click", () => {
+            clearFormInputs();
+            slider.style.transform = "translateX(0%)";
+            loginTab.style.color = "black";
+            signupTab.style.color = "white";
+            submit.value = "Log in";
+            currentMode = "login";
+            document.querySelectorAll(".forSignUpOnly").forEach(input => {
+                input.disabled = true;
+                input.style.display = "none";
+            });
+        });
 
+        signupTab.addEventListener("click", () => {
+            clearFormInputs();
+            slider.style.transform = "translateX(100%)";
+            signupTab.style.color = "black";
+            loginTab.style.color = "white";
+            submit.value = "Sign up";
+            currentMode = "signup";
+            document.querySelectorAll("input:disabled").forEach(input => {
+                input.disabled = false;
+                input.style.display = "block";
+            });
+
+        });
 
         function checkPasswordStrength() {
             document.getElementById("confirmpassword").value = "";
@@ -401,12 +425,6 @@
             }
         });
 
-        document.getElementById("username").addEventListener("keypress", function (event) {
-            if (event.key === " ") {
-                event.preventDefault();
-                ShowBootstrapToast("Spaces are not allowed in the username.", "danger");
-            }
-        });
         document.getElementById("username").addEventListener("keyup", function () {
             if (currentMode === "login") return; // Skip if in login mode
             let usernameValidation = document.getElementById("username-validation");
