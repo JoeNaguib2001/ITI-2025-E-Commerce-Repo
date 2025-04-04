@@ -1,5 +1,6 @@
 :root {
-    --main-color: #5A4634;
+    /* --main-color: #5A4634; */
+    --main-color: #ff5733;
     --main-color-hover: #392c1e;
     --secondary-color: #f0c14b;
     --background-color: #fff;
@@ -55,13 +56,13 @@ input:focus {
 }
 
 .dropdown-menu {
-    background-color: var(--main-color) !important;
+    /* background-color: var(--main-color) !important; */
     color: var(--background-color) !important;
 }
 
 .dropdown-item {
-    background-color: var(--main-color) !important;
-    color: var(--background-color) !important;
+    /* background-color: var(--main-color) !important;
+    color: var(--background-color) !important; */
 }
 
 
@@ -72,13 +73,13 @@ input:focus {
 }
 
 .dropdown-item:hover {
-    background-color: var(--main-color-hover) !important;
-    color: white !important;
+    /* background-color: var(--main-color-hover) !important; */
+    /* color: white !important; */
     transition: .1s;
 }
 
 .login-btn:hover {
-    background-color: var(--main-color-hover) !important;
+    /* background-color: var(--main-color-hover) !important; */
     color: red !important;
     transition: .1s;
 }

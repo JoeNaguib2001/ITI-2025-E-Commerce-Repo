@@ -1,5 +1,6 @@
 :root {
-    --main-color: #5A4634;
+    /* --main-color: #5A4634; */
+    --main-color: #ff5733;
     --main-color-hover: #392c1e;
     --secondary-color: #f0c14b;
     --background-color: #fff;
@@ -145,7 +146,6 @@ select {
 }
 
 .progress-segment {
-    background-color: gray !important;
 }
 
 #remember {
@@ -172,7 +172,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #1F2937;
+    background-color: #de7c66;;
 }
 
 

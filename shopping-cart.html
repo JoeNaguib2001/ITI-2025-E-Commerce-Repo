@@ -394,11 +394,6 @@
         loadCartItems();
         updateOrderSummary();
 
-        // تحديث البيانات عند تحميل الصفحة
-        // document.addEventListener("DOMContentLoaded", () => {
-        //     loadCartItems();
-        //     updateOrderSummary();
-        // });
 
         document.querySelector(".checkout-btn").addEventListener("click", (event) => {
             Checkout();
@@ -423,7 +418,10 @@
                 userName: username,
                 orderDate: new Date().toISOString().split('T')[0], // تاريخ اليوم
                 estimatedDelivery: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // +3 أيام
-                order: cartItems
+                order: cartItems,
+                orderStatus: "Waiting",
+                totalPrice: cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2),
+                paymentMethod: "Credit Card",
             };
 
             try {

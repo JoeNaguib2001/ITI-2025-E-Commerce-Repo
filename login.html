@@ -141,6 +141,7 @@
     </div>
 
     <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/utilities.js"></script>
     <script>
         let confirmPasswordFailIcon = document.getElementById("confirm-password-fail-icon");
         let confirmSuccessIcon = document.getElementById("confirm-password-success-icon");
@@ -225,14 +226,6 @@
                 }
             });
         });
-
-        //Disable Right-Click On Images
-        // document.addEventListener("contextmenu", (event) => {
-        //     if (event.target.tagName === "IMG") {
-        //         event.preventDefault();
-        //         alert("Right-click is disabled on images!");
-        //     }
-        // });
 
 
         //Handle Sign-In / Sign-Up Logic
@@ -455,24 +448,6 @@
             document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
                 checkbox.checked = false;
             });
-        }
-
-        //Bootstrap Toast Function
-        function ShowBootstrapToast(message, type) {
-            let toastEl = document.getElementById("bootstrapToast");
-            let toastBody = document.getElementById("toastMessage");
-            let toastHeader = document.getElementById("toastTitle");
-
-            // تغيير لون العنوان حسب نوع الرسالة
-            let bgColor = type === "success" ? "text-success" : "text-danger";
-            toastHeader.className = `me-auto ${bgColor}`;
-
-            // تعيين الرسالة
-            toastBody.innerText = message;
-
-            // عرض التوست
-            let toast = new bootstrap.Toast(toastEl);
-            toast.show();
         }
 
     </script>
