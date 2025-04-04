@@ -19,5 +19,12 @@
     "password": "123456",
     "email": "jojo@jij.com",
     "userType": "user"
+  },
+  {
+    "fullName": "asdasd",
+    "userName": "asdasd",
+    "password": "asd123",
+    "email": "asdasd@asdas.css",
+    "userType": "user"
   }
 ]

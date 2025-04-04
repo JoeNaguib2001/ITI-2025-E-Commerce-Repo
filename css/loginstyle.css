@@ -17,11 +17,16 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
     margin: 0;
     font-family: "Amazon Ember", Arial, sans-serif !important;
 }
 
+.outer-container {
+    background-image: url("../Images/blonde1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: left;
+}
 
 .top-bar {
     /* background-color: #f8f9fa; */
@@ -51,17 +56,16 @@ body {
     justify-content: start;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: bottom;
-    /* background: linear-gradient(135deg, #01091f, #1f2937); */
     height: 100vh;
 }
+
 
 .inner-container {
     border: 2px solid #282f39;
     border-radius: 10px;
-    margin: 100px auto 150px 5% !important;
+    margin: 5% auto 5% 5% !important;
     padding: 0 !important;
-    position: relative;
+    height: fit-content;
 }
 
 .mode-toggler {
@@ -141,7 +145,7 @@ select {
 }
 
 .progress-segment {
-    background-color: gray;
+    background-color: gray !important;
 }
 
 #remember {
@@ -183,21 +187,6 @@ a.forgot,
 
 .show-hide-pass {
     position: absolute;
-    right: 120px;
+    right: 20%;
     cursor: pointer;
-}
-
-.lady-image {
-    position: absolute;
-    top: -15%;
-    right: 0;
-}
-
-@media (max-width: 1200px) {
-    .background {
-        background-image: url(../Images/1200-.png);
-        /* background-position: left; */
-        justify-content: end;
-    }
-
 }

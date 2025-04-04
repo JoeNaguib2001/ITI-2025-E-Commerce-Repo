@@ -14,11 +14,122 @@
 
     <title>Shop</title>
     <style>
+        .promo-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: -4px -4px 8px rgba(0, 0, 0, 0.2), 4px 4px 8px rgba(0, 0, 0, 0.2);
+            height: 100%;
+        }
+
+        .promo-text h3 {
+            font-size: 1.8rem;
+            color: #333;
+        }
+
+        .carousel-inner img {
+            height: 600px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: orange;
+            color: black;
+            border-radius: 50%;
+            padding: 10px;
+        }
+
+
+        .product-card {
+            text-align: center;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+        #productSlider {
+            margin: auto;
+        }
+
+
+        .product-card img {
+            height: 650px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.1);
+            /* تكبير الصورة قليلاً عند التمرير عليها */
+        }
+
+        .product-info h5 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+
+        .carousel-item {
+            transition: transform 0.5s ease;
+        }
+
+
+        .left-side {
+            width: 75%;
+        }
+
+        .right-side {
+            width: 25%;
+        }
+
+        @media (max-width:1100px) {
+            .products-carousel {}
+
+            .left-side {
+                order: 2;
+                width: 100%;
+
+            }
+
+            .right-side {
+                order: 1;
+                width: 100%;
+                padding: 20px !important;
+            }
+        }
+
+        .shop-now-btn {
+            width: 300px !important;
+            text-align: center;
+            margin-top: 30px;
+            background-color: #ff5733;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .shop-now-btn:hover {
+            background-color: darkgreen;
+            scale: 1.3;
+            transition: .3s;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container-fluid" style="padding-right: 0px; padding-left: 0px;">
+    <!-- Nav -->
+    <div class="container-fluid px-0">
         <div id="navbar"></div>
         <!-- Toast Container -->
         <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -28,45 +139,209 @@
                     <small>Just now</small>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
-                <div class="toast-body text-dark" id="toastMessage">
-                    Message goes here.
-                </div>
+                <div class="toast-body text-dark" id="toastMessage">Message goes here.</div>
             </div>
         </div>
         <!-- End Toast Container -->
-        <div class="d-flex flex-wrap justify-content-center" id="categories-container">
+
+        <!-- Categories Nav -->
+        <div class="d-flex categories-container-nav" id="categories-container-nav">
+            <ul id="categories-container-nav-id"
+                style="list-style-type: none; padding-left: 10px; margin: 0; display: flex;"></ul>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center"
+            style="background-image: url(./Images/design_a_background_image_for_an_ecommerce_website_but_dont_design_buttons_just_the_image_and_some__qv06hicou6ak412v6nj0_2.png);
+            background-size: cover; background-repeat: no-repeat; height: 86vh; display: flex; align-items: center; justify-content: center;">
+            <div class="d-flex flex-column gap-2 align-items-center" style="width: 60%;">
+                <h2 style="font-weight: 300; margin-bottom: 30px;" class="text-white">
+                    50% Discounts For Limited Time
+                </h2>
+
+                <h3 style="font-weight: 200; margin-bottom: 30px;" class="text-white">
+                    We Deliver All Around Egypt ! </h3>
+
+                <h3 style="font-weight: 200;" class="text-white">
+                    Free Delivery For Orders Over <span style="font-weight:400;" class="text-white">500.00 EGP</span>
+                </h3>
+
+                <span class="shop-now-btn"
+                    onclick="let summerCollection = document.querySelector('.summer-collection'); summerCollection.scrollIntoView({ behavior: 'smooth', block: 'center' })">
+                    Shop Now
+                </span>
+            </div>
+        </div>
+
+        <!-- Categories Cards -->
+        <div class="d-flex flex-wrap justify-content-center categories-container" id="categories-container"
+            style="display: none !important;">
             Categories will be dynamically rendered here
         </div>
+        <!-- First Carousel with Promo Text -->
+        <div class="container-fluid my-5">
+            <div class="d-flex flex-wrap align-items-center summer-collection">
+                <!-- الكاروسيل الأول -->
+                <div class="col-12 col-md-9">
+                    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active"
+                                aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2"
+                                aria-label="Slide 3"></button>
+                            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="3"
+                                aria-label="Slide 4"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="./Images/carousel_1/blonde1.png" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="./Images/carousel_1/blonde2.png" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="./Images/carousel_1/blonde3.png" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="./Images/carousel_1/blonde4.png" class="d-block w-100" alt="...">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
 
-        <section class="shopping-row container-fluid">
-            <div class="row" id="product-container" style="padding:0px;">
-
+                <!-- النص الدعائي بجانب الكاروسيل -->
+                <div class="col-12 col-md-3 d-flex align-items-center justify-content-center text-center">
+                    <div class="promo-text py-5 px-5 d-flex justify-content-center">
+                        <h3 style="font-weight: 100;">New Sunglasses Collection</h3>
+                    </div>
+                </div>
             </div>
-        </section>
-
-        <div class="pagination-container d-flex justify-content-center mt-4 pt-3 pb-3" style="background-color: black;">
-            <nav aria-label="Page navigation" style="background-color: black;">
-                <ul class="pagination" style="background-color: black;">
-                    <li class="page-item disabled" id="prev-page">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    Page numbers will be dynamically added here
-                    <li class="page-item" id="next-page">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
         </div>
 
+        <!-- 🟢 الكاروسيل الثاني (بشكل منفصل عن الأول) -->
+        <div class="container-fluid">
+            <div class="d-flex flex-wrap products-carousel bg-black text-white">
+                <div class="left-side">
+                    <div id="productSlider" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-lg-6 col-12 d-flex justify-content-center">
+                                        <div class="product-card">
+                                            <img src="./Images/carousel_2/product_1.png" alt="Product 1">
+                                            <div class="product-info">
+                                                <h5>Product 1</h5>
+                                                <p>$199.99</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12 d-flex justify-content-center">
+                                        <div class="product-card">
+                                            <img src="./Images/carousel_2/product_2.jpg" alt="Product 2">
+                                            <div class="product-info">
+                                                <h5>Product 2</h5>
+                                                <p>$249.99</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-lg-6 col-12 d-flex justify-content-center">
+                                        <div class="product-card">
+                                            <img src="./Images/carousel_2/product_3.jpg" alt="Product 3">
+                                            <div class="product-info">
+                                                <h5>Product 3</h5>
+                                                <p>$349.99</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12 d-flex justify-content-center">
+                                        <div class="product-card">
+                                            <img src="./Images/carousel_2/product_4.png" alt="Product 1">
+                                            <div class="product-info">
+                                                <h5>Product 1</h5>
+                                                <p>$199.99</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#productSlider"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#productSlider"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="right-side d-flex justify-content-center align-items-center">
+                    <h1 style="font-weight: 100;">New Collection</h1>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <!-- 🟢 المنتجات -->
+    <div class="container-fluid random-products-container">
+        <section class="shopping-row">
+            <div class="row" id="product-container" style="padding:0px;"></div>
+        </section>
+    </div>
+
+    </div>
+    </div>
+
+
+    <!-- Products Section -->
+    <div class="container-fluid random-products-container">
+        <section class="shopping-row">
+            <div class="row" id="product-container" style="padding:0px;"></div>
+        </section>
     </div>
 
 
 
-    </section>
+
+    <!-- Pagination -->
+    <div class="pagination-container d-flex justify-content-center mt-5 pt-3 pb-3" style="background-color: black;">
+        <nav aria-label="Page navigation" style="background-color: black;">
+            <ul class="pagination" style="background-color: black;">
+                <li class="page-item disabled" id="prev-page">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                Page numbers will be dynamically added here
+                <li class="page-item" id="next-page">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    </div>
     <!-- Load NavBar -->
     <script src="./navbar/navbar.js"></script>
 
@@ -87,6 +362,9 @@
         let currentPage = 1;
         const itemsPerPage = 12;
         let productsList = [];
+        let mode = "random";
+        fetchProducts();
+
 
         function renderPagination(totalItems) {
             const paginationContainer = document.querySelector(".pagination");
@@ -136,7 +414,15 @@
         function renderProductsPaginated() {
             const start = (currentPage - 1) * itemsPerPage;
             const end = start + itemsPerPage;
-            const dataSource = filteredProducts.length > 0 ? filteredProducts : productsList;
+            // Filter products based on the selected category
+            let dataSource;
+            if (mode != "random") {
+                dataSource = filteredProducts;
+            }
+            else {
+                dataSource = productsList;
+            }
+
             const paginatedProducts = dataSource.slice(start, end);
 
             const productContainer = document.getElementById("product-container");
@@ -202,7 +488,6 @@
         }
 
         // fetchProducts will load Initial Page and Initial Pagination
-        fetchProducts();
 
 
 
@@ -219,10 +504,15 @@
         let filteredProducts = []; // لتخزين المنتجات الخاصة بكل فئة
         function renderCategories(categories) {
             const categoriesContainer = document.getElementById("categories-container");
+            const categoriesContainer2 = document.getElementById("categories-container-nav-id");
+            const shoppingRow = document.querySelector(".shopping-row");
             categoriesContainer.innerHTML = "";
 
             categories.forEach(category => {
                 const categoryDiv = document.createElement("a");
+                const li = document.createElement("li");
+                li.innerText = category.name;
+                categoriesContainer2.appendChild(li);
                 categoryDiv.style.textDecoration = "none";
                 categoryDiv.href = "#";
                 categoryDiv.classList.add("card", "m-2", "text-center", "shadow-sm");
@@ -230,13 +520,36 @@
                 categoryDiv.innerHTML = `
             <h5 class="card-title">${category.name}</h5>
         `;
-                // <p class="card-text">${category.description}</p>
-                categoryDiv.addEventListener("click", function () {
-                    currentPage = 1; // إعادة تعيين الصفحة عند اختيار فئة جديدة
-                    filteredProducts = productsList.filter(product => product.category === category.name);
+                li.addEventListener("click", function () {
 
-                    renderProductsPaginated(); // ✅ تحديث عرض المنتجات بعد التصفية
-                    renderPagination(filteredProducts.length); // ✅ تحديث الـ Pagination بناءً على عدد المنتجات المصنفة
+                    currentPage = 1;
+                    if (category.name == "All Categories") {
+                        mode = "random";
+                    }
+                    else {
+                        filteredProducts = productsList.filter(product => product.category === category.name);
+                        mode = "category";
+                    }
+
+                    renderProductsPaginated();
+                    renderPagination(filteredProducts.length);
+                    shoppingRow.scrollIntoView({ behavior: "smooth" });
+                });
+
+
+                categoryDiv.addEventListener("click", function () {
+                    currentPage = 1;
+                    if (category.name == "All Categories") {
+                        mode = "random";
+                    }
+                    else {
+                        filteredProducts = productsList.filter(product => product.category === category.name);
+                        mode = "category";
+                    }
+
+                    renderProductsPaginated();
+                    renderPagination(filteredProducts.length);
+                    shoppingRow.scrollIntoView({ behavior: "smooth" });
                 });
 
                 categoriesContainer.appendChild(categoryDiv);
@@ -372,10 +685,9 @@
                 let name = product.querySelector(".product-name").innerText.toLowerCase();
 
                 if (name.includes(query.toLowerCase())) {
-                    console.log(name);
-                    product.classList.remove("d-none"); // Show the product
+                    product.parentElement.classList.remove("d-none"); // Show the product
                 } else {
-                    product.classList.add("d-none"); // Hide the product
+                    product.parentElement.classList.add("d-none"); // Hide the product
                 }
             });
         }
