@@ -1,19 +1,49 @@
 document.addEventListener("DOMContentLoaded", function () {
     loadOrders();
+    const navLinks = document.querySelectorAll('.nav-bar-links .nav-link');
+
+    navLinks.forEach(link => {
+
+        link.addEventListener('click', function() {
+
+            const allListItems = document.querySelectorAll('.nav-bar-links li');
+            allListItems.forEach(item => item.classList.remove('active'));
+
+            this.parentElement.classList.add('active');  
+        });
+    });
+
+    document.getElementById("OrderButton").addEventListener("click", function () {
+        loadOrders();
+    });
 });
+
+// Function to show the loader
+function showLoader() {
+    document.getElementById("loadingSpinner").style.display = "flex"; // Show the spinner
+}
+
+// Function to hide the loader
+function hideLoader() {
+    document.getElementById("loadingSpinner").style.display = "none"; // Hide the spinner
+}
+
+
+
 let allOrders = []; 
 
 async function loadOrders() {
     try {
+            showLoader();
+
         const response = await fetch('./Data/Orders.json');
         
         if (!response.ok) {
             throw new Error('Failed to fetch orders data');
         }
+        const data = await response.json(); 
 
-        allOrders = await response.json(); 
-
-        const processedOrders = allOrders.map(order => ({
+        const processedOrders = data.map(order => ({
             id: order.orderId,
             userName: order.userName,
             orderDate: order.orderDate,
@@ -23,23 +53,39 @@ async function loadOrders() {
             orderStatus: order.orderStatus,
             order: order.order 
         }));
+
+        for (let item of processedOrders) {
+            allOrders.push(item);
+        }
+        let searchDiv = document.getElementById("searchDiv");
+        searchDiv.innerHTML = "";
+        createDateFilter();
+
         console.log(processedOrders);
-        createCardModal(processedOrders); // تحديث البطاقات
-        buildTable(processedOrders);
+        const CatContainer = document.getElementById("CatContainer");
+         CatContainer.innerHTML = "";
+        createOrderCardModal(processedOrders); // تحديث البطاقات
+        buildOrderTable(processedOrders);
+        hideLoader();
     } catch (error) {
         console.error('Failed to load orders:', error);
         alert("There was an error loading the orders. Please try again later.");
+        hideLoader();
+
     }
 }
 
 
-function createCardModal(orders) {
+function createOrderCardModal(orders) {
     const totalOrders = orders.length;
     const totalProducts = orders.reduce((total, order) => total + order.order.reduce((productTotal, product) => productTotal + product.quantity, 0), 0);
     const totalCustomers = new Set(orders.map(order => order.userName)).size;
     const totalRevenue = orders.reduce((total, order) => total + parseFloat(order.totalPrice), 0);
 
-    const modalHTML = `
+    const modalHeader = `
+         <h2 class="cardHeader text-center">Orders Analysis</h2>
+`;
+    const modalHTML =`
         <div class="card">
             <div class="card-content">
                 <h3 class="card-title">Total Orders</h3>
@@ -62,11 +108,12 @@ function createCardModal(orders) {
             <div class="card-content">
                 <h3 class="card-title">Total Sales</h3>
                 <p class="card-number">$${totalRevenue.toLocaleString()}</p>
-            </div>
+            </div>s
         </div>
-    `;
 
-    // إضافة الكروت إلى div المحدد
+    `;
+    const divHeader = document.querySelector(".cardHeader");
+    divHeader.innerHTML = modalHeader; 
     const div = document.querySelector(".cardList");
     div.innerHTML = modalHTML;  // إحذف أي محتوى قديم وأضف الجدد
 }
@@ -104,7 +151,6 @@ function createDateFilter() {
     // إضافة div إلى العنصر الرئيسي في الـ DOM (مثل body أو عنصر آخر)
     searchDiv.appendChild(dateFilterDiv); // يمكن تغيير هذا إلى أي عنصر آخر تريده
 }
-createDateFilter();
 
 
 document.getElementById("searchBtn").addEventListener("click", function() {
@@ -130,7 +176,8 @@ function filterOrdersByDate(orders, startDate, endDate) {
     });
 }
 
-function buildTable(orders) {
+function buildOrderTable(orders) {
+
     let container = document.getElementById("tableData");
     container.innerHTML = "";
 
@@ -243,23 +290,29 @@ async function showOrderDetails(order) {
         const products = Array.isArray(order.order) ? order.order : [order.order];
         
         for (let item of products) {
-            await updateProductStatus(order.id, item.id, "Pending");
+            // await updateProductStatus(order.id, item.id, "Pending");
             
             const productHTML = `
-                <div class="row g-3 mb-3">
-                    <div class="col-md-4">
-                        <img src="${item.image}" alt="${item.title}" class="img-fluid rounded-3">
-                    </div>
-                    <div class="col-md-8">
-                        <h5 class="fw-bold">${item.title}</h5>
-                        <p class="mb-1"><strong>Price:</strong> ${item.price} EGP</p>
-                        <p class="mb-1"><strong>Quantity:</strong> ${item.quantity}</p>
-                        <p><strong>Description:</strong> ${item.description}</p>
-                        <p><strong>Category:</strong> ${item.category}</p>
-                        <p><strong>Rating:</strong> ${item.rating.rate} (${item.rating.count} reviews)</p>
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <img src="${item.image}" alt="${item.title}" class="img-fluid rounded-3">
+                </div>
+                <div class="col-md-8">
+                    <h5 class="fw-bold">${item.title}</h5>
+                    <p class="mb-1"><strong>Price:</strong> ${item.price} EGP</p>
+                    <p class="mb-1"><strong>Quantity:</strong> ${item.quantity}</p>
+                    <p><strong>Description:</strong> ${item.description}</p>
+                    <p><strong>Category:</strong> ${item.category}</p>
+                    <p><strong>Rating:</strong> ${item.rating.rate} (${item.rating.count} reviews)</p>
+        
+                    <div class="mt-3 d-flex gap-2">
+                        <button class="btn btn-success" onclick="updateProductStatus(${order.id}, ${item.id}, 'Accepted')">Accept</button>
+                        <button class="btn btn-danger" onclick="updateProductStatus(${order.id}, ${item.id}, 'Rejected')">Reject</button>
                     </div>
                 </div>
-            `;
+            </div>
+        `;
+        
             productDetailsContainer.innerHTML += productHTML;
         }
     } else {
