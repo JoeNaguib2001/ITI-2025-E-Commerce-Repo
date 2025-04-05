@@ -211,7 +211,30 @@
     </div>
     <script src="./navbar/navbar.js"></script>
     <script src="./js/bootstrap.bundle.min.js"></script>
-    <script>
+    <script type="module">
+         // Import the functions you need from the SDKs you need
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        import { getDatabase, ref,set, push } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyBCDfTghFj89jNnYM3oz0LSGZU_FEi5s3c",
+          authDomain: "iti-2025-e-commerce.firebaseapp.com",
+          projectId: "iti-2025-e-commerce",
+          storageBucket: "https://iti-2025-e-commerce-default-rtdb.firebaseio.com",
+          messagingSenderId: "90149751365",
+          appId: "1:90149751365:web:839d4d987cbcafd36b712c"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        console.log("Firebase App:", app);
+
+        const db = getDatabase();
+
         let cartItems;
         function getCurrentLoggedInUserCartOrderedItems() {
             let username = localStorage.getItem("username");
@@ -424,30 +447,20 @@
                 paymentMethod: "Credit Card",
             };
 
-            try {
-                let response = await fetch("http://localhost:3000/checkout", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(orderData)
-                });
-                let result = await response.json();
+            const ordersRef = ref(db, "orders/");
+            const newOrderRef = push(ordersRef);
 
-
-                if (response.ok) {
-                    ShowBootstrapToast(result.message, "success");
-                } else {
-                    ShowBootstrapToast(result.message, "danger");
-                }
-
-
-
-                setTimeout(() => {
-                }, 4000);
-
-            } catch (error) {
-                ShowBootstrapToast("❌ حدث خطأ أثناء إرسال الطلب", "danger");
-                return;
-            }
+            set(newOrderRef, orderData)
+            .then(() => {
+                alert("✅ Order placed successfully!");
+                // You can redirect or clear cart here
+            })
+            .catch((error) => {
+                alert("❌ Error placing order: " + error.message);
+            });
+            const userOrdersRef = ref(db, `users/${username}/orders/`);
+            const newUserOrderRef = push(userOrdersRef);
+            set(newUserOrderRef, orderData);
 
             // Clear the cart from local storage
             let carts = JSON.parse(localStorage.getItem("carts")) || [];
@@ -457,10 +470,9 @@
                 carts[userCartIndex].order = []; // Clear the order for the current user
                 localStorage.setItem("carts", JSON.stringify(carts));
             }
-
+            
             debugger;
             loadCartItems();
-
 
             // Wait for 3 seconds before redirecting
             await new Promise(resolve => setTimeout(resolve, 3000));
