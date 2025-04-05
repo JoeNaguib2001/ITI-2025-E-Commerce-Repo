@@ -26,7 +26,7 @@ body {
     background-image: url("../Images/blonde1.png");
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: left;
+    background-position: bottom;
 }
 
 .top-bar {
@@ -40,24 +40,12 @@ body {
     width: 100%;
 }
 
-.background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-image: url("../Images/1200+.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: bottom;
-    z-index: -1;
-}
-
 .row {
     justify-content: start;
     background-size: cover;
     background-repeat: no-repeat;
-    height: 100vh;
+    min-height: 100vh;
+    max-height: fit-content;
 }
 
 
@@ -145,8 +133,7 @@ select {
     font-size: 14px;
 }
 
-.progress-segment {
-}
+.progress-segment {}
 
 #remember {
     transform: scale(1.2) translateY(-2px);
@@ -160,7 +147,6 @@ input[type="submit"] {
     display: block;
     height: 60px;
     width: 200px;
-    margin-top: 10px;
     text-align: center;
     font-size: xx-large;
     margin: 40px 0 40px 0;
@@ -172,7 +158,8 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #de7c66;;
+    background-color: #de7c66;
+    ;
 }
 
 
