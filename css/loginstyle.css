@@ -60,7 +60,10 @@ body {
     height: fit-content;
     backdrop-filter: blur(10px);
 }
-
+.inner-container:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s ease-in-out;
+  }
 .mode-toggler {
     border-bottom: 1px solid #282f39;
 }
