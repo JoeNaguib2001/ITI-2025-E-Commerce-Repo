@@ -6,8 +6,11 @@
 //toggle sign in
 //go to cart if signed in
 
- 
+import { ref, child, get } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
+
+// Access the globally initialized database
+const db = window.db;
 async function loadNavbar() {
     try {
         //this is the navbar element in the html page that wants to load the navbar
@@ -115,16 +118,16 @@ function updateSignButton() {
     }
 }
 
-// ✅ جلب الاسم من `localStorage`
     async function getStoredName() {
-        
+        console.log("Fetching user data from Firebase...");
         const dbRef = ref(db); 
+
         try {
             const snapshot = await get(child(dbRef, `users/${localStorage.getItem("username")}`)); 
             if (snapshot.exists()) {
                 const userData = snapshot.val(); 
-                const fullName = userData.fullname; 
-    
+                const fullName = userData.fullName; 
+
                 if (fullName) {
                     const nameParts = fullName.split(" "); 
                     const firstName = nameParts[0]; 
