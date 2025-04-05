@@ -6,6 +6,8 @@
 //toggle sign in
 //go to cart if signed in
 
+ 
+
 async function loadNavbar() {
     try {
         //this is the navbar element in the html page that wants to load the navbar
@@ -114,23 +116,31 @@ function updateSignButton() {
 }
 
 // ✅ جلب الاسم من `localStorage`
-async function getStoredName() {
-    const currentUser = localStorage.getItem("username");
-    if (currentUser) {
+    async function getStoredName() {
+        
+        const dbRef = ref(db); 
         try {
-            const response = await fetch("./Data/Accounts.json");
-            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-            const accounts = await response.json();
-            const user = accounts.find(account => account.userName === currentUser);
-            if (user && user.fullName) {
-                return user.fullName.split(" ")[0]; // Return the first name
+            const snapshot = await get(child(dbRef, `users/${localStorage.getItem("username")}`)); 
+            if (snapshot.exists()) {
+                const userData = snapshot.val(); 
+                const fullName = userData.fullname; 
+    
+                if (fullName) {
+                    const nameParts = fullName.split(" "); 
+                    const firstName = nameParts[0]; 
+                    return firstName;
+                } else {
+                    return null; 
+                }
+            } else {
+                return null; 
             }
         } catch (error) {
-            return "Default User"; // Return default name in case of error
+            console.error("Error fetching user data from Firebase:", error);
+            return null;
         }
     }
-    return "Default User"; // Return default name if no user is found
-}
+    
 
 // ✅ تحديث الاسم في النافبار
 function updateHelloCustomerName(name) {
