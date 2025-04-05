@@ -1,3 +1,4 @@
+<!-- Hello Ahmed -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,13 +25,7 @@
 </head>
 
 <body>
-    <!-- <div class="top-bar d-flex justify-content-center">
-        <img
-            src="./Images/png-transparent-amazon-logo-amazon-com-amazon-video-logo-company-brand-amazon-logo-miscellaneous-wish-text-thumbnail.png">
-    </div> -->
-    <!-- <div class="background">
 
-    </div> -->
     <div class="outer-container container-fluid">
         <!-- Toast Container -->
                  <!-- Toast Container -->
@@ -144,6 +139,7 @@
     </div>
 
     <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/utilities.js"></script>
     <script>
         let confirmPasswordFailIcon = document.getElementById("confirm-password-fail-icon");
         let confirmSuccessIcon = document.getElementById("confirm-password-success-icon");
@@ -188,7 +184,7 @@
         //Check If User Is Already Signed In, Direct To Shop Page
         if (localStorage.getItem("rememberMe") === "true") {
             localStorage.setItem("welcomeMessage", "Welcome back, " + localStorage.getItem("username"));
-            window.location.href = "shop.html";
+            window.location.href = "home.html";
         }
 
 
@@ -228,14 +224,6 @@
                 }
             });
         });
-
-        //Disable Right-Click On Images
-        // document.addEventListener("contextmenu", (event) => {
-        //     if (event.target.tagName === "IMG") {
-        //         event.preventDefault();
-        //         alert("Right-click is disabled on images!");
-        //     }
-        // });
 
 
         //Handle Sign-In / Sign-Up Logic
@@ -458,24 +446,6 @@
             document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
                 checkbox.checked = false;
             });
-        }
-
-        //Bootstrap Toast Function
-        function ShowBootstrapToast(message, type) {
-            let toastEl = document.getElementById("bootstrapToast");
-            let toastBody = document.getElementById("toastMessage");
-            let toastHeader = document.getElementById("toastTitle");
-
-            // تغيير لون العنوان حسب نوع الرسالة
-            let bgColor = type === "success" ? "text-success" : "text-danger";
-            toastHeader.className = `me-auto ${bgColor}`;
-
-            // تعيين الرسالة
-            toastBody.innerText = message;
-
-            // عرض التوست
-            let toast = new bootstrap.Toast(toastEl);
-            toast.show();
         }
 
     </script>

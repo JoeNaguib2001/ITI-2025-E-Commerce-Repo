@@ -1,3 +1,8 @@
+<!-- Joe1 -->
+ <!-- Joe2 -->
+
+<!-- Joe3 -->
+
 <!DOCTYPE html>
 <html lang="ar" dir="ltr">
 
@@ -7,70 +12,175 @@
     <title>Bootstrap Dropdown RTL & LTR</title>
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <style>
+        .carousel-inner img {
+            height: 600px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: orange;
+            color: black;
+            border-radius: 50%;
+            padding: 10px;
+        }
+
+
+        .product-card {
+            text-align: center;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+        #productSlider {
+            margin: auto;
+        }
+
+
+
+        .product-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .product-info h5 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+
+        .carousel-item {
+            transition: transform 0.5s ease;
+        }
+
+
+
+        @media (max-width:1100px) {
+            .products-carousel {}
+
+            .left-side {
+                order: 2;
+                width: 100%;
+
+            }
+
+            .right-side {
+                order: 1;
+                width: 100%;
+                padding: 20px !important;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <!-- الكاروسيل مع عرض عنصرين في كل مرة -->
-    <div class="container my-5">
-        <div id="productSlider" class="carousel slide" data-bs-ride="carousel">
-            <!-- مؤشرات الشرائح -->
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="product-card">
-                                <img src="./Images/carousel_1/blonde1.png" alt="Product 1">
-                                <div class="product-info">
-                                    <h5>Product 1</h5>
-                                    <p>$199.99</p>
+    <div class="container-fluid">
+        <div class="d-flex flex-wrap products-carousel bg-black text-white">
+            <div class="right-side d-flex justify-content-center align-items-center col-12 my-5">
+                <h1 style="font-weight: 100;">New Collection</h1>
+            </div>
+            <div>
+                <div id="productSlider" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#productSlider" data-bs-slide-to="0" class="active"
+                            aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#productSlider" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="d-flex flex-wrap">
+                                <div class="col-lg-3 col-md-6 col-12 d-flex justify-content-center">
+                                    <div class="product-card-tall d-flex flex-column align-items-center">
+                                        <img src="./Images/carousel_2/product_1.png" alt="Product 1">
+                                        <div class="product-info">
+                                            <h5>Product 1</h5>
+                                            <p>$199.99</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-12 d-flex justify-content-center">
+                                    <div class="product-card-tall d-flex flex-column align-items-center">
+                                        <img src="./Images/carousel_2/product_2.jpg" alt="Product 2">
+                                        <div class="product-info">
+                                            <h5>Product 2</h5>
+                                            <p>$249.99</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-12 d-flex justify-content-center">
+                                    <div class="product-card-tall d-flex flex-column align-items-center">
+                                        <img src="./Images/carousel_2/product_2.jpg" alt="Product 2">
+                                        <div class="product-info">
+                                            <h5>Product 2</h5>
+                                            <p>$249.99</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-12 d-flex justify-content-center">
+                                    <div class="product-card-tall d-flex flex-column align-items-center">
+                                        <img src="./Images/carousel_2/product_2.jpg" alt="Product 2">
+                                        <div class="product-info">
+                                            <h5>Product 2</h5>
+                                            <p>$249.99</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="product-card">
-                                <img src="./Images/carousel_1/blonde1.png" alt="Product 1">
-                                <div class="product-info">
-                                    <h5>Product 2</h5>
-                                    <p>$249.99</p>
+                        <div class="carousel-item">
+                            <div class="d-flex flex-wrap">
+                                <div class="col-lg-3 col-md-6 col-12 d-flex justify-content-center">
+                                    <div class="product-card-tall d-flex flex-column align-items-center">
+                                        <img src="./Images/carousel_2/product_1.png" alt="Product 1">
+                                        <div class="product-info">
+                                            <h5>Product 1</h5>
+                                            <p>$199.99</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-12 d-flex justify-content-center">
+                                    <div class="product-card-tall d-flex flex-column align-items-center">
+                                        <img src="./Images/carousel_2/product_2.jpg" alt="Product 2">
+                                        <div class="product-info">
+                                            <h5>Product 2</h5>
+                                            <p>$249.99</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-12 d-flex justify-content-center">
+                                    <div class="product-card-tall d-flex flex-column align-items-center">
+                                        <img src="./Images/carousel_2/product_2.jpg" alt="Product 2">
+                                        <div class="product-info">
+                                            <h5>Product 2</h5>
+                                            <p>$249.99</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-12 d-flex justify-content-center">
+                                    <div class="product-card-tall d-flex flex-column align-items-center">
+                                        <img src="./Images/carousel_2/product_2.jpg" alt="Product 2">
+                                        <div class="product-info">
+                                            <h5>Product 2</h5>
+                                            <p>$249.99</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="product-card">
-                                <img src="./Images/carousel_1/blonde1.png" alt="Product 1">
-                                <div class="product-info">
-                                    <h5>Product 3</h5>
-                                    <p>$349.99</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="product-card">
-                                <img src="./Images/carousel_1/blonde1.png" alt="Product 1">
-                                <div class="product-info">
-                                    <h5>Product 4</h5>
-                                    <p>$399.99</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productSlider"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#productSlider"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
             </div>
-
-            <!-- الأزرار -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#productSlider" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#productSlider" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
     </div>
 
