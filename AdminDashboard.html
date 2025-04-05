@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="./css/OrderStyles.css">
+    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
+
+</head>
+<body>
+    <nav class="navBar navbar navbar-expand-lg  fixed-top">
+        <div class="d-flex justify-content-between w-100">
+            <!-- Logo -->
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="./imgs/mainlogo.jpg" alt="Main Logo" class="logo-image rounded-circle">
+            </a>
+            <div class="name d-none d-md-block">
+                <p>Admin Dashboard</p>
+            </div>
+            <!-- User settings and profile -->
+            <div class="user-settings d-flex align-items-center">
+                <button class="settings-btn d-lg-none">⚙️</button>
+                <img src="profile.jpg" alt="User Profile" class="profile-pic">
+                <span class="username">Steve Rogers</span>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Admin Management Bar -->
+    <div class="nav-links container pt-5 mt-5">
+        <div class="row">
+                <ul class="nav-bar-links d-flex flex-wrap list-unstyled p-0 m-0">
+                    <li class="col-2 "><a class="nav-link" href="#">Dashboard</a></li>
+                    <li class="col-2"><a class="nav-link" href="#">Analytics</a></li>
+                    <li class="col-2 "><a class="nav-link" href="#">Products</a></li>
+                    <li class="col-2  active"><a class="nav-link" href="#">Orders</a></li>
+                    <li class="col-2 "><a class="nav-link" href="#">Customers</a></li>
+                    <li class="col-2 "><a class="nav-link" href="#">Messages <span class="badge">5</span></a></li>
+                </ul>
+            </div>
+    </div>
+    
+    
+    
+
+    <main class="mainContent">
+        <div class="cardList">     
+        </div>
+    </main>
+    
+s
+<section class="orders">
+    <div id="searchDiv">     
+    </div>
+    <div  id="tableData"></div>
+</section>
+
+
+    <script src="./js/OrderScript.js"></script>
+    <script src="./bootstrap-5.3.3-dist/js/bootstrap.bundle.js"></script>
+
+</body>
+</html>
