@@ -116,30 +116,30 @@ function updateSignButton() {
 }
 
 // ✅ جلب الاسم من `localStorage`
-    async function getStoredName() {
+    // async function getStoredName() {
         
-        const dbRef = ref(db); 
-        try {
-            const snapshot = await get(child(dbRef, `users/${localStorage.getItem("username")}`)); 
-            if (snapshot.exists()) {
-                const userData = snapshot.val(); 
-                const fullName = userData.fullname; 
+    //     const dbRef = ref(db); 
+    //     try {
+    //         const snapshot = await get(child(dbRef, `users/${localStorage.getItem("username")}`)); 
+    //         if (snapshot.exists()) {
+    //             const userData = snapshot.val(); 
+    //             const fullName = userData.fullname; 
     
-                if (fullName) {
-                    const nameParts = fullName.split(" "); 
-                    const firstName = nameParts[0]; 
-                    return firstName;
-                } else {
-                    return null; 
-                }
-            } else {
-                return null; 
-            }
-        } catch (error) {
-            console.error("Error fetching user data from Firebase:", error);
-            return null;
-        }
-    }
+    //             if (fullName) {
+    //                 const nameParts = fullName.split(" "); 
+    //                 const firstName = nameParts[0]; 
+    //                 return firstName;
+    //             } else {
+    //                 return null; 
+    //             }
+    //         } else {
+    //             return null; 
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching user data from Firebase:", error);
+    //         return null;
+    //     }
+    // }
     
 
 // ✅ تحديث الاسم في النافبار
