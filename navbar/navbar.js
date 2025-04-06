@@ -187,36 +187,35 @@ function toggleMenu() {
 }
 
 
-// Choose the right dropdown menu based on the user role
-fetch("./Data/Accounts.json")
-    .then(response => {
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        return response.json();
-    })
-    .then(accounts => {
-        const currentUser = localStorage.getItem("username");
-        const user = accounts.find(account => account.userName === currentUser);
-        if (user) {
-            currentUserRole = user.userType;
+// Fetch user data from Firebase
+const dbRef = ref(db); 
+const username = localStorage.getItem("username");
+get(child(dbRef, `users/${username}`))
+    .then((snapshot) => {
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+            const currentUserRole = userData.userType;
+
+            // Show/hide dropdown menus based on the user role
             if (currentUserRole === "admin") {
                 document.querySelector(".admin-dropdown").style.display = "block";
-                document.querySelector(".user-dropdown").remove();
-
+                const userDropdown = document.querySelector(".user-dropdown");
+                if (userDropdown) userDropdown.remove();
             } else {
-                document.querySelector(".admin-dropdown").remove();
+                const adminDropdown = document.querySelector(".admin-dropdown");
+                if (adminDropdown) adminDropdown.remove();
                 document.querySelector(".user-dropdown").style.display = "block";
             }
-        }
-        else {
-            console.log("User not found in Accounts.json");
-            document.querySelector(".admin-dropdown").remove();
+        } else {
+            console.error("User not found in Firebase.");
+            const adminDropdown = document.querySelector(".admin-dropdown");
+            if (adminDropdown) adminDropdown.remove();
             document.querySelector(".user-dropdown").style.display = "block";
         }
     })
-    .catch(error => {
-        console.error("❌ Error fetching Accounts.json:", error);
-    }); {
-}
+    .catch((error) => {
+        console.error("Error fetching user data from Firebase:", error);
+    });
 
 
 function showOrder() {

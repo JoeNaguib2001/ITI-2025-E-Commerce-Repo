@@ -204,6 +204,7 @@
     </div>
     <!-- Load NavBar -->
        <!-- firebase configration (the following two tags) -->
+       
     <script type="module">
         // Import the functions you need from the SDKs you need
        // Import the functions you need from the SDKs you need
@@ -231,16 +232,6 @@
        window.db = db;
        
 
-
-   </script>
-    <script type="module" src="./navbar/navbar.js"></script>
-
-    <!-- Load Boostrap JS -->
-    <script src="./js/bootstrap.bundle.min.js"></script>
-
-
-
-    <script>
         window.addEventListener("load", function () {
             let welcomeMessage = localStorage.getItem("welcomeMessage");
             if (welcomeMessage) {
@@ -320,14 +311,21 @@
             renderProducts(paginatedProducts);
         }
         async function fetchProducts() {
+            const dbRef = ref(db); 
             try {
-                let response = await fetch('./Data/products.json');
-                productsList = await response.json();
-                // render first page of products based on page size, current page = 1
-                renderProductsPaginated();
+                const snapshot = await get(child(dbRef, `products/`));
+                if (snapshot.exists()) {
+                    // Assign the fetched products to the global productsList variable
+                    productsList = Object.values(snapshot.val());
 
-                //create pagination after fetching the whole products from the Json file
-                renderPagination(productsList.length);
+                    // Render the first page of products based on page size, current page = 1
+                    renderProductsPaginated();
+
+                    // Create pagination after fetching the whole products from Firebase
+                    renderPagination(productsList.length);
+                } else {
+                    console.error("No products found in Firebase.");
+                }
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
@@ -382,10 +380,16 @@
 
 
         async function fetchCategories() {
+            const dbRef = ref(db); 
             try {
-                let response = await fetch('./Data/categories.json');
-                let categories = await response.json();
-                renderCategories(categories);
+                const snapshot = await get(child(dbRef, `categories/`));
+                if (snapshot.exists()) {
+                    // Assign the fetched categories to the global productsList variable
+                    let categories = Object.values(snapshot.val());
+                    renderCategories(categories);
+                } else {
+                    console.error("No categories found in Firebase.");
+                }
             } catch (error) {
                 console.error("Error fetching categories:", error);
             }
@@ -620,7 +624,10 @@
 
 
     </script>
+    <script type="module" src="./navbar/navbar.js"></script>
 
+    <!-- Load Boostrap JS -->
+    <script src="./js/bootstrap.bundle.min.js"></script>
 
 </body>
 
