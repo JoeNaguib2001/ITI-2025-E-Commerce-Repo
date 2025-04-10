@@ -612,6 +612,7 @@ function createEditProductModal() {
                   <input type="text" class="form-control" id="editProductCategory" required>
                 </div>
                 <div class="col-md-6">
+                
                   <label for="editProductImage" class="form-label">Image URL</label>
                   <input type="text" class="form-control" id="editProductImage">
                 </div>
