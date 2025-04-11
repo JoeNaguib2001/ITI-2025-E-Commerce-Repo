@@ -1,4 +1,5 @@
 import { ref, child, get } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+const db = window.db;
 
 document.addEventListener("DOMContentLoaded", function () {
     
@@ -101,14 +102,14 @@ async function loadOrders() {
             }));
 
             // Add processed orders to the global `allOrders` array
-            allOrders = processedOrders;
-
+            for (let item of processedOrders) {
+                allOrders.push(item);
+            }
             // Clear and update the search div
             let searchDiv = document.getElementById("searchDiv");
             searchDiv.innerHTML = "";
             createDateFilter();
 
-            console.log(processedOrders);
 
             // Update the UI with the fetched orders
             const CatContainer = document.getElementById("CatContainer");
@@ -127,6 +128,7 @@ async function loadOrders() {
         hideLoader();
     }
 }
+
 
 function createOrderCardModal(orders) {
     const totalOrders = orders.length;

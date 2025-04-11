@@ -1,37 +1,43 @@
+import { ref, child, get } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+const db = window.db;
 document.getElementById("productButton").addEventListener("click", function () {
     loadProducts();
 });
 
 async function loadProducts() {
+    const dbRef = ref(db);
+
     try {
         showLoader();
 
-        const response = await fetch('http://localhost:3000/api/products');
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch Products data');
+        // Fetch products from Firebase
+        const snapshot = await get(child(dbRef, `products/`));
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+
+            // Process the products into an array
+            const processedProducts = Object.values(userData).map(product => ({
+                id: product.id,
+                title: product.title,
+                price: product.price,
+                description: product.description,
+                category: product.category,
+                image: product.image,
+                rating: product.rating
+            }));
+
+            let searchDiv = document.getElementById("searchDiv");
+            searchDiv.innerHTML = "";
+            CreateSearchFilter();
+            console.log(processedProducts);
+            CreateCategoriesUi();
+            createProductCardModal(processedProducts); // Update product cards
+            buildProductTable(processedProducts);
+        } else {
+            console.warn("No products found in the database.");
         }
-        const data = await response.json(); 
 
-        const processedProduct = data.map(product => ({
-          id: product.id,
-          title: product.title,
-          price: product.price,
-          description: product.description,
-          category: product.category,
-          image: product.image,
-          rating: product.rating
-        }));
-
-        let searchDiv = document.getElementById("searchDiv");
-        searchDiv.innerHTML = "";
-        CreateSearchFilter();
-        console.log(processedProduct);
-        CreateCategoriesUi();
-        createProductCardModal(processedProduct); // تحديث البطاقات
-        buildProductTable(processedProduct);
         hideLoader();
-
     } catch (error) {
         console.error('Failed to load products:', error);
         alert("There was an error loading the products. Please try again later.");
