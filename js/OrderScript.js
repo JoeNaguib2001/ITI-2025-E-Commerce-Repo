@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    
     loadOrders();
     const navLinks = document.querySelectorAll('.nav-bar-links .nav-link');
 

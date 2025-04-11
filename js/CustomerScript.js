@@ -1,12 +1,13 @@
 document.getElementById("productButton").addEventListener("click", function () {
     loadProducts();
 });
+let allProducts = []; 
 
 async function loadProducts() {
     try {
         showLoader();
 
-        const response = await fetch('http://localhost:3000/api/products');
+        const response = await fetch('./Data/Products.json');
         
         if (!response.ok) {
             throw new Error('Failed to fetch Products data');
@@ -23,9 +24,10 @@ async function loadProducts() {
           rating: product.rating
         }));
 
-        let searchDiv = document.getElementById("searchDiv");
-        searchDiv.innerHTML = "";
-        CreateSearchFilter();
+        for (let item of processedProduct) {
+            allProducts.push(item);
+        } 
+
         console.log(processedProduct);
         CreateCategoriesUi();
         createProductCardModal(processedProduct); // تحديث البطاقات
@@ -39,17 +41,31 @@ async function loadProducts() {
     }
 }
 
-// استبدال المحتوى كاملًا:
 async function FetchCategoriseFromJsonFile() {
     try {
-      const response = await fetch('http://localhost:3000/api/categories');
-      if (!response.ok) throw new Error('Failed to fetch categories');
-      return await response.json();
+      // تحديد المسار إلى ملف JSON
+      const filePath = 'path/to/your/categories.json';
+      
+      // استخدام fetch لتحميل الملف
+      const response = await fetch(filePath);
+  
+      // التحقق من أن الاستجابة ناجحة
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      // تحويل البيانات إلى JSON
+      const data = await response.json();
+  
+      // إرجاع البيانات
+      return data;
+  
     } catch (error) {
-      console.error('Fetch Error:', error);
-      return [];
+      // في حالة حدوث خطأ أثناء جلب البيانات
+      console.error('There was a problem with the fetch operation:', error);
+      return [];  // ترجع مصفوفة فارغة في حال حدوث خطأ
     }
-  }
+}
 
 async function CreateCategoriesUi() {
     // إضافة async لأن الدالة تستخدم await
@@ -92,45 +108,18 @@ async function CreateCategoriesUi() {
 
     // معالجة حدث الحفظ
     const saveBtn = document.getElementById("saveCategoryBtn");
-    saveBtn.addEventListener("click", async () => { // Add async here
+    saveBtn.addEventListener("click", () => {
         const name = document.getElementById("categoryNameInput").value.trim();
         const desc = document.getElementById("categoryDescInput").value.trim();
-    
-        if (!name || !desc) {
-            alert("Please fill in all fields");
-            return;
-        }
-    
-        try {
-            // 1. Send data to server
-            const response = await fetch('http://localhost:3000/api/categories', {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json' 
-                },
-                body: JSON.stringify({ name, description: desc })
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-    
-            // 2. Get updated category from server
-            const newCategory = await response.json();
-            
-            // 3. Update local state with server response
-            categories.push(newCategory);
-            
-            // 4. Update UI
+
+        if (name && desc) {
+            categories.push({ id: categories.length + 1, name, description: desc });
             renderCategories();
-            
-            // 5. Close modal and reset form
             bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide();
-            document.getElementById("categoryForm").reset(); // Add form ID to your form
-    
-        } catch (error) {
-            console.error('Save Error:', error);
-            alert(`Failed to save category: ${error.message}`);
+            document.getElementById("categoryNameInput").value = "";
+            document.getElementById("categoryDescInput").value = "";
+        } else {
+            alert("Please fill in all fields");
         }
     });
 
@@ -276,6 +265,7 @@ function buildProductTable(products) {
     let table = document.createElement("table");
     table.border = "1";
     table.style.width = "100%";
+    table.className = "table table-striped table-hover";
 
     const headers = ["ID", "Title", "Price", "Details", "Edit", "Delete"];
     const thead = document.createElement("thead");
@@ -669,4 +659,3 @@ function hideLoader() {
         loader.style.display = "none";
     }
 }
-function  CreateSearchFilter(){}
