@@ -3,10 +3,7 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
         import { getDatabase } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
+
         const firebaseConfig = {
           apiKey: "AIzaSyBCDfTghFj89jNnYM3oz0LSGZU_FEi5s3c",
           authDomain: "iti-2025-e-commerce.firebaseapp.com",
@@ -20,5 +17,6 @@
         const app = initializeApp(firebaseConfig);
         console.log("Firebase App:", app);
 
+        import { getDatabase, set, get, update, remove, ref, child } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
         const db = getDatabase();
-        export { db };
+        window.db = db;

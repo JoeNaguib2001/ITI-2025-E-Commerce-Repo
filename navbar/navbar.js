@@ -122,11 +122,13 @@ function updateSignButton() {
         console.log("Fetching user data from Firebase...");
         const dbRef = ref(db); 
 
+
         try {
             const snapshot = await get(child(dbRef, `users/${localStorage.getItem("username")}`)); 
             if (snapshot.exists()) {
                 const userData = snapshot.val(); 
                 const fullName = userData.fullName; 
+
 
                 if (fullName) {
                     const nameParts = fullName.split(" "); 
@@ -187,9 +189,18 @@ function toggleMenu() {
 }
 
 
-// Fetch user data from Firebase
-const dbRef = ref(db); 
+// Choose the right dropdown menu based on the user role
+const dbRef = ref(db);
+
+// Retrieve the current username from localStorage
 const username = localStorage.getItem("username");
+
+if (!username) {
+    console.error("No username found in localStorage.");
+    return;
+}
+
+// Fetch user data from Firebase
 get(child(dbRef, `users/${username}`))
     .then((snapshot) => {
         if (snapshot.exists()) {
