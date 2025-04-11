@@ -329,7 +329,6 @@ async function showOrderDetails(order) {
         modalElement = document.getElementById("orderDetailsModal");
     }
 
-    // تصحيح: استخدام order.id بدلاً من order.orderId الذي قد لا يكون موجوداً
     document.getElementById('modalOrderId').textContent = order.id || "N/A";
     document.getElementById('modalUsername').textContent = order.userName || "N/A";
     document.getElementById('modalOrderDate').textContent = order.orderDate || "N/A";
