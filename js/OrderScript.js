@@ -35,49 +35,98 @@ function hideLoader() {
 
 let allOrders = []; 
 
-async function loadOrders() {
-    try {
-            showLoader();
+// async function loadOrders() {
+//     try {
+//             showLoader();
 
-        const response = await fetch('./Data/Orders.json');
+//         const response = await fetch('./Data/Orders.json');
         
-        if (!response.ok) {
-            throw new Error('Failed to fetch orders data');
+//         if (!response.ok) {
+//             throw new Error('Failed to fetch orders data');
+//         }
+//         const data = await response.json(); 
+
+//         const processedOrders = data.map(order => ({
+//             id: order.orderId,
+//             userName: order.userName,
+//             orderDate: order.orderDate,
+//             estimatedDelivery: order.estimatedDelivery,
+//             paymentMethod: order.paymentMethod,
+//             totalPrice: order.totalPrice,
+//             orderStatus: order.orderStatus,
+//             order: order.order 
+//         }));
+
+//         for (let item of processedOrders) {
+//             allOrders.push(item);
+//         }
+//         let searchDiv = document.getElementById("searchDiv");
+//         searchDiv.innerHTML = "";
+//         createDateFilter();
+
+//         console.log(processedOrders);
+//         const CatContainer = document.getElementById("CatContainer");
+//          CatContainer.innerHTML = "";
+//         createOrderCardModal(processedOrders); // تحديث البطاقات
+//         buildOrderTable(processedOrders);
+//         hideLoader();
+//     } catch (error) {
+//         console.error('Failed to load orders:', error);
+//         alert("There was an error loading the orders. Please try again later.");
+//         hideLoader();
+
+//     }
+// }
+async function loadOrders() {
+    const dbRef = ref(db);
+
+    try {
+        showLoader();
+
+        // Fetch orders from Firebase
+        const snapshot = await get(child(dbRef, `orders/`));
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+
+            // Process the orders into an array
+            const processedOrders = Object.values(userData).map(order => ({
+                id: order.orderId,
+                userName: order.userName,
+                orderDate: order.orderDate,
+                estimatedDelivery: order.estimatedDelivery,
+                paymentMethod: order.paymentMethod,
+                totalPrice: order.totalPrice,
+                orderStatus: order.orderStatus,
+                order: order.order
+            }));
+
+            // Add processed orders to the global `allOrders` array
+            allOrders = processedOrders;
+
+            // Clear and update the search div
+            let searchDiv = document.getElementById("searchDiv");
+            searchDiv.innerHTML = "";
+            createDateFilter();
+
+            console.log(processedOrders);
+
+            // Update the UI with the fetched orders
+            const CatContainer = document.getElementById("CatContainer");
+            CatContainer.innerHTML = "";
+            createOrderCardModal(processedOrders); // Update cards
+            buildOrderTable(processedOrders);
+
+            hideLoader();
+        } else {
+            console.error("No orders found in Firebase.");
+            hideLoader();
         }
-        const data = await response.json(); 
-
-        const processedOrders = data.map(order => ({
-            id: order.orderId,
-            userName: order.userName,
-            orderDate: order.orderDate,
-            estimatedDelivery: order.estimatedDelivery,
-            paymentMethod: order.paymentMethod,
-            totalPrice: order.totalPrice,
-            orderStatus: order.orderStatus,
-            order: order.order 
-        }));
-
-        for (let item of processedOrders) {
-            allOrders.push(item);
-        }
-        let searchDiv = document.getElementById("searchDiv");
-        searchDiv.innerHTML = "";
-        createDateFilter();
-
-        console.log(processedOrders);
-        const CatContainer = document.getElementById("CatContainer");
-         CatContainer.innerHTML = "";
-        createOrderCardModal(processedOrders); // تحديث البطاقات
-        buildOrderTable(processedOrders);
-        hideLoader();
     } catch (error) {
-        console.error('Failed to load orders:', error);
+        console.error("Failed to load orders:", error);
         alert("There was an error loading the orders. Please try again later.");
         hideLoader();
-
     }
 }
-
 
 function createOrderCardModal(orders) {
     const totalOrders = orders.length;
