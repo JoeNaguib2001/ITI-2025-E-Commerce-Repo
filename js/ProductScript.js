@@ -1,4 +1,5 @@
 import { ref, push, child, set, get } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 const db = window.db;
 document.getElementById("productButton").addEventListener("click", function () {
     loadProducts();
@@ -954,28 +955,34 @@ function hideLoader() {
     }
 }
 
-  function CreateSearchFilter() {
-    // 1. Create elements
-     const searchDiv=  document.getElementById("searchDiv")
-    const searchInput = document.createElement("input");
+function CreateSearchFilter() {
+    // 1. Get the searchDiv
+    const searchDiv = document.getElementById("searchDiv");
+    searchDiv.style.display = "flex"; // Use flexbox for alignment
+    searchDiv.style.alignItems = "center"; // Vertically align items
+    searchDiv.style.gap = "10px"; // Add spacing between elements
 
-    // 2. Set element properties
+    // 2. Create the search input
+    const searchInput = document.createElement("input");
     searchInput.setAttribute("type", "text");
     searchInput.setAttribute("placeholder", "Search by product name");
     searchInput.setAttribute("id", "searchBox");
-    searchInput.style.marginBottom = "10px";
     searchInput.style.padding = "5px";
     searchInput.style.width = "200px";
 
-   searchDiv.appendChild(searchInput);
+    // 3. Create the "Add New Product" button
+    const addNewProductBtn = document.createElement("button");
+    addNewProductBtn.textContent = "Add New Product";
+    addNewProductBtn.className = "btn btn-primary";
+    addNewProductBtn.style.padding = "8px 16px";
 
+    // Append the input and button to the searchDiv
+    searchDiv.appendChild(searchInput);
+    searchDiv.appendChild(addNewProductBtn);
 
-
-    // 3. Bind the event
+    // 4. Add event listener for the search input
     searchInput.addEventListener("input", async function () {
         const queryText = searchInput.value.toLowerCase();
-
-      
 
         try {
             // Reference to the products in Firebase
@@ -990,19 +997,174 @@ function hideLoader() {
                     product.title && product.title.toLowerCase().includes(queryText)
                 );
 
-
                 // Display filtered products
-                
-                buildProductTable(filteredProducts);    
-              
+                buildProductTable(filteredProducts);
             } else {
-                ShowBootstrapToast("No products found.", "warning");    
+                ShowBootstrapToast("No products found.", "warning");
             }
         } catch (error) {
             console.error("Error fetching products:", error);
             ShowBootstrapToast("Failed to fetch products. Please try again later.", "danger");
         }
     });
+    function createAddProductModal() {
+        const modalHTML = `
+        <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content shadow-lg rounded-4">
+              <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form id="addProductForm">
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label for="newProductTitle" class="form-label">Product Title</label>
+                      <input type="text" class="form-control" id="newProductTitle" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="newProductPrice" class="form-label">Price</label>
+                      <input type="number" class="form-control" id="newProductPrice" step="0.01" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="newProductCategory" class="form-label">Category</label>
+                      <input type="text" class="form-control" id="newProductCategory" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="newProductImageFile" class="form-label">Upload Image</label>
+                        <input type="file" class="form-control" id="newProductImageFile" accept="image/*" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="newProductQuantity" class="form-label">Quantity</label>
+                      <input type="number" class="form-control" id="newProductQuantity" min="1" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="newProductRating" class="form-label">Rating</label>
+                      <input type="number" class="form-control" id="newProductRating" step="0.1" min="0" max="5" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="newProductReviewCount" class="form-label">Review Count</label>
+                      <input type="number" class="form-control" id="newProductReviewCount" min="0" required>
+                    </div>
+                    <div class="col-12">
+                      <label for="newProductDescription" class="form-label">Description</label>
+                      <textarea class="form-control" id="newProductDescription" rows="3" required></textarea>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="saveProductBtn">Save Product</button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    
+        const div = document.createElement("div");
+        div.innerHTML = modalHTML;
+        document.body.appendChild(div);
+    }
+    // 5. Add event listener for the "Add New Product" button
+    addNewProductBtn.addEventListener("click", async () => {
+        let addProductModal = document.getElementById("addProductModal");
+        if (!addProductModal) {
+            createAddProductModal();
+            addProductModal = document.getElementById("addProductModal");
+        }
+    
+        const modal = new bootstrap.Modal(addProductModal);
+        modal.show();
+    
+        const saveProductBtn = document.getElementById("saveProductBtn");
+        saveProductBtn.onclick = async () => {
+            const title = document.getElementById("newProductTitle").value.trim();
+            const price = parseFloat(document.getElementById("newProductPrice").value);
+            const description = document.getElementById("newProductDescription").value.trim();
+            const category = document.getElementById("newProductCategory").value.trim();
+            const quantity = parseInt(document.getElementById("newProductQuantity").value);
+            const rating = {
+                rate: parseFloat(document.getElementById("newProductRating").value),
+                count: parseInt(document.getElementById("newProductReviewCount").value)
+            };
+    
+            const imageFile = document.getElementById("newProductImageFile").files[0]; // Get the uploaded file
+    
+            if (!title || !price || !description || !category || !imageFile || isNaN(quantity) || isNaN(rating.rate) || isNaN(rating.count)) {
+                alert("Please fill in all fields correctly.");
+                return;
+            }
+    
+            try {
+                showLoader();
+    
+                // Upload the image to Imgur
+                const imageUrl = await uploadImageToImgur(imageFile);
+    
+                // Fetch existing products to determine the next ID
+                const dbRef = ref(db, "products");
+                const snapshot = await get(dbRef);
+    
+                let newId = 1; // Default ID if no products exist
+                if (snapshot.exists()) {
+                    const products = Object.values(snapshot.val());
+                    const maxId = Math.max(...products.map(product => product.id));
+                    newId = maxId + 1; // Increment the highest ID
+                }
+    
+                // Add the new product to Firebase
+                const newProduct = {
+                    id: newId,
+                    title,
+                    price,
+                    description,
+                    category,
+                    image: imageUrl, // Use the Imgur image URL
+                    quantity,
+                    rating
+                };
+    
+                const newProductRef = ref(db, `products/${newId}`);
+                await set(newProductRef, newProduct);
+    
+                document.getElementById("addProductForm").reset();
+                bootstrap.Modal.getInstance(addProductModal).hide();
+                loadProducts();
+                alert("Product added successfully!");
+            } catch (error) {
+                console.error("Error adding product:", error);
+                alert("Failed to add product. Please try again later.");
+            } finally {
+                hideLoader();
+            }
+        };
+    });
+    async function uploadImageToImgur(imageFile) {
+        const clientId = "3f84b48e9b317be"; 
+        const formData = new FormData();
+        formData.append("image", imageFile);
+    
+        try {
+            const response = await fetch("https://api.imgur.com/3/image", {
+                method: "POST",
+                headers: {
+                    Authorization: `Client-ID ${clientId}`
+                },
+                body: formData
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to upload image to Imgur");
+            }
+    
+            const data = await response.json();
+            return data.data.link; // Return the URL of the uploaded image
+        } catch (error) {
+            console.error("Error uploading image to Imgur:", error);
+            throw error;
+        }
+    }
 }
 
 function generateSimpleGUID() {
@@ -1011,12 +1173,4 @@ function generateSimpleGUID() {
     return date.toString(16) + random;
   }
   
-    // // Create add new button
-    // const addNewBtn = document.createElement("button");
-    // addNewBtn.textContent = "Add New Product";  
-    // addNewBtn.className = "btn btn-primary mb-3 ml-auto";
-    // addNewBtn.style.padding = "12px 40px";
-    // addNewBtn.style.margin = "30px";
-    // CatContainer.appendChild(addNewBtn);
-
     

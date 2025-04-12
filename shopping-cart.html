@@ -447,7 +447,7 @@
                 paymentMethod: "Credit Card",
             };
 
-            const ordersRef = ref(db, "orders/");
+            const ordersRef = ref(db, "orders/" + orderData.orderId);
             const newOrderRef = push(ordersRef);
 
             set(newOrderRef, orderData)
