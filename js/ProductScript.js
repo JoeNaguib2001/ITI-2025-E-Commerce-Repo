@@ -1,4 +1,4 @@
-import { ref, child, get } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+import { ref, push,child, set,get , } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 const db = window.db;
 document.getElementById("productButton").addEventListener("click", function () {
     loadProducts();
@@ -34,7 +34,8 @@ async function loadProducts() {
             createProductCardModal(processedProducts); // Update product cards
             buildProductTable(processedProducts);
         } else {
-            console.warn("No products found in the database.");
+            console.error("No products found in Firebase.");
+            ShowBootstrapToast("No products found in Firebase.", "danger");             
         }
 
         hideLoader();
@@ -45,21 +46,25 @@ async function loadProducts() {
     }
 }
 
-// استبدال المحتوى كاملًا:
-async function FetchCategoriseFromJsonFile() {
+async function fetchCategories() {
+    const dbRef = ref(db); 
     try {
-      const response = await fetch('http://localhost:3000/api/categories');
-      if (!response.ok) throw new Error('Failed to fetch categories');
-      return await response.json();
+        const snapshot = await get(child(dbRef, "categories/"));
+        if (snapshot.exists()) {
+            // Assign the fetched categories to the global productsList variable
+            let categories = Object.values(snapshot.val());
+            return categories;
+        } else {
+            console.error("No categories found in Firebase.");
+        }
     } catch (error) {
-      console.error('Fetch Error:', error);
-      return [];
+        console.error("Error fetching categories:", error);
     }
-  }
+}
 
 async function CreateCategoriesUi() {
-    // إضافة async لأن الدالة تستخدم await
-    const categoriesFromJson = await FetchCategoriseFromJsonFile();
+
+    const categoriesFromJson = await fetchCategories();
 
     const categories = [];
     categoriesFromJson.forEach(category => {
@@ -97,96 +102,256 @@ async function CreateCategoriesUi() {
     });
 
     // معالجة حدث الحفظ
+
+    async function addCategoryToFirebase(name, description) {
+        // التحقق من وجود البيانات
+        if (!name || !description) {
+            alert("Please provide both name and description.");
+            return;
+        }
+    
+        try {
+            // 1. تحديد مرجع التصنيفات في Firebase
+            const myGuid = generateSimpleGUID();
+
+            const categoriesRef = ref(db, 'categories/' + myGuid);
+    
+    
+            // 3. حفظ البيانات في Firebase تحت المفتاح الجديد
+            await set(categoriesRef, {
+                id : myGuid,
+                name: name,
+                description: description
+            });
+    
+            // 4. إرجاع بيانات التصنيف الجديد
+            return { id: categoriesRef.key, name, description };
+    
+        } catch (error) {
+            console.error("Error saving category:", error);
+            alert("Failed to add category: " + error.message);
+            return null;
+        }
+    }
     const saveBtn = document.getElementById("saveCategoryBtn");
     saveBtn.addEventListener("click", async () => { // Add async here
         const name = document.getElementById("categoryNameInput").value.trim();
         const desc = document.getElementById("categoryDescInput").value.trim();
     
-        if (!name || !desc) {
-            alert("Please fill in all fields");
-            return;
-        }
+        const newCategory = await addCategoryToFirebase(name, desc);
+
     
-        try {
-            // 1. Send data to server
-            const response = await fetch('http://localhost:3000/api/categories', {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json' 
-                },
-                body: JSON.stringify({ name, description: desc })
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-    
-            // 2. Get updated category from server
-            const newCategory = await response.json();
-            
-            // 3. Update local state with server response
+        if (newCategory) {
             categories.push(newCategory);
-            
-            // 4. Update UI
             renderCategories();
             
             // 5. Close modal and reset form
             bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide();
             document.getElementById("categoryForm").reset(); // Add form ID to your form
     
-        } catch (error) {
-            console.error('Save Error:', error);
-            alert(`Failed to save category: ${error.message}`);
-        }
+        } 
     });
-
-    // دالة عرض التصنيفات
     function renderCategories() {
         categoryList.innerHTML = "";
         categoryList.className = "category-list";
-    
+        
         categories.forEach(cat => {
             const li = document.createElement("li");
             li.className = "category-item";
     
+            // رابط اسم التصنيف
             const link = document.createElement("a");
             link.href = "#";
             link.textContent = cat.name;
             link.className = "category-link";
-    
             link.addEventListener("click", () => {
-                console.log(`عرض جدول المنتجات لـ ${cat.name}`);
-                // هنا يجب إضافة منطق تصفية المنتجات حسب التصنيف
+                console.log(`عرض المنتجات في ${cat.name}`);
                 filterProductsByCategory(cat.name);
             });
     
+            // زر الثلاث نقاط
+            const menuButton = document.createElement("button");
+            menuButton.className = "menu-button";
+            menuButton.innerHTML = "⋮";
+            menuButton.title = "خيارات";
+            menuButton.addEventListener("click", (e) => {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle("show");
+            });
+    
+            // قائمة الخيارات (تعديل - حذف)
+            const dropdownMenu = document.createElement("ul");
+            dropdownMenu.className = "dropdown-menu";
+    
+            // عنصر "تعديل"
+            const editOption = document.createElement("li");
+            editOption.innerHTML = `<span class="option-icon">✏️</span> Edit`;
+            editOption.addEventListener("click", (e) => {
+                e.stopPropagation();
+                editCategory(cat);
+            });
+    
+            // عنصر "حذف"
+            const deleteOption = document.createElement("li");
+            deleteOption.innerHTML = `<span class="option-icon">🗑️</span> Delete`;
+            deleteOption.addEventListener("click", (e) => {
+                e.stopPropagation();
+                console.log("تم الضغط على حذف");
+
+                createDeleteConfirmModal(); 
+                const deleteModal = document.getElementById("confirmDeleteBtn");
+                console.log("deleteModal:", deleteModal);
+
+                deleteModal.onclick = async () => {
+                    await deleteCategoryByName(cat.name);
+                    categories = categories.filter(c => c.id !== cat.id); // تحديث القائمة بعد الحذف
+                    renderCategories(); // إعادة رسم القائمة
+                    bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide(); // إغلاق المودال
+                };
+                deleteModal.style.display = "block";
+            });
+    
+            dropdownMenu.appendChild(editOption);
+            dropdownMenu.appendChild(deleteOption);
+    
+            const actionsContainer = document.createElement("div");
+            actionsContainer.className = "category-actions";
+            actionsContainer.appendChild(menuButton);
+            actionsContainer.appendChild(dropdownMenu);
+    
             li.appendChild(link);
+            li.appendChild(actionsContainer);
             categoryList.appendChild(li);
+        });
+    
+        // إغلاق كل القوائم المفتوحة عند الضغط خارجها
+        document.addEventListener("click", () => {
+            document.querySelectorAll(".dropdown-menu").forEach(menu => {
+                menu.classList.remove("show");
+            });
         });
     }
     
-    // عرض التصنيفات الموجودة مباشرة بعد جلب البيانات
+    
     renderCategories();
+}async function deleteCategoryByName(categoryName) {
+    try {
+        showLoader(); // عرض التحميل
+
+        const dbRef = ref(db, 'categories/');
+        const snapshot = await get(dbRef);
+
+        if (snapshot.exists()) {
+            const categories = snapshot.val();
+            console.log("Categories:", categories); // عرض محتوى البيانات
+
+            const categoryKey = Object.keys(categories).find(
+                key => categories[key].name.toLowerCase() === categoryName.toLowerCase()
+            );
+
+            console.log("Category Key:", categoryKey); // عرض المفتاح
+
+            if (categoryKey) {
+                // حذف الفئة من Firebase
+                await set(ref(db, `categories/${categoryKey}`), null);
+                
+                alert(`Category "${categoryName}" has been deleted successfully.`);
+                loadProducts(); // إعادة تحميل المنتجات
+                categories = categories.filter(c => c.name !== categoryName); // تحديث قائمة التصنيفات
+                renderCategories(); // إعادة رسم قائمة الفئات
+            } else {
+                alert(`Category "${categoryName}" not found.`);
+            }
+        } else {
+            alert("No categories found in the database.");
+        }
+
+        hideLoader(); // إخفاء التحميل
+    } catch (error) {
+        console.error("Error deleting category:", error);
+        alert("Failed to delete category. Please try again later.");
+        hideLoader(); // إخفاء التحميل في حالة حدوث خطأ
+    }
+}
+function editCategory(cat) {
+    const categoryNameInput = document.getElementById("categoryNameInput");
+    const categoryDescInput = document.getElementById("categoryDescInput");
+    
+    categoryNameInput.value = cat.name;
+    categoryDescInput.value = cat.description;
+    
+    const saveBtn = document.getElementById("saveCategoryBtn");
+    saveBtn.textContent = "Save Changes";
+    
+    saveBtn.onclick = async () => {
+        const newName = categoryNameInput.value.trim();
+        const newDesc = categoryDescInput.value.trim();
+
+        if (!newName || !newDesc) {
+            alert("Please provide both name and description.");
+            return;
+        }
+
+        // تعديل التصنيف في Firebase
+        const categoryRef = ref(db, `categories/${cat.id}`);
+        await set(categoryRef, {
+            id: cat.id,
+            name: newName,
+            description: newDesc
+        });
+
+        // تحديث التصنيف في الواجهة
+        cat.name = newName;
+        cat.description = newDesc;
+
+        alert(`Category "${newName}" has been updated successfully.`);
+        renderCategories(); // إعادة رسم قائمة التصنيفات
+        bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide(); // إغلاق المودال
+        document.getElementById("categoryForm").reset(); // إعادة تعيين النموذج
+    };
 }
 
 // دالة لتصفية المنتجات حسب التصنيف
-function filterProductsByCategory(categoryName) {
-    if (!allProducts || allProducts.length === 0) {
-        console.error("No products data available");
-        return;
+async function filterProductsByCategory(categoryName) {
+    try {
+        showLoader();
+
+        const dbRef = ref(db);
+        let snapshot;
+
+        if (categoryName.toLowerCase() === 'all') {
+            // Fetch all products if 'all' is selected
+            snapshot = await get(child(dbRef, `products/`));
+        } else {
+            // Fetch products filtered by category
+            snapshot = await get(child(dbRef, `products/`));
+        }
+
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+
+            // Filter products by category if not 'all'
+            const filteredProducts = categoryName.toLowerCase() === 'all'
+                ? Object.values(userData)
+                : Object.values(userData).filter(product =>
+                    product.category && product.category.toLowerCase() === categoryName.toLowerCase()
+                );
+
+            // Update the UI with filtered products
+            buildProductTable(filteredProducts);
+            createProductCardModal(filteredProducts);
+        } else {
+            console.warn("No products found in the database.");
+            buildProductTable([]);
+            createProductCardModal([]);
+        }
+
+        hideLoader();
+    } catch (error) {
+        console.error("Error filtering products by category:", error);
+        alert("Failed to filter products. Please try again later.");
+        hideLoader();
     }
-    
-    const filteredProducts = categoryName.toLowerCase() === 'all' 
-        ? allProducts 
-        : allProducts.filter(product => 
-            product.category && product.category.toLowerCase() === categoryName.toLowerCase()
-        );
-        
-    // تحديث جدول المنتجات بالمنتجات المصفاة
-    buildProductTable(filteredProducts);
-    
-    // تحديث بطاقات التحليل للمنتجات المصفاة
-    createProductCardModal(filteredProducts);
 }
 
 function createCategoryModal() {
@@ -223,7 +388,33 @@ function createCategoryModal() {
         document.body.appendChild(wrapper);
     }
 }
+function createDeleteConfirmModal() {
+    const modalHTML = `
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg rounded-4">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this category? This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>`;
 
+    // التحقق إذا كان المودال موجودًا
+    if (!document.getElementById('deleteConfirmModal')) {
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = modalHTML;
+        document.body.appendChild(wrapper);
+    }
+}
 function createProductCardModal(products) {
     // تم تغيير المعامل من f إلى products للتوضيح
     const totalProducts = products.length;
@@ -676,3 +867,9 @@ function hideLoader() {
     }
 }
 function  CreateSearchFilter(){}
+
+function generateSimpleGUID() {
+    const date = new Date().getTime();  // وقت التوقيت الحالي بالميلي ثانية
+    const random = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); // قيمة عشوائية
+    return date.toString(16) + random;
+  }

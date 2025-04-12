@@ -119,8 +119,8 @@ async function loadOrders() {
 
             hideLoader();
         } else {
-            console.error("No orders found in Firebase.");
-            hideLoader();
+            ShowBootstrapToast("No orders found in the database.", "error")
+           hideLoader();
         }
     } catch (error) {
         console.error("Failed to load orders:", error);
