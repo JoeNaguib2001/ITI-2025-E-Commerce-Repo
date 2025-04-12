@@ -650,8 +650,13 @@ async function showProductDetails(product) {
             document.getElementById('modalProductRating').textContent = "N/A";
             document.getElementById('modalProductReviews').textContent = "N/A";
         }
-
-        // Hide loader
+            
+        const trendBtn = document.querySelector(".trendBts");
+        if (trendBtn) {
+            trendBtn.addEventListener("click", function () {
+                AddProductToTrendInDataBase(productDetails);
+            });
+        }
         hideLoader();
 
         // Show the modal
@@ -660,6 +665,41 @@ async function showProductDetails(product) {
     } catch (error) {
         console.error("Error fetching product details:", error);
         alert("Failed to load product details. Please try again later.");
+        hideLoader();
+    }
+}
+
+async function AddProductToTrendInDataBase(product) {
+    try {
+        // Show loader
+        showLoader();
+
+        // Generate a unique ID for the product in the carousel
+        const trendProductId = generateSimpleGUID();
+
+        // Reference to the carousel_2 node in Firebase
+        const carouselRef = ref(db, `carousel_2/${trendProductId}`);
+
+        // Add the product to the carousel_2 database
+        await set(carouselRef, {
+            id: trendProductId,
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            description: product.description,
+            category: product.category,
+            image: product.image,
+            rating: product.rating
+        });
+
+        // Hide loader
+        hideLoader();
+
+        // Show success message
+        alert(`Product "${product.title}" has been added to the trending carousel successfully!`);
+    } catch (error) {
+        console.error("Error adding product to trending carousel:", error);
+        alert("Failed to add product to the trending carousel. Please try again later.");
         hideLoader();
     }
 }
@@ -815,6 +855,8 @@ function createProductModal() {
             </div>
           </div>
           <div class="modal-footer bg-light">
+              <button type="button" class="btn btn-secondary px-4 trendBts" data-bs-dismiss="modal">Add To Trend</button>
+
             <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
@@ -911,11 +953,6 @@ function hideLoader() {
     }
 }
 
-function generateSimpleGUID() {
-    const date = new Date().getTime();  // وقت التوقيت الحالي بالميلي ثانية
-    const random = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); // قيمة عشوائية
-    return date.toString(16) + random;
-  }
   function CreateSearchFilter() {
     // 1. Create elements
      const searchDiv=  document.getElementById("searchDiv")
@@ -967,6 +1004,11 @@ function generateSimpleGUID() {
     });
 }
 
+function generateSimpleGUID() {
+    const date = new Date().getTime();  // وقت التوقيت الحالي بالميلي ثانية
+    const random = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); // قيمة عشوائية
+    return date.toString(16) + random;
+  }
   
     // // Create add new button
     // const addNewBtn = document.createElement("button");
