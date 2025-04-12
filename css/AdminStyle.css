@@ -199,6 +199,61 @@
     background-color: #f79a49;
 }
 
+.date-filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Space between elements */
+    margin: 20px 0; /* Add spacing around the filter */
+    padding: 10px;
+    background-color: #f9f9f9; /* Light background for the filter */
+    border: 1px solid #ddd; /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+.date-filter input[type="date"] {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.date-filter input[type="date"]:focus {
+    border-color: #345a4f; /* Highlight border on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add glow effect */
+}
+
+.date-filter button {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #345a4f; /* Primary button color */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.date-filter button:hover {
+    background-color: #03550c; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+.date-filter button:active {
+    background-color: #03550c; /* Even darker blue on click */
+    transform: scale(1); /* Reset zoom effect */
+}
+.no-orders-message {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff0000;
+    margin-top: 20px;
+}
 
 /* تخصيص شكل علامة التحميل */
 .loading-spinner {

@@ -1,4 +1,4 @@
-import { ref, child, get } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+import { ref, child, get, update } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 const db = window.db;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -83,11 +83,15 @@ async function loadOrders() {
 
     try {
         showLoader();
+        console.log("Fetching orders from Firebase...");
 
         // Fetch orders from Firebase
         const snapshot = await get(child(dbRef, `orders/`));
+        console.log("Snapshot fetched:", snapshot);
+
         if (snapshot.exists()) {
             const userData = snapshot.val();
+            console.log("User Data:", userData);
 
             // Process the orders into an array
             const processedOrders = Object.values(userData).map(order => ({
@@ -101,15 +105,15 @@ async function loadOrders() {
                 order: order.order
             }));
 
+            console.log("Processed Orders:", processedOrders);
+
             // Add processed orders to the global `allOrders` array
-            for (let item of processedOrders) {
-                allOrders.push(item);
-            }
+            allOrders = processedOrders;
+
             // Clear and update the search div
             let searchDiv = document.getElementById("searchDiv");
             searchDiv.innerHTML = "";
             createDateFilter();
-
 
             // Update the UI with the fetched orders
             const CatContainer = document.getElementById("CatContainer");
@@ -204,21 +208,52 @@ function createDateFilter() {
     
     // إضافة div إلى العنصر الرئيسي في الـ DOM (مثل body أو عنصر آخر)
     searchDiv.appendChild(dateFilterDiv); // يمكن تغيير هذا إلى أي عنصر آخر تريده
+
+    searchBtn.addEventListener("click", function () {
+        console.log("Search button clicked");
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+
+        if (startDate && endDate) {
+            const filteredOrders = filterOrdersByDate(allOrders, startDate, endDate);
+
+            if (filteredOrders.length === 0) {
+                showNoOrdersMessage();
+            } else {
+                buildOrderTable(filteredOrders);
+            }
+        } else {
+            alert("Please select both start and end dates.");
+        }
+    });
 }
 
 
-document.getElementById("searchBtn").addEventListener("click", function() {
-    const startDate = document.getElementById("startDate").value;
-    const endDate = document.getElementById("endDate").value;
+// document.addEventListener("DOMContentLoaded", function () {
+//     createDateFilter();
+//     const searchBtn = document.getElementById("searchBtn");
+//     if (searchBtn) {
+//         searchBtn.addEventListener("click", function () {
+//             console.log("Search button clicked");
+//             const startDate = document.getElementById("startDate").value;
+//             const endDate = document.getElementById("endDate").value;
 
-    if (startDate && endDate) {
-        const filteredOrders = filterOrdersByDate(allOrders, startDate, endDate);
-        buildTable(filteredOrders);
-    }
-    else {
-        alert("Please select both start and end dates.");
-    }
-});
+//             if (startDate && endDate) {
+//                 const filteredOrders = filterOrdersByDate(allOrders, startDate, endDate);
+
+//                 if (filteredOrders.length === 0) {
+//                     showNoOrdersMessage();
+//                 } else {
+//                     buildOrderTable(filteredOrders);
+//                 }
+//             } else {
+//                 alert("Please select both start and end dates.");
+//             }
+//         });
+//     } else {
+//         console.error("Search button with id 'searchBtn' not found in the DOM.");
+//     }
+// });
 
 function filterOrdersByDate(orders, startDate, endDate) {
     return orders.filter(order => {
@@ -228,6 +263,17 @@ function filterOrdersByDate(orders, startDate, endDate) {
 
         return orderDate >= start && orderDate <= end;
     });
+}
+
+function showNoOrdersMessage() {
+    const container = document.getElementById("tableData");
+    container.innerHTML = ""; // Clear the table content
+
+    const noOrdersDiv = document.createElement("div");
+    noOrdersDiv.classList.add("no-orders-message");
+    noOrdersDiv.textContent = "Sorry, No orders found for the selected date range.";
+
+    container.appendChild(noOrdersDiv);
 }
 
 function buildOrderTable(orders) {
@@ -254,74 +300,68 @@ function buildOrderTable(orders) {
 
     const tbody = document.createElement("tbody");
 
-    orders.forEach(order => {
-        const row = document.createElement("tr");
+   orders.forEach(order => {
+    const row = document.createElement("tr");
 
-        Object.keys(order).forEach(key => {
-            const td = document.createElement("td");
+    Object.keys(order).forEach(key => {
+        const td = document.createElement("td");
 
-            if (key === "id") {
-                const aIdRef = document.createElement("a");
-                aIdRef.href = "#";
-                aIdRef.textContent = order[key];
-                
-                aIdRef.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    showOrderDetails(order);
-                });
+        if (key === "id") {
+            const aIdRef = document.createElement("a");
+            aIdRef.href = "#";
+            aIdRef.textContent = order[key];
 
-                td.appendChild(aIdRef);
-            }else if (key === "order"){
-                td.style.display = "none"; 
-            } 
-            else if (key === "orderStatus") {
-                const select = document.createElement("select");
-                const statuses = ["Waiting", "InProgress", "Delivered", "Declined"];
-                
-                statuses.forEach(status => {
-                    const option = document.createElement("option");
-                    option.value = status;
-                    option.textContent = status;
-                    option.selected = order.orderStatus === status;
-                    select.appendChild(option);
-                });
+            aIdRef.addEventListener("click", function (e) {
+                e.preventDefault();
+                showOrderDetails(order);
+            });
 
-                select.addEventListener("change", async () => {
-                    try {
-                        const response = await fetch(
-                            `http://localhost:3000/ChangeStatus`,
-                            {
-                                method: 'PUT',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ orderId: order.id, orderStatus: select.value })
-                            }
-                        );
+            td.appendChild(aIdRef);
+        } else if (key === "order") {
+            td.style.display = "none";
+        } else if (key === "orderStatus") {
+            const select = document.createElement("select");
+            const statuses = ["Waiting", "InProgress", "Delivered", "Declined"];
 
-                        if (response.ok) {
-                            console.log('Status updated successfully!');
-                            loadOrders();
-                        }
-                    } catch (error) {
-                        console.error('Failed to update status:', error);
-                        alert("Failed to update the status. Please try again.");
-                    }
-                });
+            statuses.forEach(status => {
+                const option = document.createElement("option");
+                option.value = status;
+                option.textContent = status;
+                option.selected = order.orderStatus === status;
+                select.appendChild(option);
+            });
 
-                td.appendChild(select);
-            } else {
-                td.textContent = order[key] || "N/A";  // Default value if key is missing
-            }
+            select.addEventListener("change", async () => {
+                const newStatus = select.value;
+            
+                try {
+                    const orderRef = ref(db, `orders/${order.id}`);
+            
+                    await update(orderRef, {
+                        orderStatus: newStatus
+                    });
+            
+                    console.log("Status updated successfully");
+                    loadOrders(); // reload UI if needed
+                } catch (error) {
+                    console.error("Error updating order status:", error);
+                    alert("Failed to update status. Please try again.");
+                }
+            });
 
-            row.appendChild(td);
-        });
+            td.appendChild(select);
+        } else {
+            td.textContent = order[key] || "N/A"; // Default value if key is missing
+        }
 
-        tbody.appendChild(row);
+        row.appendChild(td);
     });
 
-    table.appendChild(tbody);
-    container.appendChild(table);
-}
+    tbody.appendChild(row);
+});
 
+table.appendChild(tbody);
+container.appendChild(table);
 async function showOrderDetails(order) {
     let modalElement = document.getElementById("orderDetailsModal");
     if (!modalElement) {
@@ -410,32 +450,71 @@ function createModal() {
     document.body.appendChild(div);
 }
 
-async function updateProductStatus(orderId, productId, newStatus) {
-    const url = 'http://localhost:3000/update-product-status';
+// async function updateProductStatus(orderId, productId, newStatus) {
+//     const url = 'http://localhost:3000/update-product-status';
     
-    const body = {
-        orderId: orderId,
-        productId: productId,
-        newStatus: newStatus
-    };
+//     const body = {
+//         orderId: orderId,
+//         productId: productId,
+//         newStatus: newStatus
+//     };
 
+//     try {
+//         const response = await fetch(url, {
+//             method: 'PUT',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify(body),
+//         });
+
+//         if (response.ok) {
+//             const data = await response.json();
+//             console.log('تم تحديث حالة المنتج بنجاح:', data);
+//         } else {
+//             const errorData = await response.json();
+//             console.log('حدث خطأ:', errorData.error);
+//         }
+//     } catch (error) {
+//         console.error('خطأ في الاتصال بالخادم:', error);
+//     } }
+async function updateProductStatus(orderId, productId, newStatus) {
     try {
-        const response = await fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(body),
-        });
+        // Reference to the specific order in Firebase
+        const orderRef = ref(db, `orders/${orderId}`);
+        
+        // Fetch the specific order
+        const snapshot = await get(orderRef);
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log('تم تحديث حالة المنتج بنجاح:', data);
+        if (snapshot.exists()) {
+            const order = snapshot.val();
+
+            // Check if the order contains a product array
+            if (Array.isArray(order.order)) {
+                // Update the status of the specific product
+                order.order = order.order.map(product => {
+                    if (product.id === productId) {
+                        product.status = newStatus; // Update the status
+                    }
+                    return product;
+                });
+
+                // Update the order in Firebase
+                await update(orderRef, { order: order.order });
+
+                console.log(`Updated product ${productId} in order ${orderId} with status: ${newStatus}`);
+            } else {
+                console.error(`Order ${orderId} does not contain a valid product array.`);
+            }
         } else {
-            const errorData = await response.json();
-            console.log('حدث خطأ:', errorData.error);
+            console.error(`Order ${orderId} not found in Firebase.`);
         }
     } catch (error) {
-        console.error('خطأ في الاتصال بالخادم:', error);
+        console.error("Error updating product status:", error);
     }
 }
+
+// Expose the function to the global scope
+window.updateProductStatus = updateProductStatus;
+}
+
