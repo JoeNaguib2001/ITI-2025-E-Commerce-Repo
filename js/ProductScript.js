@@ -32,7 +32,7 @@ async function loadProducts() {
             let searchDiv = document.getElementById("searchDiv");
             searchDiv.innerHTML = "";
             CreateSearchFilter();
-            console.log(processedProducts);
+                    console.log(processedProducts);
             CreateCategoriesUi();
             createProductCardModal(processedProducts); // Update product cards
             buildProductTable(processedProducts);
@@ -916,16 +916,64 @@ function generateSimpleGUID() {
     const random = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); // قيمة عشوائية
     return date.toString(16) + random;
   }
+  function CreateSearchFilter() {
+    // 1. Create elements
+     const searchDiv=  document.getElementById("searchDiv")
+    const searchInput = document.createElement("input");
 
-  function  CreateSearchFilter(){}
+    // 2. Set element properties
+    searchInput.setAttribute("type", "text");
+    searchInput.setAttribute("placeholder", "Search by product name");
+    searchInput.setAttribute("id", "searchBox");
+    searchInput.style.marginBottom = "10px";
+    searchInput.style.padding = "5px";
+    searchInput.style.width = "200px";
+
+   searchDiv.appendChild(searchInput);
+
+
+
+    // 3. Bind the event
+    searchInput.addEventListener("input", async function () {
+        const queryText = searchInput.value.toLowerCase();
+
+      
+
+        try {
+            // Reference to the products in Firebase
+            const dbRef = ref(db, "products");
+            const snapshot = await get(dbRef);
+
+            if (snapshot.exists()) {
+                const products = Object.values(snapshot.val());
+
+                // Filter products by name
+                const filteredProducts = products.filter(product =>
+                    product.title && product.title.toLowerCase().includes(queryText)
+                );
+
+
+                // Display filtered products
+                
+                buildProductTable(filteredProducts);    
+              
+            } else {
+                ShowBootstrapToast("No products found.", "warning");    
+            }
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            ShowBootstrapToast("Failed to fetch products. Please try again later.", "danger");
+        }
+    });
+}
 
   
+    // // Create add new button
+    // const addNewBtn = document.createElement("button");
+    // addNewBtn.textContent = "Add New Product";  
+    // addNewBtn.className = "btn btn-primary mb-3 ml-auto";
+    // addNewBtn.style.padding = "12px 40px";
+    // addNewBtn.style.margin = "30px";
+    // CatContainer.appendChild(addNewBtn);
 
-  
-    // Create add new button
-    const addNewBtn = document.createElement("button");
-    addNewBtn.textContent = "Add New Product";  
-    addNewBtn.className = "btn btn-primary mb-3 ml-auto";
-    addNewBtn.style.padding = "12px 40px";
-    addNewBtn.style.margin = "30px";
-    CatContainer.appendChild(addNewBtn);
+    

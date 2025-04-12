@@ -162,7 +162,7 @@ function createOrderCardModal(orders) {
             <div class="card-content">
                 <h3 class="card-title">Total Sales</h3>
                 <p class="card-number">$${totalRevenue.toLocaleString()}</p>
-            </div>s
+            </div>
         </div>
 
     `;
