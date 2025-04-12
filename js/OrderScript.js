@@ -123,8 +123,8 @@ async function loadOrders() {
 
             hideLoader();
         } else {
-            console.error("No orders found in Firebase.");
-            hideLoader();
+            ShowBootstrapToast("No orders found in the database.", "error")
+           hideLoader();
         }
     } catch (error) {
         console.error("Failed to load orders:", error);
@@ -166,7 +166,7 @@ function createOrderCardModal(orders) {
             <div class="card-content">
                 <h3 class="card-title">Total Sales</h3>
                 <p class="card-number">$${totalRevenue.toLocaleString()}</p>
-            </div>s
+            </div>
         </div>
 
     `;

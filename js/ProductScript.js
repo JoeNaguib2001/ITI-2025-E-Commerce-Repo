@@ -1,8 +1,11 @@
-import { ref, child, get } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+import { ref, push, child, set, get } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 const db = window.db;
 document.getElementById("productButton").addEventListener("click", function () {
     loadProducts();
 });
+
+// Global categories array to maintain state across functions
+let globalCategories = [];
 
 async function loadProducts() {
     const dbRef = ref(db);
@@ -29,12 +32,13 @@ async function loadProducts() {
             let searchDiv = document.getElementById("searchDiv");
             searchDiv.innerHTML = "";
             CreateSearchFilter();
-            console.log(processedProducts);
+                    console.log(processedProducts);
             CreateCategoriesUi();
             createProductCardModal(processedProducts); // Update product cards
             buildProductTable(processedProducts);
         } else {
-            console.warn("No products found in the database.");
+            console.error("No products found in Firebase.");
+            ShowBootstrapToast("No products found in Firebase.", "danger");             
         }
 
         hideLoader();
@@ -45,26 +49,147 @@ async function loadProducts() {
     }
 }
 
-// استبدال المحتوى كاملًا:
-async function FetchCategoriseFromJsonFile() {
+// Handle Categories 
+async function fetchCategories() {
+    const dbRef = ref(db); 
     try {
-      const response = await fetch('http://localhost:3000/api/categories');
-      if (!response.ok) throw new Error('Failed to fetch categories');
-      return await response.json();
+        const snapshot = await get(child(dbRef, "categories/"));
+        if (snapshot.exists()) {
+            // Assign the fetched categories to the global categories variable
+            globalCategories = Object.values(snapshot.val());
+            return globalCategories;
+        } else {
+            console.error("No categories found in Firebase.");
+            return [];
+        }
     } catch (error) {
-      console.error('Fetch Error:', error);
-      return [];
+        console.error("Error fetching categories:", error);
+        return [];
     }
-  }
+}
+
+// Updated deleteCategoryByName function - now properly handles state
+async function deleteCategoryByName(categoryName) {
+    try {
+        showLoader(); // Show loader
+
+        const dbRef = ref(db, 'categories/');
+        const snapshot = await get(dbRef);
+
+        if (snapshot.exists()) {
+            let categories = snapshot.val();
+            console.log("Categories:", categories);
+
+            const categoryKey = Object.keys(categories).find(
+                key => categories[key].name.toLowerCase() === categoryName.toLowerCase()
+            );
+
+            console.log("Category Key:", categoryKey);
+
+            if (categoryKey) {
+                // Delete the category from Firebase
+                await set(ref(db, `categories/${categoryKey}`), null);
+                
+                ShowBootstrapToast(`Category "${categoryName}" has been deleted successfully.`, "success");
+                
+                // Update the global categories array
+                globalCategories = globalCategories.filter(c => c.name !== categoryName);
+                
+                // Reload products to refresh the UI
+                loadProducts();
+            } else {
+                ShowBootstrapToast (`Category "${categoryName}" not found.`, "danger");
+            }
+        } else {
+            ShowBootstrapToast (`No categories found in the database.not found.`, "danger");
+        }
+
+        hideLoader();
+    } catch (error) {
+        console.error("Error deleting category:", error);
+        ShowBootstrapToast (`Failed to delete category "${categoryName}".`, "danger");
+        hideLoader();
+    }
+}
+
+// Updated editCategory function with better handling
+async function editCategory(cat) {
+    try {
+        const categoryNameInput = document.getElementById("categoryNameInput");
+        const categoryDescInput = document.getElementById("categoryDescInput");
+        
+        categoryNameInput.value = cat.name;
+        categoryDescInput.value = cat.description;
+        
+        const saveBtn = document.getElementById("saveCategoryBtn");
+        saveBtn.textContent = "Save Changes";
+        
+        // Show the category modal
+        const modal = new bootstrap.Modal(document.getElementById('categoryModal'));
+        modal.show();
+        
+        // Store the original handler to restore it later
+        const originalHandler = saveBtn.onclick;
+        
+        // Set up the new handler for editing
+        saveBtn.onclick = async () => {
+            
+                showLoader();
+                
+                const newName = categoryNameInput.value.trim();
+                const newDesc = categoryDescInput.value.trim();
+    
+                if (!newName || !newDesc) {
+                    ShowBootstrapToast("Please provide both name and description.", "danger");
+                    hideLoader();
+                    return;
+                }
+
+                // Edit the category in Firebase
+                const categoryRef = ref(db, `categories/${cat.id}`);
+                await set(categoryRef, {
+                    id: cat.id,
+                    name: newName,
+                    description: newDesc
+                });
+
+
+                // Update the global categories array
+                const index = globalCategories.findIndex(c => c.id === cat.id);
+                if (index !== -1) {
+                    globalCategories[index] = {
+                        id: cat.id,
+                        name: newName,
+                        description: newDesc
+                    };
+                }
+
+                // Refresh the UI
+                loadProducts();  // Make sure this uses the updated globalCategories array
+
+                ShowBootstrapToast(`Category "${newName}" has been updated successfully.`, "success");
+                // Close the modal
+                bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide();
+                
+                // Reset the form and button handler
+                document.getElementById("categoryForm").reset();
+                saveBtn.onclick = originalHandler;
+                saveBtn.textContent = "Create";
+
+                hideLoader();
+            
+        };
+    } catch (error) {
+        console.error("Error setting up category edit:", error);
+        ShowBootstrapToast ("Failed to prepare category for editing. Please try again later.", "danger");
+    }
+}
 
 async function CreateCategoriesUi() {
-    // إضافة async لأن الدالة تستخدم await
-    const categoriesFromJson = await FetchCategoriseFromJsonFile();
-
-    const categories = [];
-    categoriesFromJson.forEach(category => {
-        categories.push(category);
-    });
+    const categoriesFromJson = await fetchCategories();
+    
+    // Update the global categories array
+    globalCategories = [...categoriesFromJson];
     
     const CatContainer = document.getElementById("CatContainer");
     CatContainer.innerHTML = "";
@@ -73,13 +198,13 @@ async function CreateCategoriesUi() {
     catHeader.textContent = "Browse Categories";
     CatContainer.appendChild(catHeader);
     
-    // إنشاء القائمة
+    // Create the list
     const categoryList = document.createElement("ul");
     categoryList.className = "list-unstyled d-flex flex-wrap justify-content-start";
     categoryList.style.margin = "10px";
     CatContainer.appendChild(categoryList);
     
-    // إنشاء زر إضافة تصنيف جديد
+    // Create add new button
     const addNewBtn = document.createElement("button");
     addNewBtn.textContent = "Add New Category";
     addNewBtn.className = "btn btn-primary mb-3 ml-auto";
@@ -87,142 +212,268 @@ async function CreateCategoriesUi() {
     addNewBtn.style.margin = "30px";
     CatContainer.appendChild(addNewBtn);
 
-    // إنشاء المودال للتصنيفات
+    // Create modal for categories
     createCategoryModal();
 
-    // إظهار المودال عند النقر على الزر
+    // Show modal when clicking the button
     addNewBtn.addEventListener("click", () => {
+        // Reset the form and button handler
+        document.getElementById("categoryForm") && document.getElementById("categoryForm").reset();
+        const saveBtn = document.getElementById("saveCategoryBtn");
+        if (saveBtn) {
+            saveBtn.textContent = "Create";
+            saveBtn.onclick = async () => {
+                const name = document.getElementById("categoryNameInput").value.trim();
+                const desc = document.getElementById("categoryDescInput").value.trim();
+            
+                const newCategory = await addCategoryToFirebase(name, desc);
+            
+                if (newCategory) {
+                    globalCategories.push(newCategory);
+                    renderCategories();
+                    
+                    // Close modal and reset form
+                    bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide();
+                    document.getElementById("categoryForm").reset();
+                }
+            };
+        }
+        
         const modal = new bootstrap.Modal(document.getElementById('categoryModal'));
         modal.show();
     });
 
-    // معالجة حدث الحفظ
-    const saveBtn = document.getElementById("saveCategoryBtn");
-    saveBtn.addEventListener("click", async () => { // Add async here
-        const name = document.getElementById("categoryNameInput").value.trim();
-        const desc = document.getElementById("categoryDescInput").value.trim();
+    function createCategoryModal() {
+        const modalHTML = `
+        <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg rounded-4">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="categoryModalLabel">Create New Category</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="categoryNameInput" class="form-label fw-bold">Category Name</label>
+                            <input type="text" class="form-control" id="categoryNameInput" placeholder="Enter category name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoryDescInput" class="form-label fw-bold">Description</label>
+                            <input type="text" class="form-control" id="categoryDescInput" placeholder="Enter description">
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-success" id="saveCategoryBtn">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>`;
     
-        if (!name || !desc) {
-            alert("Please fill in all fields");
+        // التحقق مما إذا كان المودال موجودًا بالفعل
+        if (!document.getElementById('categoryModal')) {
+            const wrapper = document.createElement("div");
+            wrapper.innerHTML = modalHTML;
+            document.body.appendChild(wrapper);
+        }
+    }
+    function createDeleteConfirmModal() {
+        const modalHTML = `
+        <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg rounded-4">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this category? This action cannot be undone.</p>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    
+        // التحقق إذا كان المودال موجودًا
+        if (!document.getElementById('deleteConfirmModal')) {
+            const wrapper = document.createElement("div");
+            wrapper.innerHTML = modalHTML;
+            document.body.appendChild(wrapper);
+        }
+    }
+
+    // Create delete confirmation modal
+    createDeleteConfirmModal();
+    
+    // Render the categories list initially
+    renderCategories();
+
+    async function addCategoryToFirebase(name, description) {
+        // Check for data
+        if (!name || !description) {
+            alert("Please provide both name and description.");
             return;
         }
     
         try {
-            // 1. Send data to server
-            const response = await fetch('http://localhost:3000/api/categories', {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json' 
-                },
-                body: JSON.stringify({ name, description: desc })
+            showLoader();
+            
+            // Generate a unique ID
+            const myGuid = generateSimpleGUID();
+            
+            // Define categories reference in Firebase
+            const categoriesRef = ref(db, 'categories/' + myGuid);
+            
+            // Save data to Firebase under the new key
+            await set(categoriesRef, {
+                id: myGuid,
+                name: name,
+                description: description
             });
             
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-    
-            // 2. Get updated category from server
-            const newCategory = await response.json();
+            hideLoader();
             
-            // 3. Update local state with server response
-            categories.push(newCategory);
-            
-            // 4. Update UI
-            renderCategories();
-            
-            // 5. Close modal and reset form
-            bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide();
-            document.getElementById("categoryForm").reset(); // Add form ID to your form
-    
+            // Return the new category data
+            return { id: myGuid, name, description };
         } catch (error) {
-            console.error('Save Error:', error);
-            alert(`Failed to save category: ${error.message}`);
+            console.error("Error saving category:", error);
+            alert("Failed to add category: " + error.message);
+            hideLoader();
+            return null;
         }
-    });
-
-    // دالة عرض التصنيفات
+    }
+    
+    // Define renderCategories inside CreateCategoriesUi to have access to the category list
     function renderCategories() {
         categoryList.innerHTML = "";
         categoryList.className = "category-list";
-    
-        categories.forEach(cat => {
+        
+        globalCategories.forEach(cat => {
             const li = document.createElement("li");
             li.className = "category-item";
     
+            // Category name link
             const link = document.createElement("a");
             link.href = "#";
             link.textContent = cat.name;
             link.className = "category-link";
-    
             link.addEventListener("click", () => {
-                console.log(`عرض جدول المنتجات لـ ${cat.name}`);
-                // هنا يجب إضافة منطق تصفية المنتجات حسب التصنيف
+                console.log(`Show products in ${cat.name}`);
                 filterProductsByCategory(cat.name);
             });
     
+            // Three dots button
+            const menuButton = document.createElement("button");
+            menuButton.className = "menu-button";
+            menuButton.innerHTML = "⋮";
+            menuButton.title = "Options";
+            menuButton.addEventListener("click", (e) => {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle("show");
+            });
+    
+            // Options dropdown menu (edit - delete)
+            const dropdownMenu = document.createElement("ul");
+            dropdownMenu.className = "dropdown-menu";
+    
+            // "Edit" option
+            const editOption = document.createElement("li");
+            editOption.innerHTML = `<span class="option-icon">✏️</span> Edit`;
+            editOption.addEventListener("click", (e) => {
+                e.stopPropagation();
+                editCategory(cat);
+            });
+    
+            // "Delete" option
+            const deleteOption = document.createElement("li");
+            deleteOption.innerHTML = `<span class="option-icon">🗑️</span> Delete`;
+            deleteOption.addEventListener("click", (e) => {
+                e.stopPropagation();
+                console.log("Delete button clicked");
+                
+                // Show delete confirmation modal
+                const deleteConfirmModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+                deleteConfirmModal.show();
+                
+                // Set up delete confirmation handler
+                const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+                if (confirmDeleteBtn) {
+                    confirmDeleteBtn.onclick = async () => {
+                        await deleteCategoryByName(cat.name);
+                        bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
+                    };
+                }
+            });
+    
+            dropdownMenu.appendChild(editOption);
+            dropdownMenu.appendChild(deleteOption);
+    
+            const actionsContainer = document.createElement("div");
+            actionsContainer.className = "category-actions";
+            actionsContainer.appendChild(menuButton);
+            actionsContainer.appendChild(dropdownMenu);
+    
             li.appendChild(link);
+            li.appendChild(actionsContainer);
             categoryList.appendChild(li);
         });
-    }
     
-    // عرض التصنيفات الموجودة مباشرة بعد جلب البيانات
-    renderCategories();
+        // Close all open menus when clicking outside
+        document.addEventListener("click", () => {
+            document.querySelectorAll(".dropdown-menu").forEach(menu => {
+                menu.classList.remove("show");
+            });
+        });
+    }
 }
 
 // دالة لتصفية المنتجات حسب التصنيف
-function filterProductsByCategory(categoryName) {
-    if (!allProducts || allProducts.length === 0) {
-        console.error("No products data available");
-        return;
-    }
-    
-    const filteredProducts = categoryName.toLowerCase() === 'all' 
-        ? allProducts 
-        : allProducts.filter(product => 
-            product.category && product.category.toLowerCase() === categoryName.toLowerCase()
-        );
-        
-    // تحديث جدول المنتجات بالمنتجات المصفاة
-    buildProductTable(filteredProducts);
-    
-    // تحديث بطاقات التحليل للمنتجات المصفاة
-    createProductCardModal(filteredProducts);
-}
+async function filterProductsByCategory(categoryName) {
+    try {
+        showLoader();
 
-function createCategoryModal() {
-    const modalHTML = `
-    <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content shadow-lg rounded-4">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="categoryModalLabel">Create New Category</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="categoryNameInput" class="form-label fw-bold">Category Name</label>
-                        <input type="text" class="form-control" id="categoryNameInput" placeholder="Enter category name">
-                    </div>
-                    <div class="mb-3">
-                        <label for="categoryDescInput" class="form-label fw-bold">Description</label>
-                        <input type="text" class="form-control" id="categoryDescInput" placeholder="Enter description">
-                    </div>
-                </div>
-                <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-success" id="saveCategoryBtn">Create</button>
-                </div>
-            </div>
-        </div>
-    </div>`;
+        const dbRef = ref(db);
+        let snapshot;
 
-    // التحقق مما إذا كان المودال موجودًا بالفعل
-    if (!document.getElementById('categoryModal')) {
-        const wrapper = document.createElement("div");
-        wrapper.innerHTML = modalHTML;
-        document.body.appendChild(wrapper);
+        if (categoryName.toLowerCase() === 'all') {
+            // Fetch all products if 'all' is selected
+            snapshot = await get(child(dbRef, `products/`));
+        } else {
+            // Fetch products filtered by category
+            snapshot = await get(child(dbRef, `products/`));
+        }
+
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+
+            // Filter products by category if not 'all'
+            const filteredProducts = categoryName.toLowerCase() === 'all'
+                ? Object.values(userData)
+                : Object.values(userData).filter(product =>
+                    product.category && product.category.toLowerCase() === categoryName.toLowerCase()
+                );
+
+            // Update the UI with filtered products
+            buildProductTable(filteredProducts);
+            createProductCardModal(filteredProducts);
+        } else {
+            console.warn("No products found in the database.");
+            buildProductTable([]);
+            createProductCardModal([]);
+        }
+
+        hideLoader();
+    } catch (error) {
+        console.error("Error filtering products by category:", error);
+        alert("Failed to filter products. Please try again later.");
+        hideLoader();
     }
 }
+
+// start to handle product 
 
 function createProductCardModal(products) {
     // تم تغيير المعامل من f إلى products للتوضيح
@@ -355,44 +606,43 @@ function buildProductTable(products) {
     table.appendChild(tbody);
     container.appendChild(table);
 }
-
-// دالة عرض تفاصيل المنتج
 async function showProductDetails(product) {
     try {
-        // إظهار المؤشر أثناء جلب البيانات
+        // Show loader while fetching data
         showLoader();
-        
-        // استعلام الخادم للحصول على تفاصيل محدثة للمنتج
-        const response = await fetch(`http://localhost:3000/api/products/${product.id}`);
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch product details');
+
+        // Reference to the product in Firebase
+        const dbRef = ref(db, `products/${product.id}`);
+        const snapshot = await get(dbRef);
+
+        if (!snapshot.exists()) {
+            throw new Error('Product not found in Firebase');
         }
-        
-        const productDetails = await response.json();
-        
-        // إنشاء أو الحصول على عنصر المودال
+
+        const productDetails = snapshot.val();
+
+        // Create or get the modal element
         let modalElement = document.getElementById("productDetailsModal");
         if (!modalElement) {
             createProductModal();
             modalElement = document.getElementById("productDetailsModal");
         }
 
-        // ملء بيانات المودال بتفاصيل المنتج
+        // Fill modal with product details
         document.getElementById('modalProductId').textContent = productDetails.id || "N/A";
         document.getElementById('modalProductTitle').textContent = productDetails.title || "N/A";
         document.getElementById('modalProductPrice').textContent = productDetails.price ? `$${productDetails.price}` : "N/A";
         document.getElementById('modalProductDescription').textContent = productDetails.description || "N/A";
         document.getElementById('modalProductCategory').textContent = productDetails.category || "N/A";
-        
-        // تعيين صورة المنتج
+
+        // Set product image
         const imgElement = document.getElementById('modalProductImage');
         if (imgElement) {
             imgElement.src = productDetails.image || "/placeholder.jpg";
             imgElement.alt = productDetails.title || "Product Image";
         }
-        
-        // عرض معلومات التقييم
+
+        // Display rating information
         if (productDetails.rating) {
             document.getElementById('modalProductRating').textContent = productDetails.rating.rate || "N/A";
             document.getElementById('modalProductReviews').textContent = productDetails.rating.count || "N/A";
@@ -400,11 +650,16 @@ async function showProductDetails(product) {
             document.getElementById('modalProductRating').textContent = "N/A";
             document.getElementById('modalProductReviews').textContent = "N/A";
         }
-        
-        // إخفاء المؤشر
+            
+        const trendBtn = document.querySelector(".trendBts");
+        if (trendBtn) {
+            trendBtn.addEventListener("click", function () {
+                AddProductToTrendInDataBase(productDetails);
+            });
+        }
         hideLoader();
-        
-        // عرض المودال
+
+        // Show the modal
         const modal = new bootstrap.Modal(modalElement);
         modal.show();
     } catch (error) {
@@ -414,52 +669,86 @@ async function showProductDetails(product) {
     }
 }
 
-// دالة تعديل المنتج
+async function AddProductToTrendInDataBase(product) {
+    try {
+        // Show loader
+        showLoader();
+
+        // Generate a unique ID for the product in the carousel
+        const trendProductId = generateSimpleGUID();
+
+        // Reference to the carousel_2 node in Firebase
+        const carouselRef = ref(db, `carousel_2/${trendProductId}`);
+
+        // Add the product to the carousel_2 database
+        await set(carouselRef, {
+            id: trendProductId,
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            description: product.description,
+            category: product.category,
+            image: product.image,
+            rating: product.rating
+        });
+
+        // Hide loader
+        hideLoader();
+
+        // Show success message
+        alert(`Product "${product.title}" has been added to the trending carousel successfully!`);
+    } catch (error) {
+        console.error("Error adding product to trending carousel:", error);
+        alert("Failed to add product to the trending carousel. Please try again later.");
+        hideLoader();
+    }
+}
 async function editProduct(product) {
     try {
-        // إظهار المؤشر
+        // Show loader while fetching data
         showLoader();
-        
-        // جلب بيانات المنتج الحالية
-        const response = await fetch(`http://localhost:3000/api/products/${product.id}`);
-        
-        if (!response.ok) {
+
+        // Reference to the product in Firebase
+        const dbRef = ref(db, `products/${product.id}`);
+        const snapshot = await get(dbRef);
+
+        if (!snapshot.exists()) {
             throw new Error('Failed to fetch product for editing');
         }
-        
-        const productData = await response.json();
-        
-        // إنشاء أو الحصول على عنصر مودال التحرير
+
+        const productData = snapshot.val();
+
+        // Create or get the edit modal element
         let editModalElement = document.getElementById("editProductModal");
         if (!editModalElement) {
             createEditProductModal();
             editModalElement = document.getElementById("editProductModal");
         }
-        
-        // ملء النموذج ببيانات المنتج
+
+        // Fill the form with product data
         document.getElementById('editProductId').value = productData.id || "";
         document.getElementById('editProductTitle').value = productData.title || "";
         document.getElementById('editProductPrice').value = productData.price || "";
         document.getElementById('editProductDescription').value = productData.description || "";
         document.getElementById('editProductCategory').value = productData.category || "";
         document.getElementById('editProductImage').value = productData.image || "";
-        
+
         if (productData.rating) {
             document.getElementById('editProductRating').value = productData.rating.rate || "";
             document.getElementById('editProductCount').value = productData.rating.count || "";
         }
-        
-        // إخفاء المؤشر
+
+        // Hide loader
         hideLoader();
-        
-        // عرض المودال
+
+        // Show the modal
         const modal = new bootstrap.Modal(editModalElement);
         modal.show();
-        
-        // إضافة معالج حدث زر الحفظ
+
+        // Add event handler for the save button
         const saveButton = document.getElementById('saveEditProductBtn');
-        saveButton.onclick = function() {
-            saveProductChanges();
+        saveButton.onclick = async function () {
+            await saveProductChanges();
         };
     } catch (error) {
         console.error("Error preparing product for edit:", error);
@@ -467,14 +756,12 @@ async function editProduct(product) {
         hideLoader();
     }
 }
-
-// دالة حفظ تغييرات المنتج
 async function saveProductChanges() {
     try {
-        // إظهار المؤشر
+        // Show loader
         showLoader();
-        
-        // جمع البيانات من النموذج
+
+        // Collect data from the form
         const productId = document.getElementById('editProductId').value;
         const updatedProduct = {
             id: productId,
@@ -488,30 +775,23 @@ async function saveProductChanges() {
                 count: parseInt(document.getElementById('editProductCount').value)
             }
         };
-        
-        // إرسال البيانات المحدثة إلى الخادم
-        const response = await fetch(`http://localhost:3000/api/products/${productId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedProduct)
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to update product');
-        }
-        
-        // إغلاق المودال
+
+        // Reference to the product in Firebase
+        const productRef = ref(db, `products/${productId}`);
+
+        // Update the product in Firebase
+        await set(productRef, updatedProduct);
+
+        // Close the modal
         bootstrap.Modal.getInstance(document.getElementById('editProductModal')).hide();
-        
-        // إعادة تحميل البيانات وتحديث العرض
+
+        // Reload data and update the UI
         loadProducts();
-        
-        // إخفاء المؤشر
+
+        // Hide loader
         hideLoader();
-        
-        // إظهار رسالة نجاح
+
+        // Show success message
         alert("Product updated successfully!");
     } catch (error) {
         console.error("Error updating product:", error);
@@ -519,34 +799,29 @@ async function saveProductChanges() {
         hideLoader();
     }
 }
-
-// دالة حذف المنتج
 async function deleteProduct(productId) {
-    // طلب تأكيد من المستخدم
+    // Confirm deletion from the user
     if (!confirm("Are you sure you want to delete this product?")) {
         return;
     }
-    
+
     try {
-        // إظهار المؤشر
+        // Show loader
         showLoader();
-        
-        // إرسال طلب حذف إلى الخادم
-        const response = await fetch(`http://localhost:3000/api/products/${productId}`, {
-            method: 'DELETE'
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to delete product');
-        }
-        
-        // إعادة تحميل البيانات وتحديث العرض
+
+        // Reference to the product in Firebase
+        const productRef = ref(db, `products/${productId}`);
+
+        // Delete the product from Firebase
+        await set(productRef, null);
+
+        // Reload data and update the UI
         loadProducts();
-        
-        // إخفاء المؤشر
+
+        // Hide loader
         hideLoader();
-        
-        // إظهار رسالة نجاح
+
+        // Show success message
         alert("Product deleted successfully!");
     } catch (error) {
         console.error("Error deleting product:", error);
@@ -580,6 +855,8 @@ function createProductModal() {
             </div>
           </div>
           <div class="modal-footer bg-light">
+              <button type="button" class="btn btn-secondary px-4 trendBts" data-bs-dismiss="modal">Add To Trend</button>
+
             <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
@@ -675,4 +952,70 @@ function hideLoader() {
         loader.style.display = "none";
     }
 }
-function  CreateSearchFilter(){}
+
+  function CreateSearchFilter() {
+    // 1. Create elements
+     const searchDiv=  document.getElementById("searchDiv")
+    const searchInput = document.createElement("input");
+
+    // 2. Set element properties
+    searchInput.setAttribute("type", "text");
+    searchInput.setAttribute("placeholder", "Search by product name");
+    searchInput.setAttribute("id", "searchBox");
+    searchInput.style.marginBottom = "10px";
+    searchInput.style.padding = "5px";
+    searchInput.style.width = "200px";
+
+   searchDiv.appendChild(searchInput);
+
+
+
+    // 3. Bind the event
+    searchInput.addEventListener("input", async function () {
+        const queryText = searchInput.value.toLowerCase();
+
+      
+
+        try {
+            // Reference to the products in Firebase
+            const dbRef = ref(db, "products");
+            const snapshot = await get(dbRef);
+
+            if (snapshot.exists()) {
+                const products = Object.values(snapshot.val());
+
+                // Filter products by name
+                const filteredProducts = products.filter(product =>
+                    product.title && product.title.toLowerCase().includes(queryText)
+                );
+
+
+                // Display filtered products
+                
+                buildProductTable(filteredProducts);    
+              
+            } else {
+                ShowBootstrapToast("No products found.", "warning");    
+            }
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            ShowBootstrapToast("Failed to fetch products. Please try again later.", "danger");
+        }
+    });
+}
+
+function generateSimpleGUID() {
+    const date = new Date().getTime();  // وقت التوقيت الحالي بالميلي ثانية
+    const random = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); // قيمة عشوائية
+    return date.toString(16) + random;
+  }
+  
+    // // Create add new button
+    // const addNewBtn = document.createElement("button");
+    // addNewBtn.textContent = "Add New Product";  
+    // addNewBtn.className = "btn btn-primary mb-3 ml-auto";
+    // addNewBtn.style.padding = "12px 40px";
+    // addNewBtn.style.margin = "30px";
+    // CatContainer.appendChild(addNewBtn);
+
+    
