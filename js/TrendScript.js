@@ -99,7 +99,7 @@ function buildTrendProductsTable(products) {
         detailsBtn.textContent = "Details";
         detailsBtn.className = "btn btn-info btn-sm";
         detailsBtn.addEventListener("click", function() {
-            showProductDetailsTrend(product);
+            showTrendProductDetails(product);
         });
         tdDetails.appendChild(detailsBtn);
         row.appendChild(tdDetails);
@@ -124,11 +124,11 @@ function buildTrendProductsTable(products) {
 
 function createDeleteConfirmModal1() {
     const modalHTML = `
-    <div class="modal fade" id="deleteConfirmModal1" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteTrendConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content shadow-lg rounded-4">
                 <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
+                    <h5 class="modal-title" id="deleteTrendConfirmModal">Confirm Deletion</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -154,21 +154,21 @@ function createDeleteConfirmModal1() {
 createDeleteConfirmModal1();
 
 // Add the showProductDetailsTrend function that was missing
-function showProductDetailsTrend(product) {
+function showTrendProductDetails(product) {
     // Create or get a modal to display product details
     let detailsModal = document.getElementById('productDetailsModal');
     
     if (!detailsModal) {
         // Create the modal if it doesn't exist
         const modalHTML = `
-        <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsModalLabel" aria-hidden="true">
+        <div class="modal fade" id="trendProductDetailsModal" tabindex="-1" aria-labelledby="productDetailsModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content shadow-lg rounded-4">
                     <div class="modal-header bg-primary text-white">
                         <h5 class="modal-title" id="productDetailsModalLabel">Product Details</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" id="productDetailsContent">
+                    <div class="modal-body" id="productDetailsContent1">
                         <!-- Content will be inserted here -->
                     </div>
                     <div class="modal-footer bg-light">
@@ -179,14 +179,15 @@ function showProductDetailsTrend(product) {
         </div>`;
         
         const wrapper = document.createElement("div");
+        wrapper.innerHTML = "";
         wrapper.innerHTML = modalHTML;
         document.body.appendChild(wrapper);
         
-        detailsModal = document.getElementById('productDetailsModal');
+        detailsModal = document.getElementById('trendProductDetailsModal');
     }
     
     // Populate the modal with product details
-    const detailsContent = document.getElementById('productDetailsContent');
+    const detailsContent = document.getElementById('productDetailsContent1');
     
     // Format rating stars if available
     let ratingStars = '';
@@ -240,7 +241,7 @@ async function deleteProductFromTrend(productId) {
     }
     
     // Show the delete confirmation modal
-    const deleteModal = new bootstrap.Modal(document.getElementById("deleteConfirmModal1"));
+    const deleteModal = new bootstrap.Modal(document.getElementById("deleteTrendConfirmModal"));
     deleteModal.show();
 
     // Add event listener to the confirmation button
