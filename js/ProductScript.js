@@ -622,7 +622,7 @@ async function showProductDetails(product) {
         }
 
         const productDetails = snapshot.val();
-
+        console.log("Product Details:", productDetails);
         // Create or get the modal element
         let modalElement = document.getElementById("productDetailsModal");
         if (!modalElement) {
@@ -1140,31 +1140,56 @@ function CreateSearchFilter() {
             }
         };
     });
-    async function uploadImageToImgur(imageFile) {
-        const clientId = "3f84b48e9b317be"; 
-        const formData = new FormData();
-        formData.append("image", imageFile);
+    // async function uploadImageToImgur(imageFile) {
+    //     const clientId = "3f84b48e9b317be"; 
+    //     const formData = new FormData();
+    //     formData.append("image", imageFile);
     
-        try {
-            const response = await fetch("https://api.imgur.com/3/image", {
-                method: "POST",
-                headers: {
-                    Authorization: `Client-ID ${clientId}`
-                },
-                body: formData
-            });
+    //     try {
+    //         const response = await fetch("https://api.imgur.com/3/image", {
+    //             method: "POST",
+    //             headers: {
+    //                 Authorization: `Client-ID ${clientId}`
+    //             },
+    //             body: formData
+    //         });
     
-            if (!response.ok) {
-                throw new Error("Failed to upload image to Imgur");
-            }
+    //         if (!response.ok) {
+    //             throw new Error("Failed to upload image to Imgur");
+    //         }
     
-            const data = await response.json();
-            return data.data.link; // Return the URL of the uploaded image
-        } catch (error) {
-            console.error("Error uploading image to Imgur:", error);
-            throw error;
-        }
-    }
+    //         const data = await response.json();
+    //         return data.data.link; // Return the URL of the uploaded image
+    //     } catch (error) {
+    //         console.error("Error uploading image to Imgur:", error);
+    //         throw error;
+    //     }
+    // }
+//     async function uploadImageToPostImage(imageFile) {
+//         const apiKey = "YOUR_POSTIMAGE_API_KEY"; // Replace with your PostImage API key
+//         const formData = new FormData();
+//         formData.append("key", apiKey); // Add the API key
+//         formData.append("image", imageFile); // Add the image file
+    
+//         try {
+//             const response = await fetch("https://api.postimages.org/1/upload", {
+//                 method: "POST",
+//                 body: formData
+//             });
+    
+//             const data = await response.json();
+//             console.log("PostImage API Response:", data); // Debugging log
+    
+//             if (!response.ok || !data.success) {
+//                 throw new Error(data.error.message || "Failed to upload image to PostImage");
+//             }
+    
+//             return data.data.url; // Return the direct URL of the uploaded image
+//         } catch (error) {
+//             console.error("Error uploading image to PostImage:", error);
+//             throw error;
+//         }
+//     }
 }
 
 function generateSimpleGUID() {
