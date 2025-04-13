@@ -1,50 +1,113 @@
+import { ref, set } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+const db = window.db;
 
-// import { db } from "../AdminDashboard.html";
-// import { ref, push } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("addAdminBtn").addEventListener("click", function () {
+        const searchDiv = document.getElementById("searchDiv");
+        const tableData = document.getElementById("tableData");
+        const cardHeader = document.getElementById("cardHeader");
+        const cardList = document.getElementById("cardList");
 
-// document.getElementById("addAdmins").addEventListener("click", function (event) {
-//     event.preventDefault(); // Prevent page reload
-//     addAdmins();
-// });
+        if (searchDiv) {
+            searchDiv.innerHTML = ""; // Clear the content of searchDiv
+        }
+        if (cardHeader) {
+            cardHeader.innerHTML = ""; // Clear the content of cardHeader
+        }
+        if (cardList) {
+            cardList.innerHTML = ""; // Clear the content of cardList
+        }
 
-// function addAdmins() {
-//     // Get admin details from input fields
-//     const email = document.getElementById("adminEmail").value;
-//     const username = document.getElementById("adminUsername").value;
-//     const fullName = document.getElementById("adminFullName").value;
-//     const password = document.getElementById("adminPassword").value;
+        if (tableData) {
+            tableData.innerHTML = ""; // Clear the content of tableData
+        }
 
-//     // Validate input fields
-//     if (!email || !username || !fullName || !password) {
-//         alert("Please fill in all fields.");
-//         return;
-//     }
+        CatContainer.innerHTML = `
+            <div class="container mt-5">
+                <h1>Add New Admin</h1>
+                <form id="addAdminForm">
+                    <label for="adminFullName">Full Name:</label>
+                    <input type="text" id="adminFullName" required><br><br>
+                    <label for="adminUsername">Username:</label>
+                    <input type="text" id="adminUsername" required><br><br>
+                    <label for="adminEmail">Email:</label>
+                    <input type="email" id="adminEmail" required><br><br>
+                    <label for="adminPassword">Password:</label>
+                    <input type="password" id="adminPassword" required><br><br>
+                    <button type="submit">Add Admin</button>
+                </form>
+            </div>
+        `;
 
-//     // Reference to the "admins" node in the Firebase Realtime Database
-//     const adminsRef = ref(db, "admins");
+        addAdmins();
+    });
+});
+function addAdmins() {
+    document.getElementById("addAdminForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent page reload
 
-//     // Create a new admin object
-//     const newAdmin = {
-//         email: email,
-//         username: username,
-//         fullName: fullName,
-//         password: password, // Note: Storing plain text passwords is not secure. Consider hashing passwords.
-//         userType: "admin", // Default userType for all added admins
-//         createdAt: new Date().toISOString()
-//     };
+        const email = document.getElementById("adminEmail").value.trim();
+        const username = document.getElementById("adminUsername").value.trim();
+        const fullName = document.getElementById("adminFullName").value.trim();
+        const password = document.getElementById("adminPassword").value.trim();
 
-//     // Push the new admin to the database
-//     push(adminsRef, newAdmin)
-//         .then(() => {
-//             alert("Admin added successfully!");
-//             // Clear input fields
-//             document.getElementById("adminEmail").value = "";
-//             document.getElementById("adminUsername").value = "";
-//             document.getElementById("adminFullName").value = "";
-//             document.getElementById("adminPassword").value = "";
-//         })
-//         .catch((error) => {
-//             console.error("Error adding admin:", error);
-//             alert("Failed to add admin. Please try again.");
-//         });
-// }
+        // Validation for Full Name
+        if (!fullName || fullName.length < 3) {
+            alert("Full Name must be at least 3 characters long.");
+            return;
+        }
+
+        // Validation for Username
+        if (!username || username.length < 3 || /\s/.test(username)) {
+            alert("Username must be at least 3 characters long and should not contain spaces.");
+            return;
+        }
+
+        // Validation for Email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+
+        // Validation for Password
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+
+        if (!password) {
+            alert("Password cannot be empty.");
+            return;
+        }
+
+        if (password.length < 6) {
+            alert("Password must be at least 6 characters long.");
+            return;
+        }
+
+        if (!passwordRegex.test(password)) {
+            alert("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+            return;
+        }
+
+        const userData = {
+            fullName: fullName,
+            userName: username,
+            email: email,
+            password: password,
+            userType: "admin"
+        };
+
+        set(ref(db, "users/" + username), userData)
+            .then(() => {
+                alert("You added a new admin successfully!");
+                // Clear fields
+                document.getElementById("addAdminForm").reset();
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                alert(error.message + " Please try again.");
+            });
+
+        // Optional debug logging
+        console.log("Admin data:", userData);
+    });
+}

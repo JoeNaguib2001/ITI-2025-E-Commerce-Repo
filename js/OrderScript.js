@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("OrderButton").addEventListener("click", function () {
+        
         loadOrders();
     });
 });

@@ -470,3 +470,66 @@
     background-color: #f79a49; 
     transform: scale(1.01); /* Slight zoom effect */
 }
+
+.container h1 {
+    text-align: center;
+    color: #179775; /* Green color for the heading */
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333; /* Dark text color */
+}
+
+.container input[type="text"],
+.container input[type="email"],
+.container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.container input[type="text"]:focus,
+.container input[type="email"]:focus,
+.container input[type="password"]:focus {
+    border-color: #345a4f; /* Green border on focus */
+    box-shadow: 0 0 5px rgba(4, 151, 36, 0.5); /* Green glow effect */
+}
+
+.container button[type="submit"] {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #345a4f; /* Green button color */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.container button[type="submit"]:hover {
+    background-color: #345a4f; /* Darker green on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+.container button[type="submit"]:active {
+    background-color: #345a4f; /* Even darker green on click */
+    transform: scale(1); /* Reset zoom effect */
+}
+
+.container input::placeholder {
+    color: #aaa; /* Subtle placeholder color */
+    font-style: italic;
+}

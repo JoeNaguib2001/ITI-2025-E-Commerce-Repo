@@ -1,5 +1,4 @@
 import { ref, push, child, set, get } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 const db = window.db;
 document.getElementById("productButton").addEventListener("click", function () {
     loadProducts();
@@ -32,6 +31,7 @@ async function loadProducts() {
 
             let searchDiv = document.getElementById("searchDiv");
             searchDiv.innerHTML = "";
+            
             CreateSearchFilter();
                     console.log(processedProducts);
             CreateCategoriesUi();
