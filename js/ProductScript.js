@@ -607,6 +607,7 @@ function buildProductTable(products) {
     table.appendChild(tbody);
     container.appendChild(table);
 }
+
 async function showProductDetails(product) {
     try {
         // Show loader while fetching data
@@ -679,7 +680,7 @@ async function AddProductToTrendInDataBase(product) {
         const trendProductId = generateSimpleGUID();
 
         // Reference to the carousel_2 node in Firebase
-        const carouselRef = ref(db, `carousel_2/${trendProductId}`);
+        const carouselRef = ref(db, `carousel_4/${trendProductId}`);
 
         // Add the product to the carousel_2 database
         await set(carouselRef, {
